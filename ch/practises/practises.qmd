@@ -121,17 +121,17 @@ En esta fase se debe implementar la arquitectura cliente-servidor utilizando una
 * **API REST** que utilice correctamente los verbos HTTP (GET, POST, PUT, DELETE)
 * **Gestión de usuarios** con sistema de login/nickname
 * **Detección de conexiones y desconexiones** tanto en servidor como en clientes
-* **Sistema de puntuaciones/aspecto del jugador..** a parte de los datos de login del jugador, deberíais de almacenar y poder visualizar, un dato extra, como puntuación máximas, color del personaje, tiempo en resolverlo, ... o cualquier aspecto que encaje en vuestro juego.
+* **Sistema de puntuaciones/aspecto del jugador.** Aparte de los datos de login del jugador, deberíais almacenar y poder visualizar un dato extra, como puntuaciones máximas, color del personaje, tiempo en resolverlo, ... o cualquier aspecto que encaje en vuestro juego.
 * **Manejo de errores** y caídas del servidor
 * **Sistema de logging** para depuración (valen console.logs)
 
 El servidor debe ser capaz de gestionar múltiples clientes de forma concurrente y mantener el estado del juego de manera consistente.
 
-Respecto a la detección de conexiones. En el cliente (juego) deberíais tener un piloto o aspecto visual que nos permita saber si estamos conectados al servidor y cuanta gente hay conectada actualmente. Por ejemplo, una etiqueta que ponga "servidor: " con el número de personas conectadas. Por simplicidad, ponedlo únicamente en la pantalla de inicio (Menú). Cuando se pierda la conexión, podéis lanzar una escena (pausando el resto), que compruebe continuamente si hay conexión. Hasta que no haya conexión no os debería de dejar hacer nada.
+Respecto a la detección de conexiones. En el cliente (juego) deberíais tener un piloto o aspecto visual que nos permita saber si estamos conectados al servidor y cuánta gente hay conectada actualmente. Por ejemplo, una etiqueta que ponga "servidor: " con el número de personas conectadas. Por simplicidad, ponedlo únicamente en la pantalla de inicio (Menú). Cuando se pierda la conexión, podéis lanzar una escena (pausando el resto), que compruebe continuamente si hay conexión. Hasta que no haya conexión no os debería de dejar hacer nada.
 
 En el caso del servidor podríais imprimir (console.log) cuando se conecta un cliente y cuando se desconecta.
 
-Nota: Para la implementación en el cliente de la detección de conexiones deberíais de implementar un sistema tipo keep-alive, en el que periódicamente haréis una petición al servidor, por ejemplo, ¿cuanta gente hay conectada?, si esta falla, asumimos que no hay conexión y lanzamos la escena de no hay conexión. Si hay conexión podemos actualizar una variable con el número de usuarios conectados, que se mostrará cuando estemos en el menú. En el servidor implementaríais ese "¿cuanta gente hay conectada?", que, podría cogerlas IPs de quien me está preguntando, y sino me escriben en X segundos, asumo que no están ya conectados.
+Nota: Para la implementación en el cliente de la detección de conexiones deberíais de implementar un sistema tipo keep-alive, en el que periódicamente haréis una petición al servidor. Por ejemplo, ¿cuánta gente hay conectada? Si esta falla, asumimos que no hay conexión y lanzamos la escena de no hay conexión. Si hay conexión podemos actualizar una variable con el número de usuarios conectados, que se mostrará cuando estemos en el menú. En el servidor implementaríais ese "¿cuánta gente hay conectada?", que, podría coger las IPs de quien me está preguntando, y si no me escriben en X segundos, asumo que no están ya conectados.
 
 Podría ser algo así:
 
@@ -152,7 +152,9 @@ Os faltaría definir el `connectedUsers` que sería un Map(), y una función que
 
 ```js
 setInterval(() => {
-    // Aqui recorrer connectedUsers y borrar aquellos cuya ultima conexión sea hace X tiempo. Podéis restar la fecha de Date.now() - otraFecha para calcular los milisegundos entre dos fechas. 
+    // Aquí recorrer connectedUsers y borrar aquellos cuya última conexión
+    // sea hace X tiempo. Podéis restar la fecha de Date.now() - otraFecha
+    // para calcular los milisegundos entre dos fechas.
 }, 2000);
 ```
 
@@ -164,11 +166,11 @@ En esta fase se debe implementar la comunicación en tiempo real utilizando WebS
 
 * **Sincronización de movimientos** de todos los jugadores en tiempo real
 * **Actualización de estado** (vida, puntuación, posición) instantánea
-* **Sala de espera** Básica: 2 jugadores, avanzada: varias salas  (múltiples partidas)
+* **Sala de espera** Básica: 2 jugadores. Avanzada: varias salas (múltiples partidas)
 * **Detección de victoria/derrota** comunicada a todos los clientes
 * **Manejo de inputs** de teclado y ratón (opcional) transmitidos mediante WebSockets
-* **Gestión de desconexiones**  durante la partida
-* **Sincronización de eventos del mapa** e interacciones, por ejemplo power-ups, actuar sobre el mapa..
+* **Gestión de desconexiones** durante la partida
+* **Sincronización de eventos del mapa** e interacciones, por ejemplo, power-ups, actuar sobre el mapa.
 
 Esta fase transforma el juego en una experiencia multijugador fluida y en tiempo real, donde las acciones de un jugador se reflejan inmediatamente en las pantallas de los demás jugadores.
 
@@ -202,9 +204,9 @@ Al evaluar cada una de las fases se tendrán en cuenta los siguientes aspectos:
 * La nota de cada alumno del grupo es independiente. Un alumno puede obtener más o menos nota que el resto de sus compañeros.
 * La nota individual de cada alumno se determina dependiendo de:
     * El conocimiento de la aplicación durante la defensa, ya que todos los alumnos tienen que conocer el código de toda la aplicación, aunque ellos no hayan desarrollado esa parte.
-    * El histórico de commit de ese alumno en el repositorio.
+    * El histórico de commits de ese alumno en el repositorio.
     * Los commit tienen que reflejar la aportación real del alumno a la práctica.
-    * Si tiene pocos commit o con poco contenido, se considerará que ha trabajado menos que el resto de los compañeros.
+    * Si tiene pocos commits o con poco contenido, se considerará que ha trabajado menos que el resto de los compañeros.
     * Las autoevaluaciones proporcionadas a los alumnos para valorar su propio trabajo y el de sus compañeros.
 * Si algún miembro de un grupo decide dejar la asignatura o abandonar el grupo, el resto de los miembros del grupo pueden continuar con el desarrollo de la misma práctica sin este o estos integrantes.
 * El/los integrantes segregados, también pueden continuar con la práctica a partir del momento de la segregación o bien integrarse en otro grupo (previa autorización del profesor) siempre que el grupo en el que se integren tengan aprobadas las mismas fases previas hasta la fecha de la separación.
@@ -306,11 +308,11 @@ La entrega está configurada como "entrega en grupo", por lo que únicamente una
 
 | CATEGORÍA | PUNTOS | CRITERIOS A EVALUAR |
 | :--- | :--- | :--- |
-| **Entrega** | **5 puntos** | ¿Han evolucionado el markdown?<br>¿Han hecho un *release* en github?<br>¿Indican la licencia de distribución? |
-| **Gestión del juego** | **15 puntos** | ¿Hay un Menú?<br>¿El juego tiene un logotipo?<br>¿Hay créditos del juego?<br>¿Incluye ajustes (subir sonido, cambiar teclas de juego)?<br>¿Incluye guía explicativa? |
-| **Imagen** | **20 puntos** | ¿Hay varias escenas? ¿La gestión, cambio de escena, etc. es adecuada?<br>¿El juego tiene coherencia gráfica / colores?<br>¿La tipografía es adecuada?<br>¿Hacen un uso adecuado de la cámara?<br>¿Las transiciones son suaves/adecuadas? |
-| **Sonido** | **10 puntos** | ¿Hay música en el menú de espera?<br>¿Incluye música durante el juego?<br>¿La música del menú y del juego son distintas?<br>¿Incluye efectos de sonido adicionales?<br>¿El juego tiene coherencia en sonido? |
-| **Jugabilidad** | **35 puntos** | Valoración global del juego (complejidad adecuada, originalidad, mecánicas, etc.)<br>¿El objetivo del juego está claro?<br>Controles: ¿Usa ratón y teclado?<br>¿Hay botón/opción de pausa?<br>Opción de salir del juego<br>¿Hay riqueza en las físicas utilizadas? |
+| **Entrega** | **5 puntos** | ¿Han evolucionado el markdown? <br>¿Han hecho un *release* en github? <br>¿Indican la licencia de distribución? |
+| **Gestión del juego** | **15 puntos** | ¿Hay un Menú? <br>¿El juego tiene un logotipo? <br>¿Hay créditos del juego? <br>¿Incluye ajustes (subir sonido, cambiar teclas de juego)? <br>¿Incluye guía explicativa? |
+| **Imagen** | **20 puntos** | ¿Hay varias escenas? ¿La gestión, cambio de escena, etc. es adecuada? <br> ¿El juego tiene coherencia gráfica / colores?<br> ¿La tipografía es adecuada? <br>¿Hacen un uso adecuado de la cámara? <br>¿Las transiciones son suaves/adecuadas? |
+| **Sonido** | **10 puntos** | ¿Hay música en el menú de espera? <br>¿Incluye música durante el juego? <br>¿La música del menú y del juego son distintas? <br>¿Incluye efectos de sonido adicionales? <br>¿El juego tiene coherencia en sonido? |
+| **Jugabilidad** | **35 puntos** | Valoración global del juego (complejidad adecuada, originalidad, mecánicas, etc.) <br>¿El objetivo del juego está claro? <br>Controles: ¿Usa ratón y teclado? <br>¿Hay botón/opción de pausa? <br>Opción de salir del juego <br>¿Hay riqueza en las físicas utilizadas? |
 | **Assets** | **10 puntos** | ¿Hay riqueza en los *assets* utilizados (escenarios, personajes, menús, etc.)? |
 | **Presentación** | **5 puntos** | ¿La puesta en escena/ presentación es adecuada? |
 | **TOTAL** | **100 puntos** | |
@@ -320,7 +322,7 @@ La entrega está configurada como "entrega en grupo", por lo que únicamente una
 | TIPO | DESCRIPCIÓN |
 | :--- | :--- |
 | **Eliminatorio** | ¿El juego funciona? (Si no funciona, la fase está suspensa) |
-| **Grave** | ¿Hay cosas prohibidas que no den *feedback*?<br>¿Hay *bugs* graves que impiden la jugabilidad? |
+| **Grave** | ¿Hay cosas prohibidas que no den *feedback*? <br>¿Hay *bugs* graves que impiden la jugabilidad? |
 | **Otras** | Otras no contempladas anteriormente (se definirán junto con la penalización aplicada) |
 
 ---
@@ -344,12 +346,12 @@ La entrega está configurada como "entrega en grupo", por lo que únicamente una
 
 | CATEGORÍA | PUNTOS | CRITERIOS A EVALUAR |
 | :--- | :--- | :--- |
-| **Entrega** | **5 puntos** | ¿Han evolucionado el markdown?<br>¿Han hecho un *release* en github?<br>¿Incluyen documentación de la API REST? |
-| **Servidor - Gestión de conexiones** | **20 puntos** | ¿El servidor detecta cuando se conectan usuarios?<br>¿El servidor detecta cuando se desconectan usuarios?<br>¿Implementa sistema de logging adecuado? |
-| **Cliente - Gestión de conexiones** | **20 puntos** | ¿Los clientes se enteran de la conexión de otros usuarios?<br>¿Los clientes se enteran de la desconexión de otros usuarios?<br>¿Detecta la caída del servidor? |
-| **API REST** | **25 puntos** | ¿Utilizan correctamente GET, POST, PUT, DELETE?<br>¿La arquitectura cliente-servidor es adecuada?<br>¿Las peticiones y respuestas están bien estructuradas?<br>¿Maneja errores correctamente? |
-| **Gestión de usuarios** | **15 puntos** | ¿Implementa sistema de nickname/login?<br>¿Almacena datos adicionales del jugador (puntuación, aspecto, etc.)?<br>¿Los datos persisten correctamente? |
-| **Indicadores visuales** | **10 puntos** | ¿Hay indicador visual del estado de conexión en el cliente?<br>¿El servidor muestra logs claros de conexiones/desconexiones? |
+| **Entrega** | **5 puntos** | ¿Han evolucionado el markdown? <br>¿Han hecho un *release* en github? <br>¿Incluyen documentación de la API REST? |
+| **Servidor - Gestión de conexiones** | **20 puntos** | ¿El servidor detecta cuando se conectan usuarios? <br>¿El servidor detecta cuando se desconectan usuarios? <br>¿Implementa sistema de logging adecuado? |
+| **Cliente - Gestión de conexiones** | **20 puntos** | ¿Los clientes se enteran de la conexión de otros usuarios? <br>¿Los clientes se enteran de la desconexión de otros usuarios? <br>¿Detecta la caída del servidor? |
+| **API REST** | **25 puntos** | ¿Utilizan correctamente GET, POST, PUT, DELETE? <br>¿La arquitectura cliente-servidor es adecuada? <br>¿Las peticiones y respuestas están bien estructuradas? <br>¿Maneja errores correctamente? |
+| **Gestión de usuarios** | **15 puntos** | ¿Implementa sistema de nickname/login? <br>¿Almacena datos adicionales del jugador (puntuación, aspecto, etc.)? <br>¿Los datos persisten correctamente? |
+| **Indicadores visuales** | **10 puntos** | ¿Hay indicador visual del estado de conexión en el cliente? <br>¿El servidor muestra logs claros de conexiones/desconexiones? |
 | **Presentación** | **5 puntos** | ¿La puesta en escena/presentación es adecuada? |
 | **TOTAL** | **100 puntos** | |
 
@@ -358,7 +360,7 @@ La entrega está configurada como "entrega en grupo", por lo que únicamente una
 | TIPO | DESCRIPCIÓN |
 | :--- | :--- |
 | **Eliminatorio** | El juego no funciona (Si no funciona, la fase está suspensa) |
-| **Grave** | No utilizan todos los verbos HTTP: GET, POST, PUT, DELETE<br>Bugs graves que impiden la funcionalidad de red |
+| **Grave** | No utilizan todos los verbos HTTP: GET, POST, PUT, DELETE<br>. Hay bugs graves que impiden la funcionalidad de red |
 | **Otras** | Otras no contempladas anteriormente (definir junto con la penalización aplicada) |
 
 ---
@@ -382,13 +384,13 @@ La entrega está configurada como "entrega en grupo", por lo que únicamente una
 
 | CATEGORÍA | PUNTOS | CRITERIOS A EVALUAR |
 | :--- | :--- | :--- |
-| **Entrega** | **5 puntos** | ¿Han evolucionado el markdown?<br>¿Han hecho un *release* en github?<br>¿Incluyen documentación de WebSockets? |
-| **Comunicación WebSockets** | **20 puntos** | ¿Las acciones de juego se comunican en tiempo real?<br>¿El envío de inputs funciona correctamente?<br>¿La latencia es aceptable?<br>¿Manejan correctamente los eventos WebSocket? |
-| **Sincronización de juego** | **25 puntos** | ¿El movimiento de personajes se sincroniza correctamente?<br>¿Las interacciones con el mapa se sincronizan?<br>¿El estado de vida/puntuaciones se actualiza en tiempo real?<br>¿No hay desincronización visible entre clientes? |
-| **Sala de espera** | **15 puntos** | ¿Implementa sala de espera básica para 2 jugadores?<br>¿Funciona correctamente el emparejamiento?<br>¿Se notifica correctamente cuando se inicia la partida?<br>Bonus: ¿Implementa múltiples salas/partidas simultáneas? |
-| **Condición de victoria** | **10 puntos** | ¿Detecta correctamente la condición de victoria?<br>¿Comunica el resultado a todos los clientes?<br>¿Maneja correctamente el fin de partida? |
-| **Gestión de desconexiones** | **15 puntos** | ¿Detecta cuando cae el servidor?<br>¿Detecta cuando se desconecta un jugador?<br>¿Notifica al otro jugador el cierre de partida?<br>¿Permite volver a jugar después de una desconexión? |
-| **Jugabilidad multijugador** | **5 puntos** | ¿La experiencia multijugador es fluida?<br>¿El juego es jugable en tiempo real? |
+| **Entrega** | **5 puntos** | ¿Han evolucionado el markdown? <br>¿Han hecho un *release* en github? <br>¿Incluyen documentación de WebSockets? |
+| **Comunicación WebSockets** | **20 puntos** | ¿Las acciones de juego se comunican en tiempo real? <br>¿El envío de inputs funciona correctamente? <br>¿La latencia es aceptable? <br>¿Manejan correctamente los eventos WebSocket? |
+| **Sincronización de juego** | **25 puntos** | ¿El movimiento de personajes se sincroniza correctamente? <br>¿Las interacciones con el mapa se sincronizan? <br>¿El estado de vida/puntuaciones se actualiza en tiempo real? <br>¿No hay desincronización visible entre clientes? |
+| **Sala de espera** | **15 puntos** | ¿Implementa sala de espera básica para 2 jugadores? <br>¿Funciona correctamente el emparejamiento? <br>¿Se notifica correctamente cuando se inicia la partida? <br>Bonus: ¿Implementa múltiples salas/partidas simultáneas? |
+| **Condición de victoria** | **10 puntos** | ¿Detecta correctamente la condición de victoria? <br>¿Comunica el resultado a todos los clientes? <br>¿Maneja correctamente el fin de partida? |
+| **Gestión de desconexiones** | **15 puntos** | ¿Detecta cuando cae el servidor? <br>¿Detecta cuando se desconecta un jugador? <br>¿Notifica al otro jugador el cierre de partida? <br>¿Permite volver a jugar después de una desconexión? |
+| **Jugabilidad multijugador** | **5 puntos** | ¿La experiencia multijugador es fluida? <br>¿El juego es jugable en tiempo real? |
 | **Presentación** | **5 puntos** | ¿La puesta en escena/presentación es adecuada? |
 | **TOTAL** | **100 puntos** | |
 
@@ -397,7 +399,7 @@ La entrega está configurada como "entrega en grupo", por lo que únicamente una
 | TIPO | DESCRIPCIÓN |
 | :--- | :--- |
 | **Eliminatorio** | El juego no funciona con la comunicación WebSocket (Si no funciona, la fase está suspensa) |
-| **Grave** | Latencia excesiva que impide la jugabilidad<br>Desincronización grave entre clientes<br>Bugs graves que rompen la experiencia multijugador |
+| **Grave** | Latencia excesiva que impide la jugabilidad. <br> Desincronización grave entre clientes<br>. Hay bugs graves que rompen la experiencia multijugador |
 | **Leve** | Pequeños retrasos o glitches menores |
 | **Otras** | Otras no contempladas anteriormente (definir junto con la penalización aplicada) |
 
@@ -424,12 +426,14 @@ La nota de esta fase se calcula de la siguiente forma:
 **Nota = min(10, Y/X)**
 
 Donde:
+
 - **X** = número de miembros del equipo
 - **Y** = número de plataformas en las que se ha publicado el juego
 
 Esto significa que para obtener un 10, cada miembro del equipo debe publicar el juego en al menos una plataforma diferente.
 
 **Ejemplo:**
+
 - Si el equipo tiene 4 miembros (X=4) y publican en 2 plataformas (Y=2), la nota sería: min(10, 2/4) = min(10, 0.5) = 5 puntos
 - Si el equipo tiene 4 miembros (X=4) y publican en 4 plataformas (Y=4), la nota sería: min(10, 4/4) = min(10, 1) = 10 puntos
 - Si el equipo tiene 4 miembros (X=4) y publican en 6 plataformas (Y=6), la nota sería: min(10, 6/4) = min(10, 1.5) = 10 puntos
