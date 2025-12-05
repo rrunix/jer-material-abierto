@@ -101,19 +101,90 @@ Toda esa información debe registrarse mediante la creación de un Game Design D
 
 ### Fase 2: Desarrollo del juego en local
 
-(Por definir)
+En esta fase se debe implementar una versión completamente funcional del juego que se ejecute en modo local (sin conexión a servidor). El juego debe incluir:
 
-### Fase 3: Comunicación con cliente (juego) – servidor mediante una API – REST.
+* **Menú principal** con opciones de inicio, créditos, ajustes y ayuda
+* **Mecánicas de juego** completamente implementadas según el GDD
+* **Sistema de escenas** con transiciones fluidas entre diferentes estados del juego
+* **Gestión de recursos** audiovisuales (sprites, música, efectos de sonido)
+* **Interfaz de usuario** coherente y funcional
+* **Sistema de controles** mediante teclado y ratón
+* **Sistema de puntuación** básico
 
-(Por definir)
+El objetivo es tener una base sólida del juego antes de implementar las funcionalidades de red en las siguientes fases.
 
-### Fase 4: Comunicación con cliente (juego) – servidor de forma asíncrona.
+### Fase 3: Comunicación cliente-servidor mediante API REST
 
-(Por definir)
+En esta fase se debe implementar la arquitectura cliente-servidor utilizando una API REST. Los requisitos incluyen:
 
-### Fase 5 (opcional): Mejoras finales / Publicación del juego
+* **Servidor** que gestione la lógica del juego y el estado de las partidas
+* **API REST** que utilice correctamente los verbos HTTP (GET, POST, PUT, DELETE)
+* **Gestión de usuarios** con sistema de login/nickname
+* **Detección de conexiones y desconexiones** tanto en servidor como en clientes
+* **Sistema de puntuaciones/aspecto del jugador..** a parte de los datos de login del jugador, deberíais de almacenar y poder visualizar, un dato extra, como puntuación máximas, color del personaje, tiempo en resolverlo, ... o cualquier aspecto que encaje en vuestro juego.
+* **Manejo de errores** y caídas del servidor
+* **Sistema de logging** para depuración (valen console.logs)
 
-(Por definir)
+El servidor debe ser capaz de gestionar múltiples clientes de forma concurrente y mantener el estado del juego de manera consistente.
+
+Respecto a la detección de conexiones. En el cliente (juego) deberíais tener un piloto o aspecto visual que nos permita saber si estamos conectados al servidor y cuanta gente hay conectada actualmente. Por ejemplo, una etiqueta que ponga "servidor: " con el número de personas conectadas. Por simplicidad, ponedlo únicamente en la pantalla de inicio (Menú). Cuando se pierda la conexión, podéis lanzar una escena (pausando el resto), que compruebe continuamente si hay conexión. Hasta que no haya conexión no os debería de dejar hacer nada.
+
+En el caso del servidor podríais imprimir (console.log) cuando se conecta un cliente y cuando se desconecta.
+
+Nota: Para la implementación en el cliente de la detección de conexiones deberíais de implementar un sistema tipo keep-alive, en el que periódicamente haréis una petición al servidor, por ejemplo, ¿cuanta gente hay conectada?, si esta falla, asumimos que no hay conexión y lanzamos la escena de no hay conexión. Si hay conexión podemos actualizar una variable con el número de usuarios conectados, que se mostrará cuando estemos en el menú. En el servidor implementaríais ese "¿cuanta gente hay conectada?", que, podría cogerlas IPs de quien me está preguntando, y sino me escriben en X segundos, asumo que no están ya conectados.
+
+Podría ser algo así:
+
+```js
+app.get('/connected', (req, res) => {
+  const ip = req.ip || req.connection.remoteAddress;
+  
+  // Update this user's last seen time
+  connectedUsers.set(ip, Date.now());
+  
+  res.json({
+    connected: connectedUsers.size
+  });
+});
+```
+
+Os faltaría definir el `connectedUsers` que sería un Map(), y una función que periódicamente borre los clientes que no se han conectado en X tiempo:
+
+```js
+setInterval(() => {
+    // Aqui recorrer connectedUsers y borrar aquellos cuya ultima conexión sea hace X tiempo. Podéis restar la fecha de Date.now() - otraFecha para calcular los milisegundos entre dos fechas. 
+}, 2000);
+```
+
+En este caso comprobaríamos cada 2s (2000 milisegundos).
+
+### Fase 4: Comunicación asíncrona mediante WebSockets
+
+En esta fase se debe implementar la comunicación en tiempo real utilizando WebSockets para las acciones críticas del juego:
+
+* **Sincronización de movimientos** de todos los jugadores en tiempo real
+* **Actualización de estado** (vida, puntuación, posición) instantánea
+* **Sala de espera** Básica: 2 jugadores, avanzada: varias salas  (múltiples partidas)
+* **Detección de victoria/derrota** comunicada a todos los clientes
+* **Manejo de inputs** de teclado y ratón (opcional) transmitidos mediante WebSockets
+* **Gestión de desconexiones**  durante la partida
+* **Sincronización de eventos del mapa** e interacciones, por ejemplo power-ups, actuar sobre el mapa..
+
+Esta fase transforma el juego en una experiencia multijugador fluida y en tiempo real, donde las acciones de un jugador se reflejan inmediatamente en las pantallas de los demás jugadores.
+
+**Número de jugadores:** La implementación básica debe soportar 2 jugadores. De forma avanzada, se puede implementar soporte para más de 2 jugadores mediante múltiples salas o partidas simultáneas.
+
+En la gestión de desconexiones lo más sencillo es que cuando un jugador se desconecte, se le indique que se ha terminado la partida y llevarlo a la página principal. Desde ahí debería de poder volver a jugar (siempre que haya conexión). Cuando un jugador se desconecta, el servidor debe notificar al otro que se ha acabado la partida.
+
+### Fase 5: Mejoras finales / Publicación del juego
+
+Publicar la fase 2 (funcional) en plataformas como:
+
+- https://www.newgrounds.com
+- https://itch.io
+- https://gamejolt.com
+
+El número de plataformas para alcanzar el 10 sería de 1 por miembro del equipo. Es decir, si sois X, y publicáis en Y, vuestra nota sería min(10, Y/X).
 
 ---
 
@@ -250,23 +321,123 @@ La entrega está configurada como "entrega en grupo", por lo que únicamente una
 | :--- | :--- |
 | **Eliminatorio** | ¿El juego funciona? (Si no funciona, la fase está suspensa) |
 | **Grave** | ¿Hay cosas prohibidas que no den *feedback*?<br>¿Hay *bugs* graves que impiden la jugabilidad? |
-| **Leve** | ¿Mezclan idiomas inglés-castellano? |
 | **Otras** | Otras no contempladas anteriormente (se definirán junto con la penalización aplicada) |
 
 ---
 
 ### Fase 3
 
-(Por definir)
+Esta fase se centra en la implementación de la comunicación entre cliente y servidor mediante una API REST, así como la gestión de conexiones y desconexiones de usuarios.
+
+**Entrega**
+
+La entrega está configurada como "entrega en grupo", por lo que únicamente una persona de cada grupo debe entregar todo lo relativo a la correspondiente fase.
+
+* Será necesario entregar un `.zip` que contenga todos los documentos indicados en el enunciado de la práctica, incluyendo:
+    * Los archivos fuente del juego desarrollado (cliente y servidor) junto con todos los recursos necesarios.
+    * El documento `README.md` descargado de github.com en su estado actual (que debe haber sido modificado respecto a la fase anterior con las novedades correspondientes a esta fase).
+    * Un documento de texto llamado `GRUPOXX.txt` (donde XX debe sustituirse por el identificador de cada grupo) en el que se indiquen los integrantes del grupo, la URL del repositorio GitHub.
+    * Presentación que se utilizará en la exposición de la fase.
+* Será obligatorio también realizar un "release" en el repositorio de github previo a la defensa, siguiendo las instrucciones del enunciado de la práctica.
+
+**Rúbrica de Evaluación - Fase 3**
+
+| CATEGORÍA | PUNTOS | CRITERIOS A EVALUAR |
+| :--- | :--- | :--- |
+| **Entrega** | **5 puntos** | ¿Han evolucionado el markdown?<br>¿Han hecho un *release* en github?<br>¿Incluyen documentación de la API REST? |
+| **Servidor - Gestión de conexiones** | **20 puntos** | ¿El servidor detecta cuando se conectan usuarios?<br>¿El servidor detecta cuando se desconectan usuarios?<br>¿Implementa sistema de logging adecuado? |
+| **Cliente - Gestión de conexiones** | **20 puntos** | ¿Los clientes se enteran de la conexión de otros usuarios?<br>¿Los clientes se enteran de la desconexión de otros usuarios?<br>¿Detecta la caída del servidor? |
+| **API REST** | **25 puntos** | ¿Utilizan correctamente GET, POST, PUT, DELETE?<br>¿La arquitectura cliente-servidor es adecuada?<br>¿Las peticiones y respuestas están bien estructuradas?<br>¿Maneja errores correctamente? |
+| **Gestión de usuarios** | **15 puntos** | ¿Implementa sistema de nickname/login?<br>¿Almacena datos adicionales del jugador (puntuación, aspecto, etc.)?<br>¿Los datos persisten correctamente? |
+| **Indicadores visuales** | **10 puntos** | ¿Hay indicador visual del estado de conexión en el cliente?<br>¿El servidor muestra logs claros de conexiones/desconexiones? |
+| **Presentación** | **5 puntos** | ¿La puesta en escena/presentación es adecuada? |
+| **TOTAL** | **100 puntos** | |
+
+**Penalizaciones**
+
+| TIPO | DESCRIPCIÓN |
+| :--- | :--- |
+| **Eliminatorio** | El juego no funciona (Si no funciona, la fase está suspensa) |
+| **Grave** | No utilizan todos los verbos HTTP: GET, POST, PUT, DELETE<br>Bugs graves que impiden la funcionalidad de red |
+| **Otras** | Otras no contempladas anteriormente (definir junto con la penalización aplicada) |
 
 ---
 
 ### Fase 4
 
-(Por definir)
+Esta fase se centra en la implementación de la comunicación asíncrona mediante WebSockets para las acciones de juego en tiempo real.
+
+**Entrega**
+
+La entrega está configurada como "entrega en grupo", por lo que únicamente una persona de cada grupo debe entregar todo lo relativo a la correspondiente fase.
+
+* Será necesario entregar un `.zip` que contenga todos los documentos indicados en el enunciado de la práctica, incluyendo:
+    * Los archivos fuente del juego desarrollado (cliente y servidor) junto con todos los recursos necesarios.
+    * El documento `README.md` descargado de github.com en su estado actual (que debe haber sido modificado respecto a la fase anterior con las novedades correspondientes a esta fase).
+    * Un documento de texto llamado `GRUPOXX.txt` (donde XX debe sustituirse por el identificador de cada grupo) en el que se indiquen los integrantes del grupo, la URL del repositorio GitHub.
+    * Presentación que se utilizará en la exposición de la fase.
+* Será obligatorio también realizar un "release" en el repositorio de github previo a la defensa, siguiendo las instrucciones del enunciado de la práctica.
+
+**Rúbrica de Evaluación - Fase 4**
+
+| CATEGORÍA | PUNTOS | CRITERIOS A EVALUAR |
+| :--- | :--- | :--- |
+| **Entrega** | **5 puntos** | ¿Han evolucionado el markdown?<br>¿Han hecho un *release* en github?<br>¿Incluyen documentación de WebSockets? |
+| **Comunicación WebSockets** | **20 puntos** | ¿Las acciones de juego se comunican en tiempo real?<br>¿El envío de inputs funciona correctamente?<br>¿La latencia es aceptable?<br>¿Manejan correctamente los eventos WebSocket? |
+| **Sincronización de juego** | **25 puntos** | ¿El movimiento de personajes se sincroniza correctamente?<br>¿Las interacciones con el mapa se sincronizan?<br>¿El estado de vida/puntuaciones se actualiza en tiempo real?<br>¿No hay desincronización visible entre clientes? |
+| **Sala de espera** | **15 puntos** | ¿Implementa sala de espera básica para 2 jugadores?<br>¿Funciona correctamente el emparejamiento?<br>¿Se notifica correctamente cuando se inicia la partida?<br>Bonus: ¿Implementa múltiples salas/partidas simultáneas? |
+| **Condición de victoria** | **10 puntos** | ¿Detecta correctamente la condición de victoria?<br>¿Comunica el resultado a todos los clientes?<br>¿Maneja correctamente el fin de partida? |
+| **Gestión de desconexiones** | **15 puntos** | ¿Detecta cuando cae el servidor?<br>¿Detecta cuando se desconecta un jugador?<br>¿Notifica al otro jugador el cierre de partida?<br>¿Permite volver a jugar después de una desconexión? |
+| **Jugabilidad multijugador** | **5 puntos** | ¿La experiencia multijugador es fluida?<br>¿El juego es jugable en tiempo real? |
+| **Presentación** | **5 puntos** | ¿La puesta en escena/presentación es adecuada? |
+| **TOTAL** | **100 puntos** | |
+
+**Penalizaciones**
+
+| TIPO | DESCRIPCIÓN |
+| :--- | :--- |
+| **Eliminatorio** | El juego no funciona con la comunicación WebSocket (Si no funciona, la fase está suspensa) |
+| **Grave** | Latencia excesiva que impide la jugabilidad<br>Desincronización grave entre clientes<br>Bugs graves que rompen la experiencia multijugador |
+| **Leve** | Pequeños retrasos o glitches menores |
+| **Otras** | Otras no contempladas anteriormente (definir junto con la penalización aplicada) |
 
 ---
 
 ### Fase 5
 
-(Por definir)
+Esta fase se centra en la publicación del juego y en dar visibilidad al proyecto desarrollado.
+
+**Objetivo**
+
+Publicar la versión funcional del juego (Fase 2 en modo local) en plataformas de distribución de juegos indie para que pueda ser jugado por una audiencia más amplia.
+
+**Plataformas recomendadas**
+
+- https://www.newgrounds.com
+- https://itch.io
+- https://gamejolt.com
+
+**Rúbrica de Evaluación - Fase 5**
+
+La nota de esta fase se calcula de la siguiente forma:
+
+**Nota = min(10, Y/X)**
+
+Donde:
+- **X** = número de miembros del equipo
+- **Y** = número de plataformas en las que se ha publicado el juego
+
+Esto significa que para obtener un 10, cada miembro del equipo debe publicar el juego en al menos una plataforma diferente.
+
+**Ejemplo:**
+- Si el equipo tiene 4 miembros (X=4) y publican en 2 plataformas (Y=2), la nota sería: min(10, 2/4) = min(10, 0.5) = 5 puntos
+- Si el equipo tiene 4 miembros (X=4) y publican en 4 plataformas (Y=4), la nota sería: min(10, 4/4) = min(10, 1) = 10 puntos
+- Si el equipo tiene 4 miembros (X=4) y publican en 6 plataformas (Y=6), la nota sería: min(10, 6/4) = min(10, 1.5) = 10 puntos
+
+**Entrega**
+
+* Documento con los enlaces a las páginas donde se ha publicado el juego
+* Capturas de pantalla de las publicaciones
+* README.md actualizado con los enlaces de publicación
+
+---
