@@ -13,13 +13,13 @@
 
 **Identificador SWH**:
 ```
-swh:1:dir:e759621272f530009eb589570687a2d56d0d4bcd;
+swh:1:dir:c09ffcaa8fd2fe3471c538c0cc09a5d5a7df39d5;
 origin=https://github.com/rrunix/jer-visualizations;
-visit=swh:1:snp:486873193776051caea0e315d0a88a076d0ce242;
-anchor=swh:1:rev:3f99cd855ca1298ff61620308ba51d1dd37b7a41
+visit=swh:1:snp:472b766035df82855812234142e215c924ec992a;
+anchor=swh:1:rev:a02b781e68435fd803c369182e7ce119f5a88aad
 ```
 
-**Enlace permanente**: [Software Heritage Archive](https://archive.softwareheritage.org/swh:1:dir:e759621272f530009eb589570687a2d56d0d4bcd;origin=https://github.com/rrunix/jer-visualizations;visit=swh:1:snp:486873193776051caea0e315d0a88a076d0ce242;anchor=swh:1:rev:3f99cd855ca1298ff61620308ba51d1dd37b7a41)
+**Enlace permanente**: [Software Heritage Archive](https://archive.softwareheritage.org/swh:1:dir:c09ffcaa8fd2fe3471c538c0cc09a5d5a7df39d5;origin=https://github.com/rrunix/jer-visualizations;visit=swh:1:snp:472b766035df82855812234142e215c924ec992a;anchor=swh:1:rev:a02b781e68435fd803c369182e7ce119f5a88aad)
 
 ## Libro
 
