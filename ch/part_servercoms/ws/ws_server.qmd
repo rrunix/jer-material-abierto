@@ -1,4 +1,4 @@
-# Servidor WebSockets con JavasScript {#sec-ws-server}
+# Servidor WebSockets con JavaScript {#sec-ws-server}
 
 ## Servidor WebSocket con Node.js
 
@@ -8,7 +8,7 @@ Primero necesitamos inicializar un proyecto Node.js e instalar las dependencias 
 
 ```bash
 npm init -y
-npm install ws express
+npm install ws express@4
 ```
 
 Instalamos tanto `ws` para el servidor WebSocket como `express` para servir archivos estáticos (la interfaz del cliente). Para usar la sintaxis moderna de módulos ES6, debemos configurar el `package.json`:
@@ -141,7 +141,7 @@ ws.on('error', (error) => {
 
 ## Ejemplo completo: Servidor Echo
 
-Un servidor echo completo que devuelve cualquier mensaje que recibe se vería así:
+Un servidor echo completo que devuelve cualquier mensaje que recibe se vería así (la opción `path: '/echo'` hace que solo se acepten conexiones WebSocket en la ruta `/echo`, que es la que usa el cliente de @sec-ws-client):
 
 ```javascript
 import express from 'express';
@@ -153,11 +153,11 @@ const server = createServer(app);
 
 app.use(express.static('public'));
 
-const wss = new WebSocketServer({ server });
+const wss = new WebSocketServer({ server, path: '/echo' });
 
 wss.on('connection', (ws) => {
   console.log('Nuevo cliente conectado');
-  
+
   ws.on('message', (message) => {
     const data = message.toString();
     console.log('Mensaje recibido:', data);
@@ -187,7 +187,7 @@ Un servidor de chat más sofisticado que maneja mensajes en formato JSON:
 
 ```javascript
 import express from 'express';
-import { WebSocketServer } from 'ws';
+import { WebSocketServer, WebSocket } from 'ws';
 import { createServer } from 'http';
 
 const app = express();
@@ -215,7 +215,7 @@ wss.on('connection', (ws) => {
       
       // Broadcast: enviar a todos los clientes
       wss.clients.forEach((client) => {
-        if (client.readyState === ws.OPEN) {
+        if (client.readyState === WebSocket.OPEN) {
           client.send(JSON.stringify(respuesta));
         }
       });
@@ -249,20 +249,29 @@ A menudo necesitamos mantener información sobre los clientes conectados. Podemo
 
 ```javascript
 const clientes = new Map();
+let nextClientId = 1;
 
 wss.on('connection', (ws) => {
   // Asignar un ID único al cliente
-  const clientId = Date.now();
+  const clientId = nextClientId++;
   clientes.set(ws, { id: clientId, nombre: null });
 
   console.log(`Cliente ${clientId} conectado`);
 
   ws.on('message', (message) => {
-    const datos = JSON.parse(message.toString());
+    let datos;
+    try {
+      datos = JSON.parse(message.toString());
+    } catch (error) {
+      console.error('Error al parsear mensaje:', error);
+      return;
+    }
 
     // Guardar el nombre del cliente
-    const clienteInfo = clientes.get(ws);
-    clienteInfo.nombre = datos.nombre;
+    if (datos.nombre) {
+      const clienteInfo = clientes.get(ws);
+      clienteInfo.nombre = datos.nombre;
+    }
 
     // Procesar el mensaje...
   });
@@ -290,6 +299,9 @@ const server = createServer(app);
 app.use(express.json());
 app.use(express.static('public'));
 
+// Servidor WebSocket
+const wss = new WebSocketServer({ server });
+
 // Rutas REST
 app.get('/api/status', (req, res) => {
   res.json({
@@ -297,9 +309,6 @@ app.get('/api/status', (req, res) => {
     estado: 'activo'
   });
 });
-
-// Servidor WebSocket
-const wss = new WebSocketServer({ server });
 
 wss.on('connection', (ws) => {
   // ... manejar conexiones WebSocket

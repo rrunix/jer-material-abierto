@@ -1,4 +1,4 @@
-# Cliente WebSockets con JavasScript {#sec-ws-client}
+# Cliente WebSockets con JavaScript {#sec-ws-client}
 
 ## La API WebSocket en JavaScript
 
@@ -7,7 +7,7 @@ JavaScript proporciona una API nativa para crear y administrar conexiones WebSoc
 La API está implementada en el objeto **WebSocket**. Para crear una conexión, simplemente instanciamos este objeto pasándole como parámetro la URL del servidor al que queremos conectarnos:
 
 ```javascript
-WebSocket('ws://IP:PUERTO/RUTA');
+new WebSocket('ws://IP:PUERTO/RUTA');
 ```
 
 Donde **ws://** es el protocolo WebSocket (o `wss://` para conexiones seguras), **IP** es la dirección IP o dominio del servidor, **PUERTO** es el puerto donde escucha el servidor WebSocket, y **RUTA** es el path específico del endpoint WebSocket en el servidor.
@@ -15,10 +15,10 @@ Donde **ws://** es el protocolo WebSocket (o `wss://` para conexiones seguras), 
 Imagina que tenemos un servidor WebSocket ejecutándose localmente en el puerto 8080, con un endpoint llamado `/echo`:
 
 ```javascript
-var connection = new WebSocket('ws://127.0.0.1:8080/echo');
+let connection = new WebSocket('ws://127.0.0.1:8080/echo');
 ```
 
-Con esta única línea hemos creado la conexión. El navegador automáticamente inicia el handshake HTTP que vimos en el tema anterior, negocia el cambio al protocolo WebSocket, y establece la conexión persistente. Ahora tenemos un objeto `connection` que representa nuestro extremo de la comunicación bidireccional.
+Con esta única línea hemos creado la conexión. El navegador automáticamente inicia el handshake HTTP que vimos en @sec-ws-intro, negocia el cambio al protocolo WebSocket, y establece la conexión persistente. Ahora tenemos un objeto `connection` que representa nuestro extremo de la comunicación bidireccional.
 
 ## Métodos del Objeto WebSocket
 
@@ -31,7 +31,7 @@ connection.send('Hi');
 Este método es muy simple: le pasamos los datos que queremos enviar y el objeto WebSocket se encarga de transmitirlos al servidor. Podemos enviar texto simple como `'Hola servidor'`, o datos más complejos (típicamente JSON convertido a string):
 
 ```javascript
-var data = {
+const data = {
   action: 'move',
   x: 100,
   y: 250
@@ -87,15 +87,15 @@ El listener **onerror** es llamado cuando se produce un error en la conexión:
 
 ```javascript
 connection.onerror = function(e) {
-  console.log("WS error: " + e);
+  console.error('WS error:', e);
 }
 ```
 
-Este evento se dispara cuando algo sale mal: no se puede establecer la conexión con el servidor, hay un problema de red, o el servidor rechaza la conexión. Es importante manejar estos errores para informar al usuario de que algo no funciona correctamente:
+Este evento se dispara cuando algo sale mal: no se puede establecer la conexión con el servidor, hay un problema de red, o el servidor rechaza la conexión. Es importante manejar estos errores para informar al usuario de que algo no funciona correctamente. Hay que tener en cuenta que, por seguridad, el evento `error` no incluye detalles del fallo; el diagnóstico real se hace con `event.code` en `onclose`:
 
 ```javascript
 connection.onerror = function(error) {
-  console.log("WS error: " + error);
+  console.error('WS error:', error);
   alert('No se pudo conectar al servidor. Por favor, verifica tu conexión.');
 };
 ```
@@ -115,7 +115,12 @@ connection.onmessage = function(msg) {
   console.log("Mensaje recibido: " + msg.data);
 
   // Si el servidor envía JSON, lo parseamos
-  var data = JSON.parse(msg.data);
+  let data;
+  try {
+    data = JSON.parse(msg.data);
+  } catch (e) {
+    return; // el mensaje no era JSON
+  }
 
   // Procesamos según el tipo de mensaje
   if (data.type === 'player_position') {
@@ -152,4 +157,14 @@ connection.onclose = function(event) {
     configurarListeners(connection);
   }, 3000);
 };
+
+// Reasigna a la nueva conexión los listeners vistos en este capítulo
+function configurarListeners(connection) {
+  connection.onopen = function() { /* ... */ };
+  connection.onmessage = function(msg) { /* ... */ };
+  connection.onerror = function(e) { /* ... */ };
+  connection.onclose = function(event) { /* ... */ };
+}
 ```
+
+En una aplicación real conviene además aumentar progresivamente el tiempo de espera entre reintentos (backoff exponencial) para no saturar un servidor caído.

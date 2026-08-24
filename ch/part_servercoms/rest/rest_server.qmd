@@ -1,12 +1,12 @@
-# Servidor API REST con Javascript {#sec-rest-server}
+# Servidor API REST con JavaScript {#sec-rest-server}
 
-Express.js es un framework web minimalista y flexible para Node.js que se ha convertido en el estándar para crear APIs REST. Proporciona un sistema de enrutamiento robusto, soporte para middlewares que procesan peticiones, manejo de errores integrado y compatibilidad completa con todos los métodos HTTP y códigos de estado. Su popularidad se debe a su simplicidad y a que permite construir servidores HTTP de manera rápida y eficiente.
+Express.js es un framework web minimalista y flexible para Node.js que se ha convertido en el estándar para crear APIs REST. Proporciona un sistema de enrutamiento robusto, soporte para middlewares que procesan peticiones, manejo de errores integrado y compatibilidad completa con todos los métodos HTTP y códigos de estado. Su popularidad se debe a su simplicidad y a que permite construir servidores HTTP de manera rápida y eficiente. Este servidor responde a peticiones como las del cliente del capítulo anterior (@sec-rest-client), aunque aquí usaremos un recurso de ejemplo distinto (`/anuncios` en lugar de `/players`).
 
 Para comenzar a trabajar con Express, primero necesitamos inicializar un proyecto Node.js y luego instalar el framework. El comando `npm init -y` crea automáticamente un archivo `package.json` con la configuración por defecto, y posteriormente instalamos Express como dependencia del proyecto:
 
 ```bash
 npm init -y
-npm install express
+npm install express@4
 ```
 
 Para usar la sintaxis de módulos ES6 (`import/export`) en lugar de CommonJS (`require/module.exports`), debemos añadir `"type": "module"` en el `package.json`:
@@ -131,9 +131,11 @@ Con esta configuración, la ruta `router.get('/')` se convierte en `GET /anuncio
 
 ## Operaciones CRUD
 
-La operación GET se utiliza para recuperar información del servidor sin modificarla. Express proporciona el objeto `req.params` para acceder a los parámetros de la URL. Por ejemplo, en la ruta `/anuncios/:id`, el `:id` es un parámetro dinámico cuyo valor estará disponible en `req.params.id`. El método `res.json()` convierte automáticamente un objeto JavaScript a formato JSON y lo envía como respuesta con las cabeceras correctas:
+Por simplicidad, en los siguientes ejemplos definimos las rutas directamente sobre `app`, sin el patrón factory, usando un array `anuncios` compartido. La operación GET se utiliza para recuperar información del servidor sin modificarla. Express proporciona el objeto `req.params` para acceder a los parámetros de la URL. Por ejemplo, en la ruta `/anuncios/:id`, el `:id` es un parámetro dinámico cuyo valor estará disponible en `req.params.id`. El método `res.json()` convierte automáticamente un objeto JavaScript a formato JSON y lo envía como respuesta con las cabeceras correctas:
 
 ```javascript
+const anuncios = [];
+
 app.get('/anuncios/:id', (req, res) => {
   const { id } = req.params;
   const anuncio = anuncios.find(a => a.id === parseInt(id));
@@ -176,7 +178,13 @@ La operación PUT actualiza un recurso existente reemplazándolo completamente c
 app.put('/anuncios/:id', (req, res) => {
   const { id } = req.params;
   const { nombre, asunto, comentario } = req.body;
-  
+
+  if (!nombre || !asunto) {
+    return res.status(400).json({
+      error: 'Nombre y asunto son requeridos'
+    });
+  }
+
   const anuncio = anuncios.find(a => a.id === parseInt(id));
   
   if (!anuncio) {
@@ -211,7 +219,7 @@ app.delete('/anuncios/:id', (req, res) => {
 
 Los middlewares son funciones que se ejecutan durante el ciclo de vida de una petición, antes de que llegue al controlador final. Tienen acceso a los objetos de petición `req` y respuesta `res`, y a la función `next()` que permite pasar el control al siguiente middleware o ruta. Los middlewares son útiles para tareas transversales como logging, autenticación, validación o manejo de errores.
 
-Un middleware de logging básico registra cada petición que llega al servidor. Es importante llamar a `next()` al final para que la petición continúe su flujo normal hacia el controlador apropiado:
+Un middleware de logging básico registra cada petición que llega al servidor. Los middlewares se ejecutan en el orden en que se registran, por lo que el logging debe registrarse antes que las rutas. Es importante llamar a `next()` al final para que la petición continúe su flujo normal hacia el controlador apropiado:
 
 ```javascript
 app.use((req, res, next) => {
@@ -220,7 +228,7 @@ app.use((req, res, next) => {
 });
 ```
 
-Los middlewares de manejo de errores son especiales porque tienen cuatro parámetros en lugar de tres. Express los identifica automáticamente por esta firma y los invoca cuando ocurre un error. Deben colocarse después de todas las rutas para capturar cualquier error que no haya sido manejado:
+Los middlewares de manejo de errores son especiales porque tienen cuatro parámetros en lugar de tres. Express los identifica automáticamente por esta firma y los invoca cuando ocurre un error. Deben colocarse después de todas las rutas para capturar cualquier error que no haya sido manejado. Hay que tener en cuenta que en Express 4 los errores lanzados dentro de controladores `async` no llegan automáticamente a este middleware: hay que capturarlos y llamar a `next(err)`; en Express 5 sí se propagan automáticamente:
 
 ```javascript
 app.use((err, req, res, next) => {
@@ -249,4 +257,4 @@ mi-api-juego/
     └── app.js
 ```
 
-El archivo `public/index.html` estará disponible en `http://localhost:8080/index.html` y `public/script.js` en `http://localhost:8080/script.js`
+El archivo `public/index.html` estará disponible en `http://localhost:8080/index.html` y `public/script.js` en `http://localhost:8080/script.js`. Además, `express.static` sirve `index.html` automáticamente también en la raíz `/`.

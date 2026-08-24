@@ -18,9 +18,9 @@ El funcionamiento de WebSockets sigue estos pasos: inicialmente, el cliente soli
 
 ## WebSockets como Estándar
 
-WebSockets está definido como un estándar de comunicación en el RFC 6455 que funciona sobre un único socket TCP. Una de las grandes ventajas de WebSockets es que utiliza el puerto 80 (el mismo que HTTP) de forma multiplexada, lo que significa que puede soportar varias comunicaciones por el mismo puerto, evita problemas con firewalls y proxies que bloquean puertos no estándar, y está pensado principalmente para navegadores y servidores web.
+WebSockets está definido como un estándar de comunicación en el RFC 6455 que funciona sobre un único socket TCP. Una de las grandes ventajas de WebSockets es que utiliza los puertos estándar 80 para `ws://` (el mismo que HTTP) y 443 para `wss://` (el mismo que HTTPS), lo que evita problemas con firewalls y proxies que bloquean puertos no estándar, y está pensado principalmente para navegadores y servidores web.
 
-Aunque WebSockets comienza con HTTP, no está limitado a este protocolo. Un cliente puede abrir un socket con el servidor y comunicarse con él a través de HTTP (el protocolo web tradicional) o un protocolo propio diseñado específicamente para la aplicación. Esta flexibilidad es especialmente útil en juegos en red, donde podemos diseñar un protocolo de comunicación optimizado para nuestras necesidades específicas.
+Aunque la negociación de WebSockets comienza con HTTP, tras el handshake la comunicación ya no es HTTP: sobre el canal WebSocket la aplicación define libremente su propio protocolo de mensajes (por ejemplo, JSON con tipos de evento). Esta flexibilidad es especialmente útil en juegos en red, donde podemos diseñar un protocolo de comunicación optimizado para nuestras necesidades específicas.
 
 ## Negociación de Conexión WebSocket
 
@@ -30,29 +30,30 @@ Aunque los desarrolladores raramente necesitan implementar manualmente este proc
 GET /demo HTTP/1.1
 Host: example.com
 Connection: Upgrade
-Upgrade: WebSocket
+Upgrade: websocket
+Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==
+Sec-WebSocket-Version: 13
 Origin: http://example.com
 ```
 
-Esta petición comienza como una petición HTTP normal (`GET /demo HTTP/1.1`), pero el header `Connection: Upgrade` indica que queremos cambiar de protocolo, el header `Upgrade: WebSocket` especifica que queremos usar WebSocket, y el header `Origin` indica desde dónde se origina la petición (importante para seguridad). En esencia, le estamos diciendo al servidor: "Hola, quiero establecer una conexión WebSocket contigo en la ruta `/demo`".
+Esta petición comienza como una petición HTTP normal (`GET /demo HTTP/1.1`), pero el header `Connection: Upgrade` indica que queremos cambiar de protocolo, el header `Upgrade: websocket` especifica que queremos usar WebSocket, el header `Sec-WebSocket-Key` contiene un valor aleatorio en base64 que el servidor usará en su respuesta, el header `Sec-WebSocket-Version: 13` indica la versión del protocolo, y el header `Origin` indica desde dónde se origina la petición (importante para seguridad). En esencia, le estamos diciendo al servidor: "Hola, quiero establecer una conexión WebSocket contigo en la ruta `/demo`".
 
 Si el servidor acepta la conexión WebSocket, responde con:
 
 ```http
-HTTP/1.1 101 WebSocket Protocol Handshake
-Upgrade: WebSocket
+HTTP/1.1 101 Switching Protocols
+Upgrade: websocket
 Connection: Upgrade
-Sec-WebSocket-Origin: http://example.com
-Sec-WebSocket-Location: ws://example.com/demo
+Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=
 ```
 
-El código 101 indica que se acepta el cambio de protocolo, `Upgrade: WebSocket` confirma que vamos a usar WebSocket, `Connection: Upgrade` confirma el cambio de protocolo, `Sec-WebSocket-Origin` confirma el origen de la conexión, y `Sec-WebSocket-Location` indica la ubicación del WebSocket con el nuevo protocolo.
+El código 101 Switching Protocols indica que se acepta el cambio de protocolo, `Upgrade: websocket` confirma que vamos a usar WebSocket, `Connection: Upgrade` confirma el cambio de protocolo, y `Sec-WebSocket-Accept` contiene un valor calculado a partir del `Sec-WebSocket-Key` de la petición, que demuestra que el servidor ha entendido y aceptado el handshake.
 
-Fíjate en la última línea: `ws://example.com/demo`. WebSocket introduce dos nuevos esquemas de protocolo: **ws://** para WebSocket en claro (equivalente a `http://`) y **wss://** para WebSocket seguro sobre TLS (equivalente a `https://`). Una vez completado este "handshake" (apretón de manos), la conexión HTTP se transforma en una conexión WebSocket persistente, y ambas partes pueden comenzar a intercambiar mensajes libremente.
+Fíjate en la URL de conexión: `ws://example.com/demo`. WebSocket introduce dos nuevos esquemas de protocolo: **ws://** para WebSocket en claro (equivalente a `http://`) y **wss://** para WebSocket seguro sobre TLS (equivalente a `https://`). Una vez completado este "handshake" (apretón de manos), la conexión HTTP se transforma en una conexión WebSocket persistente, y ambas partes pueden comenzar a intercambiar mensajes libremente.
 
 ## Uso Normal de WebSockets
 
-En la práctica, normalmente no tenemos que preocuparnos por la negociación HTTP que acabamos de ver. Las conexiones se realizan automáticamente utilizando los protocolos **ws://** para WebSocket normal y **wss://** para WebSocket seguro. Cuando creamos una conexión WebSocket desde JavaScript (como veremos en el siguiente tema), simplemente usamos:
+En la práctica, normalmente no tenemos que preocuparnos por la negociación HTTP que acabamos de ver. Las conexiones se realizan automáticamente utilizando los protocolos **ws://** para WebSocket normal y **wss://** para WebSocket seguro. Cuando creamos una conexión WebSocket desde JavaScript (como veremos en @sec-ws-client), simplemente usamos:
 
 ```javascript
 new WebSocket('ws://example.com/demo');

@@ -1,8 +1,8 @@
-# Cliente API REST con Javascript {#sec-rest-client}
+# Cliente API REST con JavaScript {#sec-rest-client}
 
-La función `fetch()` es la API estándar moderna de JavaScript para realizar peticiones HTTP. Está integrada en todos los navegadores modernos y utiliza promesas (Promises) para manejar operaciones asincrónicas de manera elegante.
+La función `fetch()` es la API estándar moderna de JavaScript para realizar peticiones HTTP (@sec-rest-intro). Está integrada en todos los navegadores modernos y utiliza promesas (Promises) para manejar operaciones asincrónicas de manera elegante.
 
-Cuando trabajamos con `fetch()`, tenemos dos formas principales de manejar las respuestas asincrónicas. La primera opción es usar callbacks con `.then()`, donde encadenamos promesas para procesar la respuesta. Primero verificamos si la petición fue exitosa con `response.ok`, luego convertimos la respuesta a JSON, y finalmente procesamos los datos. Si algo falla en cualquier punto de la cadena, el `.catch()` captura el error.
+Cuando trabajamos con `fetch()`, tenemos dos formas principales de manejar las respuestas asincrónicas. La primera opción es encadenar promesas con `.then()` para procesar la respuesta. Primero verificamos si la petición fue exitosa con `response.ok`, luego convertimos la respuesta a JSON, y finalmente procesamos los datos. Si algo falla en cualquier punto de la cadena, el `.catch()` captura el error.
 
 La segunda opción, más recomendada por su legibilidad, es usar `async/await`. Aquí declaramos una función asíncrona y usamos `await` para esperar las promesas. Esto hace que el código se lea de forma más secuencial y natural, similar a código síncrono, aunque sigue siendo asíncrono. Siempre envolvemos el código en un bloque `try/catch` para manejar posibles errores.
 
@@ -36,13 +36,17 @@ Para obtener datos de una API, usamos el método GET, que es el predeterminado d
 ```javascript
 // Con callbacks
 fetch('https://api.game.com/players/alice')
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) throw new Error('HTTP error ' + response.status);
+        return response.json();
+    })
     .then(player => console.log(player.name))
     .catch(error => console.error(error));
 
 // Con async/await
 async function getPlayer(id) {
     const response = await fetch(`https://api.game.com/players/${id}`);
+    if (!response.ok) throw new Error('HTTP error ' + response.status);
     return await response.json();
 }
 ```
@@ -69,6 +73,7 @@ async function createPlayer(data) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
     });
+    if (!response.ok) throw new Error('HTTP error ' + response.status);
     return await response.json();
 }
 ```
@@ -82,7 +87,7 @@ Para actualizar un recurso existente, usamos PUT, que reemplaza completamente el
 fetch('https://api.game.com/players/charlie', {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email: 'newemail@example.com', level: 5 })
+    body: JSON.stringify({ username: 'charlie', email: 'newemail@example.com', level: 5 })
 })
     .then(response => response.json())
     .then(updated => console.log('Actualizado'))
@@ -95,6 +100,7 @@ async function updatePlayer(id, updates) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updates)
     });
+    if (!response.ok) throw new Error('HTTP error ' + response.status);
     return await response.json();
 }
 ```
@@ -124,16 +130,19 @@ async function deletePlayer(id) {
 
 ## Manejo de errores y códigos de estado
 
-En aplicaciones reales, necesitamos manejar diferentes situaciones que pueden ocurrir durante las peticiones HTTP. Este ejemplo muestra cómo implementar un manejo robusto de errores usando un `switch` sobre el código de estado. Cada código HTTP tiene un significado específico: 200 indica éxito y devolvemos los datos, 401 significa que el usuario necesita autenticarse, 403 indica que aunque esté autenticado no tiene permisos para ese recurso, 404 significa que el recurso no existe, y 500 indica un error interno del servidor. Capturando estos casos específicos, podemos proporcionar mensajes de error claros y tomar acciones apropiadas para cada situación, mejorando significativamente la experiencia del usuario.
+En aplicaciones reales, necesitamos manejar diferentes situaciones que pueden ocurrir durante las peticiones HTTP. Este ejemplo muestra cómo implementar un manejo robusto de errores usando un `switch` sobre el código de estado. Cada código HTTP tiene un significado específico: los códigos 2xx indican éxito y devolvemos los datos (teniendo en cuenta que 204 no tiene cuerpo), 401 significa que el usuario necesita autenticarse, 403 indica que aunque esté autenticado no tiene permisos para ese recurso, 404 significa que el recurso no existe, y 500 indica un error interno del servidor. Capturando estos casos específicos, podemos proporcionar mensajes de error claros y tomar acciones apropiadas para cada situación, mejorando significativamente la experiencia del usuario.
 
 ```javascript
 async function fetchWithErrorHandling(url) {
     try {
         const response = await fetch(url);
-        
+
+        if (response.ok) {
+            if (response.status === 204) return null;
+            return await response.json();
+        }
+
         switch (response.status) {
-            case 200:
-                return await response.json();
             case 401:
                 throw new Error('No autenticado');
             case 403:
@@ -151,3 +160,5 @@ async function fetchWithErrorHandling(url) {
     }
 }
 ```
+
+En el siguiente capítulo (@sec-rest-server) implementaremos el servidor al que llama este cliente.

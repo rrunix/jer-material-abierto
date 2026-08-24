@@ -6,7 +6,7 @@ En el desarrollo de juegos multijugador modernos, la comunicación entre el clie
 
 En una aplicación web tradicional, el cliente (navegador) se comunica con el servidor utilizando el protocolo HTTP. En aplicaciones web sin AJAX, las peticiones HTTP devuelven un documento HTML que será visualizado por el navegador. Sin embargo, en las aplicaciones con AJAX y las aplicaciones SPA (Single Page Application), las peticiones HTTP se utilizan para intercambiar información entre el navegador y el servidor, pero no HTML.
 
-Las APIs REST permiten esta comunicación mediante el intercambio de datos estructurados. En el contexto de nuestro juego, necesitaremos la API REST para gestionar registro y autenticación de jugadores, almacenamiento de puntuaciones y estadísticas, gestión de partidas y salas de juego, configuración de perfiles de usuario, y consulta de rankings. Posteriormente, cuando implementemos WebSockets, usaremos esa tecnología para la comunicación en tiempo real durante el juego, pero la API REST seguirá siendo esencial para todas las operaciones que no requieren actualización instantánea.
+Las APIs REST permiten esta comunicación mediante el intercambio de datos estructurados. En el contexto de nuestro juego, necesitaremos la API REST para gestionar registro y autenticación de jugadores, almacenamiento de puntuaciones y estadísticas, gestión de partidas y salas de juego, configuración de perfiles de usuario, y consulta de rankings. Posteriormente, cuando implementemos WebSockets (@sec-ws-intro), usaremos esa tecnología para la comunicación en tiempo real durante el juego, pero la API REST seguirá siendo esencial para todas las operaciones que no requieren actualización instantánea.
 
 Imaginemos nuestra aplicación de juego haciendo una petición HTTP para obtener información de un jugador:
 
@@ -26,7 +26,7 @@ Respuesta:
 
 ## ¿Qué es una API REST?
 
-REST es un estilo de arquitectura de software basado en HTTP que sigue una serie de principios específicos. Cuando un servicio web cumple estos principios, se denomina RESTful. Una API REST es el servicio que devuelve un servidor web cuando quiere intercambiar información estructurada en lugar de devolver HTML.
+REST es un estilo de arquitectura de software basado en HTTP que sigue una serie de principios específicos. Cuando un servicio web cumple estos principios, se denomina RESTful. Una API REST es la interfaz que expone un servidor web para intercambiar información estructurada en lugar de devolver HTML.
 
 El término REST fue acuñado en el año 2000 por **Roy Fielding**, uno de los principales autores de la especificación del protocolo HTTP, en su tesis doctoral. Aunque existen otros tipos de servicios web como SOAP (basados en XML y mucho más complejos), las APIs REST se han convertido en el estándar de facto debido a su simplicidad y eficiencia.
 
@@ -135,13 +135,13 @@ Esta respuesta tiene tres partes: la línea de estado (`HTTP/1.1 201 Created`) i
 
 Los códigos de estado HTTP son números de tres dígitos que comunican el resultado de la operación:
 
-**1xx - Respuestas informativas**: Indican que la petición fue recibida y el proceso continúa. Raramente usados en REST. El más relevante es 101 Switching Protocols, usado para cambiar de HTTP a WebSockets.
+**1xx - Respuestas informativas**: Indican que la petición fue recibida y el proceso continúa. Raramente usados en REST. El más relevante es 101 Switching Protocols, usado para cambiar de HTTP a WebSockets (@sec-ws-intro).
 
-**2xx - Respuestas exitosas**: La petición fue procesada correctamente. Los más comunes son 200 OK (éxito general en GET/PUT), 201 Created (recurso creado tras POST, debe incluir header Location), y 204 No Content (éxito sin contenido, típico en DELETE).
+**2xx - Respuestas exitosas**: La petición fue procesada correctamente. Los más comunes son 200 OK (éxito general en GET/PUT), 201 Created (recurso creado tras POST, debería incluir header Location), y 204 No Content (éxito sin contenido, típico en DELETE).
 
 **3xx - Redirecciones**: El cliente debe tomar acciones adicionales. Incluyen 301 Moved Permanently (recurso movido permanentemente) y 304 Not Modified (usado con caché, el recurso no ha cambiado).
 
-**4xx - Errores del cliente**: Error en la petición. Los más importantes son 400 Bad Request (petición mal formada), 401 Unauthorized (autenticación requerida), 403 Forbidden (sin permisos), 404 Not Found (recurso no existe), 409 Conflict (conflicto con estado actual, ej: usuario ya existe), y 422 Unprocessable Entity (formato correcto pero errores de validación).
+**4xx - Errores del cliente**: Error en la petición. Los más importantes son 400 Bad Request (petición mal formada), 401 Unauthorized (autenticación requerida), 403 Forbidden (sin permisos), 404 Not Found (recurso no existe), 409 Conflict (conflicto con estado actual, ej: usuario ya existe), y 422 Unprocessable Content (antes Unprocessable Entity; formato correcto pero errores de validación).
 
 **5xx - Errores del servidor**: El servidor no pudo completar la petición. Los principales son 500 Internal Server Error (error genérico), 503 Service Unavailable (servidor temporalmente no disponible, debe incluir Retry-After), y 504 Gateway Timeout (timeout esperando respuesta de otro servidor).
 
@@ -149,4 +149,4 @@ Los códigos de estado HTTP son números de tres dígitos que comunican el resul
 
 ## Ventajas de esta Arquitectura
 
-La arquitectura REST ofrece varias ventajas clave. Proporciona separación de responsabilidades, donde la API REST maneja operaciones de gestión mientras que el sistema de comandos se encarga de la lógica del juego, permitiendo que cada componente evolucione independientemente. Ofrece escalabilidad, ya que al separar las operaciones de gestión de las de tiempo real, podemos escalar cada servicio según sus necesidades específicas. Mejora la testabilidad, permitiendo probar la API REST de forma independiente al juego, y el sistema de comandos puede probarse sin necesidad de conexión a red. Finalmente, proporciona flexibilidad, ya que la misma API REST puede servir a múltiples clientes: el juego web, una aplicación móvil, o herramientas de administración.
+En un juego combinaremos la API REST con un canal de comunicación en tiempo real; esta arquitectura híbrida ofrece varias ventajas clave. Proporciona separación de responsabilidades, donde la API REST maneja operaciones de gestión mientras que la lógica del juego se gestiona por separado, permitiendo que cada componente evolucione independientemente. Ofrece escalabilidad, ya que al separar las operaciones de gestión de las de tiempo real, podemos escalar cada servicio según sus necesidades específicas. Mejora la testabilidad, permitiendo probar la API REST de forma independiente al juego, y la lógica del juego puede probarse sin necesidad de conexión a red. Finalmente, proporciona flexibilidad, ya que la misma API REST puede servir a múltiples clientes: el juego web, una aplicación móvil, o herramientas de administración.
