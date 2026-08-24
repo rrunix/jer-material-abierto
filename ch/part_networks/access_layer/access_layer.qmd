@@ -13,12 +13,12 @@ Consideremos una red Ethernet típica con un switch central conectando cuatro co
 
 Como ejemplo, vamos a ver los pasos para el envío de un mensaje desde A a C. Podéis ver la representación en un diagrama de secuencia en la @fig-example-access-layer. Los pasos serían los siguientes:
 
-1. Inicialización del switch. La tabla de direcciones MAC del switch que asocia MAC y puerto está vacia.
+1. Inicialización del switch. La tabla de direcciones MAC del switch que asocia MAC y puerto está vacía.
 2. A quiere enviar el paquete a C, pero no conoce su MAC. Por lo tanto envía una trama ARP broadcast por Ethernet para descubrir la dirección MAC de C.
 3. El switch lo recibe en el puerto 1, aprende que la MAC de A está en el puerto 1, y reenvía el paquete a los demás puertos.
-4. El switch recibe la respuesta de C desde el puerto 3. Asocia la dirección MAC de C al puerto 3. Reenvia la respuesta a A, que ya sabe que está en el 1.
+4. El switch recibe la respuesta de C desde el puerto 3. Asocia la dirección MAC de C al puerto 3. Reenvía la respuesta a A, que ya sabe que está en el 1.
 5. A envía el mensaje con destinatario la dirección MAC de C.
-6. El switch recibe el mensaje, busca en su tabla y comprueba que la dirección MAC coincide con el puerto 3 y lo reenvia.
+6. El switch recibe el mensaje, busca en su tabla y comprueba que la dirección MAC coincide con el puerto 3 y lo reenvía.
 
 
 ![Ejemplo de envío de paquetes en una red local donde no se conoce la MAC del destinatario.](resources/example-access-layer.png){#fig-example-access-layer}
@@ -37,7 +37,7 @@ Complementariamente, los mecanismos de control de flujo evitan que transmisores 
 
 ### Direccionamiento Físico
 
-El direccionamiento físico opera a nivel de hardware y es independiente de los protocolos de capa superior. Utiliza direcciones MAC únicas para identificar cada interfaz de red en el segmento local. Este sistema de direccionamiento es esencial para la entrega precisa de tramas entre dispositivos directamente conectados. Las direcciones MAC son como el DNI del dispositivo, son únicas, estáticas y cada dispositivo tiene una. Están formadas por 48 bits siguen una estructura específica donde los primeros 24 bits constituyen el OUI (Organizationally Unique Identifier) asignado por IEEE a cada fabricante, los últimos 24 bits forman el identificador único del dispositivo asignado por el fabricante, y bits especiales indican si la dirección es individual o grupal y si está administrada universalmente o localmente. Las MAC se representan mediante octetos 6 octetos separados por dos ":", como por ejemplo "00:1A:2B:3C:4D:5E".
+El direccionamiento físico opera a nivel de hardware y es independiente de los protocolos de capa superior. Utiliza direcciones MAC únicas para identificar cada interfaz de red en el segmento local. Este sistema de direccionamiento es esencial para la entrega precisa de tramas entre dispositivos directamente conectados. Las direcciones MAC son como el DNI del dispositivo, son únicas, estáticas y cada dispositivo tiene una. Están formadas por 48 bits y siguen una estructura específica donde los primeros 24 bits constituyen el OUI (Organizationally Unique Identifier) asignado por IEEE a cada fabricante, los últimos 24 bits forman el identificador único del dispositivo asignado por el fabricante, y bits especiales indican si la dirección es individual o grupal y si está administrada universalmente o localmente. Las MAC se representan mediante 6 octetos en hexadecimal separados por ":", como por ejemplo "00:1A:2B:3C:4D:5E".
 
 ::: {.callout-tip}
 # Dirección MAC
@@ -48,13 +48,13 @@ El sistema soporta tres tipos principales de direccionamiento: unicast para comu
 
 ### Detección y Corrección de Errores
 
-Esta función garantiza la integridad de los datos transmitidos a través del medio físico. Implementa algoritmos como Códigos de Redundancia Cíclica (CRC) para detectar errores de transmisión y mecanismos de retransmisión cuando es necesario. Sin esta función, los datos corruptos podrían propagarse por la red causando problemas de comunicación. Los códigos de CRC son ampliamente utilizados y generan un polinomio matemático basado en los datos originales, agregan el resultado como Frame Check Sequence (FCS) al final de cada trama, y permiten al receptor recalcular el CRC para compararlo con el recibido, detectando efectivamente errores de un solo bit y muchos errores de múltiples bits. Para aplicaciones menos críticas existen checksums simples que realizan una suma aritmética de todos los bytes de datos, son menos robustos que CRC pero requieren menos procesamiento computacional.
+Esta función garantiza la integridad de los datos transmitidos a través del medio físico. Implementa algoritmos como Códigos de Redundancia Cíclica (CRC) para detectar errores de transmisión y mecanismos de retransmisión cuando es necesario. Sin esta función, los datos corruptos podrían propagarse por la red causando problemas de comunicación. Los códigos de CRC son ampliamente utilizados y tratan los datos originales como un polinomio, calculando el resto de dividirlo por un polinomio generador; agregan ese resto como Frame Check Sequence (FCS) al final de cada trama, y permiten al receptor recalcular el CRC para compararlo con el recibido, detectando efectivamente errores de un solo bit y muchos errores de múltiples bits. Para aplicaciones menos críticas existen checksums simples que realizan una suma aritmética de todos los bytes de datos, son menos robustos que CRC pero requieren menos procesamiento computacional.
 
 Las técnicas más avanzadas incluyen Forward Error Correction (FEC) que no solo detecta sino que corrige errores automáticamente, utiliza códigos como Hamming para corrección de errores de un solo bit y Reed-Solomon para errores en ráfagas, y es especialmente importante en medios inalámbricos donde la interferencia y las condiciones ambientales pueden causar errores frecuentes.
 
 ### Control de tamaño
 
-Esta función maneja las limitaciones de tamaño impuestas por diferentes tecnologías de red. Cada tecnología de red define un Maximum Transmission Unit (MTU) específico que determina el tamaño máximo de datos que puede transportar una sola trama, donde Ethernet maneja 1500 bytes de datos, Token Ring típicamente 4464 bytes, FDDI 4352 bytes, y PPP sobre enlaces seriales utiliza valores variables aunque comúnmente 1500 bytes para mantener compatibilidad. Cuando los datos de capas superiores exceden el MTU disponible, la Capa de Acceso a la Red descarta automáticamente el paquete.
+Esta función maneja las limitaciones de tamaño impuestas por diferentes tecnologías de red. Cada tecnología de red define un Maximum Transmission Unit (MTU) específico que determina el tamaño máximo de datos que puede transportar una sola trama, donde Ethernet maneja 1500 bytes de datos, Token Ring típicamente 4464 bytes, FDDI 4352 bytes, y PPP sobre enlaces seriales utiliza valores variables aunque comúnmente 1500 bytes para mantener compatibilidad. Cuando los datos de capas superiores exceden el MTU disponible, la capa de red fragmenta el datagrama (IPv4) o el emisor ajusta el tamaño mediante Path MTU Discovery.
 
 ### Sincronización y Temporización
 
@@ -62,7 +62,7 @@ Esta función coordina el timing entre dispositivos para asegurar la correcta in
 
 ### Gestión de Topología
 
-Esta función se encarga de descubrir y mantener información sobre la estructura física de la red. Implementa protocolos para detectar enlaces, prevenir bucles y optimizar rutas de comunicación. Permite que la red se adapte automáticamente a cambios en la topología como fallos de enlaces o adición de nuevos dispositivos. El mantenimiento continuo de enlaces se logra mediante mensajes  de tipo keepalive que detectan proactivamente fallos de enlace antes de que afecten el tráfico de usuarios. Los protocolos de detección de topología como CDP (Cisco Discovery Protocol) y LLDP (Link Layer Discovery Protocol) permiten que los dispositivos se identifiquen mutuamente y compartan información sobre sus capacidades, mientras que Spanning Tree Protocol previene bucles peligrosos en topologías redundantes que podrían causar tormentas de broadcast.
+Esta función se encarga de descubrir y mantener información sobre la estructura física de la red. Implementa protocolos para detectar enlaces, prevenir bucles y optimizar rutas de comunicación. Permite que la red se adapte automáticamente a cambios en la topología como fallos de enlaces o adición de nuevos dispositivos. El mantenimiento continuo de enlaces se logra mediante mensajes de tipo keepalive que detectan proactivamente fallos de enlace antes de que afecten el tráfico de usuarios. Los protocolos de detección de topología como CDP (Cisco Discovery Protocol) y LLDP (Link Layer Discovery Protocol) permiten que los dispositivos se identifiquen mutuamente y compartan información sobre sus capacidades, mientras que Spanning Tree Protocol previene bucles peligrosos en topologías redundantes que podrían causar tormentas de broadcast.
 
 ### Control de Calidad de Servicio (QoS)
 
@@ -70,7 +70,7 @@ Esta función prioriza diferentes tipos de tráfico según su importancia y requ
 
 ## Dispositivos de la Capa de Acceso a la Red
 
-Los **switches** son dispositivos de red que operan en la Capa de Acceso a la Red, específicamente en la subcapa de enlace de datos. Funcionan como elementos centrales que conectan múltiples dispositivos en una red local, creando dominios de colisión separados para cada puerto. Es decir, que la información de dispositivos conectados por diferentes puertos no colisiona entre sí, ya que no están en el mismo medio. Estos dispositivos evolucionaron desde los **bridges** tradicionales (que conectaban solo 2-4 segmentos) hasta reemplazar los **hubs** tradicionales, donde todos los puertos operaban igual con colisiones frecuentes a un sistema donde cada puerto opera independientemente con capacidades full-duplex que permiten transmisión y recepción simultánea, duplicando efectivamente el ancho de banda disponible. Su importancia radica en funcionalidades clave como el aprendizaje automático de direcciones MAC donde construyen dinámicamente tablas que asocian cada dirección con su puerto específico, el reenvío selectivo que envía tramas únicamente al puerto de destino reduciendo tráfico innecesario.
+Los **switches** son dispositivos de red que operan en la Capa de Acceso a la Red, específicamente en la subcapa de enlace de datos. Funcionan como elementos centrales que conectan múltiples dispositivos en una red local, creando dominios de colisión separados para cada puerto. Es decir, que la información de dispositivos conectados por diferentes puertos no colisiona entre sí, ya que no están en el mismo medio. Estos dispositivos evolucionaron desde los **bridges** tradicionales (que conectaban solo 2-4 segmentos) hasta reemplazar los **hubs** tradicionales, donde todos los puertos operaban igual con colisiones frecuentes. Se pasó a un sistema donde cada puerto opera independientemente con capacidades full-duplex que permiten transmisión y recepción simultánea, duplicando efectivamente el ancho de banda disponible. Su importancia radica en funcionalidades clave como el aprendizaje automático de direcciones MAC donde construyen dinámicamente tablas que asocian cada dirección con su puerto específico, el reenvío selectivo que envía tramas únicamente al puerto de destino reduciendo tráfico innecesario.
 
 Los switches se categorizan principalmente en dos tipos según sus capacidades de gestión: 
 
@@ -93,7 +93,7 @@ Tabla de resumen:
 | **Repetidores** | Extensión de alcance | Regeneración de señal, sin filtrado | Superación de límites de distancia |
 | **Amplificadores** | Amplificación de señal | Aumento de potencia RF/óptica | Enlaces de larga distancia |
 | **Conversores de medio** | Conversión de medios | Fibra ↔ cobre, adaptación de velocidades | Migración gradual, extensión |
-| **Modulador** | Conectividad modular | SFP/SFP+/QSFP, intercambiables | Flexibilidad en tipos de conexión |
+| **Transceptores** | Conectividad modular | SFP/SFP+/QSFP, intercambiables | Flexibilidad en tipos de conexión |
 
 ## Protocolos
 ### Ethernet (IEEE 802.3)
@@ -105,7 +105,7 @@ La estructura de las tramas Ethernet sigue un formato estandarizado que garantiz
 
 ![Cabeceras de un paquete de Ethernet.](resources/fig-packet-ethernet.png){#fig-packet-ethernet}
 
-La evolución de Ethernet ha sido extraordinaria, comenzando con 10Base-T que maneja 10 Mbps sobre cable trenzado CAT3/5, evolucionando hasta 10GBase-T con 10 Gbps sobre CAT6A/7. En contextos intensivas, o en nodos centrales, se cuenta con implementaciones de mayor velocidad. Todo esto se ha conseguido a través de diferentes estandares de modelos físicos y la mejora de rendimiento en el hardware. También se ha vuelto posible combinar la transmisión de datos y energía eléctrica por un mismo cable, simplificando los dispositivos de red.
+La evolución de Ethernet ha sido extraordinaria, desde el Ethernet original sobre cable coaxial y 10Base-T que maneja 10 Mbps sobre cable trenzado CAT3/5, evolucionando hasta 10GBase-T con 10 Gbps sobre CAT6A/7. En contextos intensivos, o en nodos centrales, se cuenta con implementaciones de mayor velocidad. Todo esto se ha conseguido a través de diferentes estándares de modelos físicos y la mejora de rendimiento en el hardware. También se ha vuelto posible combinar la transmisión de datos y energía eléctrica por un mismo cable, simplificando los dispositivos de red.
 
 ::: {.callout-note title="Limite de longitud"}
 En los cables de pares trenzados hechos de cobre el límite máximo de trasmisión es de 100 metros. Es decir, que cada 100 metros hay que añadir un dispositivo de red que regenere la señal, como switches o repetidores, para evitar la degradación y pérdida de datos. Esta limitación se debe a la atenuación de la señal y la interferencia electromagnética que se acumulan con la distancia. Para superar esta restricción se utilizan alternativas como fibra óptica (alcanza kilómetros sin regeneración), extensores Ethernet (hasta 300m), o tecnologías inalámbricas. En entornos empresariales, esto determina la ubicación estratégica de closets de telecomunicaciones en la arquitectura de red.
@@ -120,11 +120,11 @@ La trama Wi-Fi (802.11) es considerablemente más compleja que Ethernet debido a
 
 ![Cabeceras de un paquete Wi-Fi](resources/fig-packet-wifi.png){#fig-packet-wifi}
 
-Al igual que en Ethernet, la evolución de Wi-Fi ha sido enorme. Los primeros estándares, 802.11n (Wi-Fi 4), contaban con velocidades de hasta 600 Mbps, mientras que Wi-Fi 7 (802.11be) promete hasta 46 Gbps. Las mejoras se han enfocado en técnicas para reducir interferencias entre redes y colisiones entre dispositivos, y la inclusión de más bandas:
+Al igual que en Ethernet, la evolución de Wi-Fi ha sido enorme. El estándar original 802.11 (1997) ofrecía 2 Mbps; 802.11n (Wi-Fi 4) alcanzó velocidades de hasta 600 Mbps, mientras que Wi-Fi 7 (802.11be) promete hasta 46 Gbps. Las mejoras se han enfocado en técnicas para reducir interferencias entre redes y colisiones entre dispositivos, y la inclusión de más bandas:
 
 - 2.4 GHz: mayor alcance y penetración, pero menor velocidad.
 - 5 GHz: mayor velocidad pero menor alcance.
-- 6 GHz: mejor rendimiento, aunque requiere de hardware específico y tiene el mejor alcance.
+- 6 GHz: mayor velocidad y menos interferencias, aunque requiere de hardware específico y tiene el menor alcance de las tres bandas.
 
 
 ### Point-to-Point Protocol (PPP)

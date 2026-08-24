@@ -76,7 +76,7 @@ def echo_client():
     client_socket.close()
 ```
 
-En este caso el código está hecho con Python, no es un requisito necesario y podría estar en JavaScript, pero quería remarcar que la definición de protocolos en red permite la comunicación entre dos procesos que están en la misma u otra máquina, independientemente de su lenguage de programación [^diffmach]. En este cliente de Python tenemos una única función que representa al cliente, "echo_client", donde en las primeras líneas establecemos una conexión con el servidor de JavaScript. Fijaros en el ``('localhost', 8888)``, con esta combinación de identificador de máquina, "localhost", podemos identificar el host donde está el servidor, y con el puerto, 8888, podemos identificar el proceso que corresponde al servidor. Como en el anterior ejemplo, tenemos un "socket" que permite una interacción bidireccional con la capa de transporte. No os preocupéis por estos detalles, los veremos en el siguiente capítulo.
+En este caso el código está hecho con Python, no es un requisito necesario y podría estar en JavaScript, pero quería remarcar que la definición de protocolos en red permite la comunicación entre dos procesos que están en la misma u otra máquina, independientemente de su lenguaje de programación [^diffmach]. En este cliente de Python tenemos una única función que representa al cliente, "echo_client", donde en las primeras líneas establecemos una conexión con el servidor de JavaScript. Fijaos en el ``('localhost', 8888)``, con esta combinación de identificador de máquina, "localhost", podemos identificar el host donde está el servidor, y con el puerto, 8888, podemos identificar el proceso que corresponde al servidor. Como en el anterior ejemplo, tenemos un "socket" que permite una interacción bidireccional con la capa de transporte. No os preocupéis por estos detalles, los veremos en el siguiente apartado.
 
 [^diffmach]: Dos máquinas pueden tener diferente **endianness** (orden de bytes): *big-endian* almacena el byte más significativo primero, mientras que *little-endian* lo guarda al final. Los protocolos de red usan **network byte order** (big-endian) para garantizar que ambas máquinas interpreten los datos correctamente, independientemente de su arquitectura interna.
 
@@ -86,9 +86,9 @@ Con este ejemplo hemos ilustrado los tres conceptos clave de este capítulo, los
 
 ## Socket
 
-Los sockets son la interfaz de programación que permite a las aplicaciones comunicarse con la capa de transporte. Actúan como un punto de conexión bidireccional entre la capa de aplicación y la capa de transporte, proporcionando una abstracción que oculta los detalles de bajo nivel de la comunicación en red. En esencia, un socket es un endpoint de comunicación que permite que los procesos intercambien datos, ya sea en la misma máquina o a través de una red. La API de sockets fue introducida en BSD4.1 UNIX en 1981. Fue explícitamente creada, usada y lanzada por las aplicaciones de red. Está basada en el paradigma cliente/servidor.
+Los sockets son la interfaz de programación que permite a las aplicaciones comunicarse con la capa de transporte. Actúan como un punto de conexión bidireccional entre la capa de aplicación y la capa de transporte, proporcionando una abstracción que oculta los detalles de bajo nivel de la comunicación en red. En esencia, un socket es un endpoint de comunicación que permite que los procesos intercambien datos, ya sea en la misma máquina o a través de una red. La API de sockets fue introducida en BSD4.1 UNIX en 1981. Los sockets son creados, usados y liberados explícitamente por las aplicaciones. Está basada en el paradigma cliente/servidor.
 
-Cuando una aplicación necesita comunicarse a través de la red, crea un socket que especifica el protocolo de transporte a utilizar (TCP o UDP), la dirección IP del host de destino, y el número de puerto del proceso receptor. El socket encapsula toda la información necesaria para establecer y mantener una conexión de red, proporcionando una interfaz uniforme independientemente del protocolo de transporte subyacente. Los sockets se pueden clasificar según el protocolo de transporte que utilizan, siendo los más comunes los sockets TCP y UDP, cada uno con características y casos de uso específicos. Los detalles del funcionamiento interno de TCP y UDP los veremos en el capítulo de la capa de transporte.
+Cuando una aplicación necesita comunicarse a través de la red, crea un socket que especifica el protocolo de transporte a utilizar (TCP o UDP), la dirección IP del host de destino, y el número de puerto del proceso receptor. El socket encapsula toda la información necesaria para establecer y mantener una conexión de red, proporcionando una interfaz uniforme independientemente del protocolo de transporte subyacente. Los sockets se pueden clasificar según el protocolo de transporte que utilizan, siendo los más comunes los sockets TCP y UDP, cada uno con características y casos de uso específicos. Los detalles del funcionamiento interno de TCP y UDP los vimos en el capítulo de la capa de transporte.
 
 
 Para identificar un proceso se necesita:
@@ -107,7 +107,7 @@ Los sockets TCP (Transmission Control Protocol) proporcionan una comunicación c
 - **Control de congestión**: Adapta la velocidad de envío según las condiciones de la red.
 - **Full-duplex**: Permite comunicación bidireccional simultánea.
 
-Para crear un socket TCP de tipo servidor, es decir, que siempre está activo y está esperando las conexiones de los clientes (arquitectura cliente-servidor), utilizaremos el módulo net de Javascript. Dentro de este módulo, utilizaremos la función "createServer" para crear un socket de tipo servidor de TCP. Posteriormente, utilizaremos el método "listen" para escuchar en un puerto en concreto. En este caso, el 8888. El segundo parámetro, que en este caso es "localhost", es opcional, y quiere decir que los clientes tienen que estar en esa red. Si obviamos el parámetro, los clientes podrán conectarse desde cualquier otra máquina. Finalmente, el último parámetro es un "callback" que se ejecutará una vez el servidor socket esté escuchando en el puerto correctamente.
+Para crear un socket TCP de tipo servidor, es decir, que siempre está activo y está esperando las conexiones de los clientes (arquitectura cliente-servidor), utilizaremos el módulo net de Javascript. Dentro de este módulo, utilizaremos la función "createServer" para crear un socket de tipo servidor de TCP. Posteriormente, utilizaremos el método "listen" para escuchar en un puerto en concreto. En este caso, el 8888. El segundo parámetro, que en este caso es "localhost", es opcional, e indica la interfaz local en la que escucha el socket; con "localhost" solo se aceptan conexiones desde la propia máquina (loopback). Si obviamos el parámetro, el socket escuchará en todas las interfaces y los clientes podrán conectarse desde cualquier otra máquina. Finalmente, el último parámetro es un "callback" que se ejecutará una vez el servidor socket esté escuchando en el puerto correctamente.
 
 ```javascript
 const net = require('net');
@@ -186,13 +186,13 @@ socket.connect(8888, 'localhost', () => {
 
 Respecto a los métodos por la parte del cliente, son los mismos que explicamos con el socket del servidor (es decir, una vez establecida la conexión). Una vez se establece la conexión, no hay diferencia entre ambos. Como matiz, en el manejador de error del cliente tenemos algunos errores a mayores, como por ejemplo si no se puede establecer la conexión.
 
-Ambos socket tienen que ser cerrados para liberar recursos una vez hayamos terminado. Para ello utilizaremos el método "close":
+Ambos socket tienen que ser cerrados para liberar recursos una vez hayamos terminado. Para ello, en el socket del cliente utilizaremos el método "end":
 
 ```javascript
-socket.close()
+socket.end()
 ```
 
-En el caso del servidor también:
+En el caso del servidor, el método "close":
 
 ```javascript
 server.close()
@@ -211,7 +211,7 @@ Los sockets UDP (User Datagram Protocol) proporcionan una comunicación sin cone
 - **Broadcast/Multicast**: Soporte nativo para envío a múltiples destinatarios
 
 
-Para recibir paquetes de UDP, crearemos un servidor de UDP utilizando el paquete "dgram". El socket se crea mediante la expresión "dgram.createSocket('udp4')". En este caso se utiliza "udp4" ya que utilizamos IPv4, pero si queremos utilizar IPv6 sería "udp6". Veremos las diferencias en el capítulo de capa de red. Una vez creado el socket, nos mantenemos a la escucha con la instrucción "bind". En este caso, el puerto 8888. El segundo parámetro, en este caso "localhost", indica que solo aceptaremos peticiones de la red "localhost". Como en TCP, si lo dejamos vacio será cualquier red. También podremos especificar otras redes. Finalmente tenemos un manejador que se invocará si el socket empieza a escuchar en el puerto 8888 correctamente.
+Para recibir paquetes de UDP, crearemos un servidor de UDP utilizando el paquete "dgram". El socket se crea mediante la expresión "dgram.createSocket('udp4')". En este caso se utiliza "udp4" ya que utilizamos IPv4, pero si queremos utilizar IPv6 sería "udp6". Vimos las diferencias en el capítulo de capa de red. Una vez creado el socket, nos mantenemos a la escucha con la instrucción "bind". En este caso, el puerto 8888. El segundo parámetro, en este caso "localhost", indica la interfaz local en la que escucha el socket; con "localhost" solo aceptaremos peticiones desde la propia máquina (loopback). Como en TCP, si lo dejamos vacío escuchará en todas las interfaces. También podremos especificar otras interfaces. Finalmente tenemos un manejador que se invocará si el socket empieza a escuchar en el puerto 8888 correctamente.
 
 
 ```javascript
@@ -239,7 +239,7 @@ server.on('message', (msg, rinfo) => {
 También podremos añadir un manejador de errores con el evento "error". Los errores podrían ser que no se puede hacer el bind al puerto. Esto puede ocurrir si el puerto ya está en uso o es un puerto reservado y no tenemos los permisos necesarios.
 
 ```javascript
-socket.on('error', (err) => {
+server.on('error', (err) => {
     console.error('Socket error:', err.message);
 
 });
@@ -356,7 +356,7 @@ Ejemplos cotidianos de arquitectura cliente-servidor incluyen aplicaciones web c
 
 En el contexto de los videojuegos, la arquitectura cliente-servidor se ha convertido en el estándar para juegos multijugador masivos y competitivos. El servidor mantiene el estado autoritativo del juego, procesando todas las acciones de los jugadores y distribuyendo las actualizaciones correspondientes. Los clientes se encargan principalmente de la presentación visual, la captura de entrada del usuario y la comunicación con el servidor. Esta separación permite que el servidor tenga control total sobre la lógica del juego, previniendo trampas y garantizando la coherencia del estado del juego entre todos los participantes.
 
-Ejemplos típicos de esta arquitectura incluyen juegos como World of Warcraft, donde miles de jugadores se conectan a servidores dedicados que mantienen mundos persistentes. Counter-Strike: Global Offensive utiliza servidores dedicados para partidas competitivas, asegurando que todas las acciones sean validadas centralmente. League of Legends emplea esta arquitectura para sus partidas clasificatorias, donde el servidor procesa todos los movimientos, ataques y habilidades de los campeones. Fortnite Battle Royale también implementa servidores dedicados para mantener la sincronización entre los 100 jugadores en cada partida.
+Ejemplos típicos de esta arquitectura incluyen juegos como World of Warcraft, donde miles de jugadores se conectan a servidores dedicados que mantienen mundos persistentes. Counter-Strike 2 utiliza servidores dedicados para partidas competitivas, asegurando que todas las acciones sean validadas centralmente. League of Legends emplea esta arquitectura para sus partidas clasificatorias, donde el servidor procesa todos los movimientos, ataques y habilidades de los campeones. Fortnite Battle Royale también implementa servidores dedicados para mantener la sincronización entre los 100 jugadores en cada partida.
 
 Los juegos de estrategia en tiempo real como StarCraft II y Age of Empires IV también adoptan esta arquitectura para sus modos multijugador competitivos. En estos casos, el servidor procesa todas las órdenes de construcción, movimiento de unidades y combates, garantizando que ambos jugadores vean exactamente el mismo estado del juego. Los MMORPGs como Final Fantasy XIV y Guild Wars 2 son ejemplos perfectos donde el servidor no solo mantiene el estado del juego sino también la persistencia de los personajes, inventarios y progreso de los jugadores.
 
@@ -386,7 +386,7 @@ Existen diferentes clasificaciones de arquitecturas P2P según su nivel de purez
 
 También existen diferentes tipos de topologías:
 
-* La topología *Full Mesh* es la más robusta pero también la más demandante en términos de recursos, ya que cada peer se conecta directamente con todos los demás participantes de la red. Esta configuración ofrece la máxima redundancia y la latencia más baja posible entre cualquier par de nodos, pero el número de conexiones crece exponencialmente con cada nuevo participante, haciendo que sea práctica solo para grupos muy pequeños de peers.
+* La topología *Full Mesh* es la más robusta pero también la más demandante en términos de recursos, ya que cada peer se conecta directamente con todos los demás participantes de la red. Esta configuración ofrece la máxima redundancia y la latencia más baja posible entre cualquier par de nodos, pero el número de conexiones crece cuadráticamente con cada nuevo participante, haciendo que sea práctica solo para grupos muy pequeños de peers.
 
 * La topología *Ring* organiza los peers en una estructura circular donde cada nodo se conecta únicamente con sus vecinos inmediatos, formando un anillo cerrado. Los datos viajan alrededor del anillo hasta llegar a su destino, lo que puede introducir latencia variable dependiendo de la distancia entre peers en la estructura circular. Esta topología es más eficiente en términos de conexiones que el full mesh, pero presenta vulnerabilidades ya que la falla de un solo peer puede interrumpir la comunicación en todo el anillo, aunque existen implementaciones bidireccionales que mitigan este riesgo.
 
@@ -441,15 +441,15 @@ Cada recurso en el servidor se identifica a través de una URL (Uniform Resource
 
 Las acciones en HTTP están asociadas a un verbo que indica el objeto de las mismas. Los principales son los siguientes:
 
-- GET: Pedir el objeto de la URL al servidor. Es una operación idenpotente, si la repetimos varias veces el resultado debería de ser siempre el mismo. No cambia el estado del servidor. El cuerpo del mensaje está vacio. Cuando descargamos imágenes en Instagram o similares, los comentarios, etc lo hacemos a través de GET.
-- POST: Se utiliza para pedir/enviar un objeto asociado a una URL cuando este depende de los datos de un formulario. Puede cambiar el estado del servidor. Por ejemplo, cuando nos registamos en una página estaríamos haciendo un POST.
-- HEAD: Es igual que el GET pero no devuelve nada. Se utiliza para debuguear.
+- GET: Pedir el objeto de la URL al servidor. Es una operación idempotente, si la repetimos varias veces el resultado debería de ser siempre el mismo. No cambia el estado del servidor. El cuerpo del mensaje está vacío. Cuando descargamos imágenes en Instagram o similares, los comentarios, etc lo hacemos a través de GET.
+- POST: Se utiliza para pedir/enviar un objeto asociado a una URL cuando este depende de los datos de un formulario. Puede cambiar el estado del servidor. Por ejemplo, cuando nos registramos en una página estaríamos haciendo un POST.
+- HEAD: Es igual que el GET pero devuelve solo las cabeceras, sin cuerpo. Se utiliza para comprobar recursos y validar cachés.
 - PUT: Nos permite cargar un objeto en la URL. Es una operación idempotente, si la repetimos varias veces el resultado será siempre el mismo.
 - DELETE: Borra el recurso asociado a la URL.
 
 Cabe destacar que este uso esperado de los verbos lo tenemos que implementar nosotros. Nada nos quita de hacer que un GET borre cosas, o se utilice para acciones para las que no estaba diseñado. Sin embargo, seguir la especificación nos va a permitir que otros usuarios de nuestra API la puedan utilizar correctamente de una forma más sencilla.
 
-Todas estas acciones, que en la jerga de HTML se llaman peticiones, tienen asociada una respuesta. Esta respuesta está formada por un **código de respuesta**, **el cuerpo**, y **cookies**. Los códigos de respuesta son un identificador numérico de 3 cifras que indica el resultado de la petición y están asociados a un identificador textual. Se dividen en 5 grupos:
+Todas estas acciones, que en la jerga de HTTP se llaman peticiones, tienen asociada una respuesta. Esta respuesta está formada por una **línea de estado** (con el código de respuesta), las **cabeceras**, y **el cuerpo**; las cookies son solo una cabecera (Set-Cookie). Los códigos de respuesta son un identificador numérico de 3 cifras que indica el resultado de la petición y están asociados a un identificador textual. Se dividen en 5 grupos:
 
 - **1XX**: Respuesta informativa, señalan que la solicitud está siendo procesada.
 - **2XX**: Respuesta satisfactoria, la solicitud se recibió, entendió y se completó con éxito. Por ejemplo, 200 OK.
@@ -463,22 +463,22 @@ Dependiendo de la versión de HTTP se utilizarán diferentes tipos de conexión 
 
 ::: {.columns}
 ::: {.column width="48%"}
-![HTTP no persistente](resources/no_persistent_http.png){#no-persistent-http}
+![HTTP no persistente](resources/no_persistent_http.png){#fig-no-persistent-http}
 
 :::
 ::: {.column width="48%"}
-![HTTP persistente](resources/persistent_http.png){#persistent-http}
+![HTTP persistente](resources/persistent_http.png){#fig-persistent-http}
 :::
 :::
 
 Por último, tiene un mecanismo adicional, las cookies que permiten guardar información en forma de pares de clave valor en el cliente. Las cookies se pueden configurar utilizando el campo de respuesta de la petición. En general se utilizan para mantener sesiones, personalización, análisis o con fines publicitarios. Estas cookies pueden ser propias, cuando es de la web que estamos navegando, o de terceros, cuando es un servicio que utiliza la web. Además del par de clave valor, también incluyen una fecha de expiración y del dominio del servidor. Las cookies expiran cuando pasa la fecha de expiración, aunque también pueden ser permanentes. El dominio es por seguridad, ya que determinadas cookies sólo queremos que sean accedidas por su dominio, con el fin de evitar suplantaciones de identidad.
 
 
-Existe una variante de HTTP denominada HTTPS (Secure HyperText Transfer Protocol) en la cual las peticiones y sus respuestas no van en texto plano y se ha convertido en el estándar de la Web. De hecho algunos navegadores ya no dejan acceder a sitios a través de HTTP.
+Existe una variante de HTTP denominada HTTPS (Secure HyperText Transfer Protocol) en la cual las peticiones y sus respuestas no van en texto plano y se ha convertido en el estándar de la Web. De hecho algunos navegadores avisan o requieren confirmación para acceder a sitios a través de HTTP.
 
 El protocolo opera generalmente sobre TCP, pero a partir de HTTP/3 opera sobre **QUIC**, que es un protocolo que implementa mecanismos de comunicación fiables sobre **UDP**. HTTP/3 está soportado por la gran mayoría de los navegadores actuales, y el soporte en los servidores está creciendo.
 
-En determinadas situaciones para disminuir el tiempo de las peticiones se utilizan **servidores proxy**. Los servidores proxy son unos intermediarios, que analizan las peticiones, si pueden resolverlas ellos contestan directamente, y si no contestan a través de la petición al servidor. Las ventajas es que se obtiene una navegación más rápida, se reduce el tráfico, y además ganamos seguridad y anonimato. Suelen estar localizados en los navegadores (caché local), ISP o CDNs. En concreto, los servidores proxy cachean las peticiones GET, ya que es una operación idempotente, y utilizan la herramienta del GET condicional donde en caso de que no haya actualización no devuelve nada, ahorrando el tiempo de envío del recurso.
+En determinadas situaciones para disminuir el tiempo de las peticiones se utilizan **servidores proxy**. Los servidores proxy son unos intermediarios, que analizan las peticiones, si pueden resolverlas ellos contestan directamente, y si no contestan a través de la petición al servidor. Las ventajas es que se obtiene una navegación más rápida, se reduce el tráfico, y además ganamos seguridad y anonimato. Suelen estar localizados en los navegadores (caché local), ISP o CDNs. En concreto, los servidores proxy cachean las peticiones GET, ya que es una operación segura y cacheable, y utilizan la herramienta del GET condicional donde en caso de que no haya actualización devuelve un 304 Not Modified (una respuesta sin cuerpo), ahorrando el tiempo de envío del recurso.
 
 ### DNS
 
@@ -487,11 +487,11 @@ DNS (Domain Name System) es uno de los protocolos más importantes de Internet. 
 El sistema distribuido de DNS está formado por una estructura jerárquica de 4 tipos de nodos:
 
 - **Servidores raíz**: Son las raíces de la jerarquía DNS y representan el nivel más alto del sistema. Existen 13 servidores raíz lógicos identificados con letras de la A a la M (a.root-servers.net hasta m.root-servers.net), aunque físicamente hay cientos de servidores distribuidos. Estos servidores conocen la ubicación de todos los servidores TLD y responden a consultas sobre dónde encontrar información de dominios de nivel superior.
-- **Servidores TLD (Top Domain Level)**: Son responsables de los dominios de nivel superior como .com, .org, .net, .edu, y los dominios de país como .es, .mx, .ar. Mantienen información sobre qué servidores autoritativos son responsables de cada dominio específico dentro de su TLD.
+- **Servidores TLD (Top-Level Domain)**: Son responsables de los dominios de nivel superior como .com, .org, .net, .edu, y los dominios de país como .es, .mx, .ar. Mantienen información sobre qué servidores autoritativos son responsables de cada dominio específico dentro de su TLD.
 - **Servidores autoritativos**: Contienen la información definitiva y oficial sobre un dominio específico. Son los que tienen la autoridad final sobre las zonas DNS que administran y proporcionan las respuestas definitivas sobre las direcciones IP de los hosts dentro de su dominio.
 - **Servidores locales**: También llamados servidores recursivos o resolvers, son los que reciben las consultas directamente de los clientes (como tu computadora). Se encargan de realizar todo el proceso de resolución consultando a los diferentes niveles de la jerarquía DNS hasta obtener la respuesta final, que luego envían de vuelta al cliente. Suelen mantener una caché para mejorar la eficiencia.
 
-Para entender el proceso vamos a realizar un ejemplo de cómo sería la consulta para resolver la URL www.google.es a una IP con DNS. El diagrama de secuencia lo podéis ver en la @fig-DNS-GOOGLE. Los pasos para la resolución del DNS son los siguientes:
+Para entender el proceso vamos a realizar un ejemplo de cómo sería la consulta para resolver el nombre de dominio www.google.es a una IP con DNS. El diagrama de secuencia lo podéis ver en la @fig-DNS-GOOGLE. Los pasos para la resolución del DNS son los siguientes:
 
 1. **Verificación de caché local del sistema operativo**: Cuando escribes una URL en tu navegador, el sistema operativo primero verifica su caché local para ver si ya tiene almacenada la dirección IP correspondiente. Si la encuentra y no ha expirado, la utiliza inmediatamente sin necesidad de hacer consultas externas.
 2. **Consulta al servidor DNS local**: Si la información no está en caché o ha expirado, el cliente envía una consulta al servidor DNS configurado (generalmente proporcionado por tu ISP o servicios como 8.8.8.8 de Google). Esta consulta es recursiva, lo que significa que el cliente espera una respuesta completa.
@@ -512,14 +512,14 @@ Los protocolos SMTP, IMAP y POP son protocolos que definen el funcionamiento del
 
 **SMTP** es el protocolo estándar para el **envío** de correos electrónicos a través de Internet. Funciona como un servicio de entrega que transporta mensajes desde el cliente de correo del remitente hasta el servidor de correo del destinatario. Es un protocolo "push", empuja los mensajes desde el origen hacia el destino, y no maneja la recepción de los correos.
 
-**POP**, especialmente POP3 (la versión más actual), es un protocolo para **descargar** correos electrónicos desde el servidor al dispositivo local. POP descarga los mensajes completos al dispositivo local, y por defecto, los elimina los mensajes del servidor tras la descarga. Es ideal para usuarios que acceden al correo desde un único dispositivo, pero presenta limitaciones para sincronización entre múltiples dispositivos
+**POP**, especialmente POP3 (la versión más actual), es un protocolo para **descargar** correos electrónicos desde el servidor al dispositivo local. POP descarga los mensajes completos al dispositivo local, y por defecto, elimina los mensajes del servidor tras la descarga. Es ideal para usuarios que acceden al correo desde un único dispositivo, pero presenta limitaciones para sincronización entre múltiples dispositivos.
 
-**IMAP** es un protocolo más moderno que permite **acceder** a los correos electrónicos manteniendo la sincronización entre el servidor y múltiples clientes. Los mensajes permanecen en el servidor y permite sincronización en tiempo real entre dispositivos. Soporta carpetas, etiquetas y búsquedas en el servidor. Es ideal para usuarios que acceden al correo desde múltiples dispositivos
+**IMAP** es un protocolo más moderno que permite **acceder** a los correos electrónicos manteniendo la sincronización entre el servidor y múltiples clientes. Los mensajes permanecen en el servidor y permite sincronización en tiempo real entre dispositivos. Soporta carpetas, etiquetas y búsquedas en el servidor. Es ideal para usuarios que acceden al correo desde múltiples dispositivos.
 
 ### QUIC
-QUIC representa una evolución revolucionaria en los protocolos de transporte de Internet, desarrollado inicialmente por Google en 2012 y estandarizado por la IETF en 2021 como RFC 9000. Este protocolo moderno construido sobre UDP combina las mejores características de TCP con la seguridad integrada de TLS 1.3, eliminando muchas de las limitaciones históricas de los protocolos tradicionales. Sus principales ventajas incluyen el multiplexado nativo de streams sin el problema de head-of-line blocking que afecta a HTTP/2 sobre TCP, el establecimiento de conexiones con latencia cero (0-RTT) para reconexiones, y la capacidad única de migración de conexión que permite a los dispositivos cambiar transparentemente entre redes WiFi y móviles sin interrumpir las sesiones activas. Además, QUIC incorpora algoritmos de control de congestión más sofisticados y mecanismos de corrección de errores (Forward Error Correction) que mejoran significativamente el rendimiento en condiciones de red inestables o con alta pérdida de paquetes.
+QUIC representa una evolución revolucionaria en los protocolos de transporte de Internet, desarrollado inicialmente por Google en 2012 y estandarizado por la IETF en 2021 como RFC 9000. Este protocolo moderno construido sobre UDP combina las mejores características de TCP con la seguridad integrada de TLS 1.3, eliminando muchas de las limitaciones históricas de los protocolos tradicionales. Sus principales ventajas incluyen el multiplexado nativo de streams sin el problema de head-of-line blocking que afecta a HTTP/2 sobre TCP, el establecimiento de conexiones con latencia cero (0-RTT) para reconexiones, y la capacidad única de migración de conexión que permite a los dispositivos cambiar transparentemente entre redes WiFi y móviles sin interrumpir las sesiones activas. Además, QUIC incorpora algoritmos de control de congestión más sofisticados que mejoran significativamente el rendimiento en condiciones de red inestables o con alta pérdida de paquetes.
 
-Los casos de uso de QUIC son especialmente relevantes en aplicaciones que requieren baja latencia y alta confiabilidad, siendo adoptado masivamente por servicios de streaming, aplicaciones de videoconferencia, juegos en línea, y plataformas de contenido como YouTube, donde Google reporta reducciones de hasta 30% en tiempo de carga. Su adopción en 2025 ha alcanzado cifras impresionantes: el 8.2% de todos los sitios web globalmente utilizan QUIC, mientras que HTTP/3 (que funciona exclusivamente sobre QUIC) es empleado por el 31.1% de los sitios web. 
+Los casos de uso de QUIC son especialmente relevantes en aplicaciones que requieren baja latencia y alta confiabilidad, siendo adoptado masivamente por servicios de streaming, aplicaciones de videoconferencia, juegos en línea, y plataformas de contenido como YouTube, donde Google reporta reducciones de hasta 30% en tiempo de carga. Su adopción ha alcanzado cifras impresionantes: HTTP/3 (que funciona exclusivamente sobre QUIC) se usa en aproximadamente un tercio de los sitios web y lo soportan todos los navegadores principales.
 
 ## Servicios
 
@@ -527,4 +527,4 @@ Los casos de uso de QUIC son especialmente relevantes en aplicaciones que requie
 
 Las CDN funcionan mediante una red distribuida de servidores edge ubicados estratégicamente en diferentes regiones geográficas, que almacenan copias del contenido desde los servidores origen para reducir la distancia física que deben recorrer los datos hasta llegar al usuario final. El sistema utiliza enrutamiento inteligente que automáticamente dirige cada solicitud al servidor más cercano disponible, típicamente reduciendo la latencia de carga de 200-500ms a menos de 50ms. La estrategia de caché varía según el tipo de contenido: archivos estáticos como imágenes, vídeos y assets de aplicaciones se almacenan por períodos prolongados (días o semanas), mientras que contenido dinámico como respuestas de APIs se cachea por minutos u horas con validación frecuente. Para contenido personalizado, las CDN implementan técnicas de caché parcial donde elementos comunes se reutilizan entre usuarios, y para streaming en tiempo real dividen el contenido en pequeños segmentos que pueden cachearse individualmente.
 
-Más allá de la simple entrega de contenido, las CDN modernas actúan como una capa de protección y optimización que incluye compresión automática de archivos, conversión de formatos de imagen según el dispositivo del usuario, y balanceado de carga inteligente que redistribuye el tráfico cuando algún servidor se sobrecarga. En aplicaciones como videojuegos, las CDN aceleran la descarga de actualizaciones y assets mediante técnicas de pre-carga predictiva, mientras que para aplicaciones web ejecutan código simple directamente en los servidores edge para personalización básica sin necesidad de consultar el servidor origen. La arquitectura distribuida proporciona resistencia natural contra caídas de servicio y ataques DDoS, ya que el tráfico malicioso se dispersa automáticamente entre múltiples ubicaciones, y sistemas de monitoreo en tiempo real pueden redirigir usuarios desde servidores con problemas hacia alternativas saludables, manteniendo la disponibilidad del servicio incluso durante fallas regionales o ataques coordinados
+Más allá de la simple entrega de contenido, las CDN modernas actúan como una capa de protección y optimización que incluye compresión automática de archivos, conversión de formatos de imagen según el dispositivo del usuario, y balanceado de carga inteligente que redistribuye el tráfico cuando algún servidor se sobrecarga. En aplicaciones como videojuegos, las CDN aceleran la descarga de actualizaciones y assets mediante técnicas de pre-carga predictiva, mientras que para aplicaciones web ejecutan código simple directamente en los servidores edge para personalización básica sin necesidad de consultar el servidor origen. La arquitectura distribuida proporciona resistencia natural contra caídas de servicio y ataques DDoS, ya que el tráfico malicioso se dispersa automáticamente entre múltiples ubicaciones, y sistemas de monitoreo en tiempo real pueden redirigir usuarios desde servidores con problemas hacia alternativas saludables, manteniendo la disponibilidad del servicio incluso durante fallas regionales o ataques coordinados.

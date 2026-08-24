@@ -2,10 +2,10 @@
 
 La capa de transporte proporciona comunicación lógica entre procesos de aplicación que se ejecutan en diferentes hosts. Los protocolos de transporte se ejecutan en los hosts finales, no en el núcleo de la red. Los protocolos más comunes son UDP y TCP, que representan los dos lados del espectro en cuanto a funcionalidades. UDP contiene lo mínimo para ser un protocolo de comunicación en la capa de transporte y TCP es un protocolo mucho más complejo pero con más garantías. La elección entre uno y otro dependerá del dominio y la aplicación.
 
-Primero, vamos a ver un ejemplo simplificado donde un Cliente A le manda 5 paquetes a un Servidor B. Entre medias, asumimos que hay una red, Internet, donde no profundizaremos por simplicidad, pero sería como en el @sec-network-layer. Podéis ver un ejemplo del escenario en @fig-example-udp-internet. En este escenario, un proceso Cliente A le envía 5 paquetes a un proceso del Servidor B. El Servicio B está referenciado a través de la IP (8.8.8.8), y dentro de B podemos identificar el proceso a través del puerto, en este caso, 80. El Cliente A envía un total de 5 paquetes, llegando al servidor, en el siguiente orden: 1, 2, 4, 3. Aquí pasan varias cosas. Lo primero, en paquete 5 no ha llegado, se "perdió" en Internet. Aproximadamente el 1% de los paquetes se pierden en condiciones normales. En UDP el paquete se perdería, y no nos enteraríamos. En TCP, el proceso se reintentaría. La segunda cosa que os puede llamar la atención es que el paquete 4 llega antes que el 3. Esto puede ocurrir también, ya que los paquetes pueden tomar diferentes caminos. En UDP no tenemos información para corregir el orden, así que se entregaría primero el 4 y después el 3. En cambio, TCP cuenta con mecanismos para corregir el orden.
+Primero, vamos a ver un ejemplo simplificado donde un Cliente A le manda 5 paquetes a un Servidor B. Entre medias, asumimos que hay una red, Internet, donde no profundizaremos por simplicidad, pero sería como en el @sec-network-layer. Podéis ver un ejemplo del escenario en @fig-example-udp-internet. En este escenario, un proceso Cliente A le envía 5 paquetes a un proceso del Servidor B. El Servidor B está referenciado a través de la IP (8.8.8.8), y dentro de B podemos identificar el proceso a través del puerto, en este caso, 80. El Cliente A envía un total de 5 paquetes, llegando al servidor, en el siguiente orden: 1, 2, 4, 3. Aquí pasan varias cosas. Lo primero, el paquete 5 no ha llegado, se "perdió" en Internet. Las pérdidas típicas van de menos del 0.1% en redes fijas a un 1% o más en Wi-Fi o redes móviles congestionadas. En UDP el paquete se perdería, y no nos enteraríamos. En TCP, el proceso se reintentaría. La segunda cosa que os puede llamar la atención es que el paquete 4 llega antes que el 3. Esto puede ocurrir también, ya que los paquetes pueden tomar diferentes caminos. En UDP no tenemos información para corregir el orden, así que se entregaría primero el 4 y después el 3. En cambio, TCP cuenta con mecanismos para corregir el orden.
 
 
-![Ejemplo de envío de 5 paquetes a traves de Internet con UDP. "Internet" en este diagrama representa todo el proceso de envío.](resources/example_udp_internet.png){#fig-example-udp-internet}
+![Ejemplo de envío de 5 paquetes a través de Internet con UDP. "Internet" en este diagrama representa todo el proceso de envío.](resources/example_udp_internet.png){#fig-example-udp-internet}
 
 En los siguientes apartados veremos las funcionalidades de la Capa de Transporte, y profundizaremos en los protocolos TCP y UDP, también veremos una pequeña comparativa de juegos utilizando TCP y UDP.
 
@@ -16,13 +16,13 @@ Las funciones principales de la capa de transporte son dividir los mensajes en e
 Los protocolos más comunes en la capa de transporte son TCP y UDP, que veremos a lo largo de este capítulo. Los dispositivos tienen generalmente en su kernel implementados estos protocolos y es un proceso del sistema. A través de los sockets nos podemos conectar a TCP o UDP. Este socket corre en un proceso, ya que en la Capa de Aplicación lo que se comunican son procesos entre sí. Para distinguir entre los diferentes sockets, se les otorga una identificación:
 
 - En TCP los sockets se identifican por (IP origen, puerto origen, IP destino, puerto destino).
-- En UDP los sockets se identifican por (IP origen, puerto origen).
+- En UDP los sockets se identifican por (IP destino, puerto destino).
 
-Los puertos son identificadores numéricos desde 1 a 65535. Esta asignación puede ser manual o automática. Cuando creamos un socket en un servidor, la asignación generalmente es manual y siempre la misma, de tal forma que los procesos que se comunican lo pueden saber "de memoria". Cuando abrimos un socket desde un cliente para conectarnos con un servidor, la asignación del puerto del cliente es aleatoria, ya que el puerto específico del cliente no es relevante.
+Los puertos son identificadores numéricos de 0 a 65535 (el 0 está reservado). La IANA los clasifica en puertos bien conocidos (0-1023), registrados (1024-49151) y dinámicos o efímeros (49152-65535). Esta asignación puede ser manual o automática. Cuando creamos un socket en un servidor, la asignación generalmente es manual y siempre la misma, de tal forma que los procesos que se comunican lo pueden saber "de memoria". Cuando abrimos un socket desde un cliente para conectarnos con un servidor, la asignación del puerto del cliente es aleatoria, ya que el puerto específico del cliente no es relevante.
 
 Ahora que lo hemos visto de forma intuitiva vamos a definirlo un poco más formalmente. En la capa de transporte los protocolos tienen dos tareas comunes, la **multiplexación** y la **demultiplexación**. La multiplexación es el proceso por el cual recogemos información de diferentes sockets y lo enviamos por un único medio. Por el contrario, la demultiplexación es el proceso por el cual recibimos los segmentos por el medio único y lo enviamos a los sockets correspondientes. A modo de analogía se puede ver como un proceso de envío de cartas. La multiplexación sería el buzón de correos donde dejamos las cartas. La demultiplexación sería el personal de correos cogiendo las cartas y llevándolas a sus destinatarios. Posteriormente veremos alguna particularidad respecto a la multiplexación y demultiplexación entre TCP y UDP.
 
-Otro concepto interesante es la **tranferencia fiable**, que es básicamente aquella en la que la información llega tal cual se envió. Es decir, no se corrompe ningún bit, no se pierde información (paquetes) y la información se entrega en un orden correcto. Cuando queremos una transferencia fiable tenemos dos opciones, o bien utilizamos protocolos fiables que ya lo implementen nosotros, o implementamos nosotros esas características de tal forma que podamos tener una comunicación fiable sobre un medio no fiable.
+Otro concepto interesante es la **transferencia fiable**, que es básicamente aquella en la que la información llega tal cual se envió. Es decir, no se corrompe ningún bit, no se pierde información (paquetes) y la información se entrega en un orden correcto. Cuando queremos una transferencia fiable tenemos dos opciones, o bien utilizamos protocolos fiables que ya lo implementen, o implementamos nosotros esas características de tal forma que podamos tener una comunicación fiable sobre un medio no fiable.
 
 En las siguientes secciones veremos los protocolos UDP y TCP con más detalle.
 
@@ -30,9 +30,9 @@ En las siguientes secciones veremos los protocolos UDP y TCP con más detalle.
 
 ### UDP (User Datagram protocol)
 
-UDP (User Datagram protocol) es un protocolo minimalista dentro de la familia de protocolos de la capa de transporte. Implementa el mínimo que debe hacer un protocolo de transporte [RFC 768]. UDP sacrifica las garantías de entrega por algo más valioso en ciertos escenarios: velocidad pura y simplicidad. Esto es especialmente útil en videojuegos interactivos, DNS o transmisión de vídeos. Las características principales de UDP son las siguientes:
+UDP (User Datagram protocol) es un protocolo minimalista dentro de la familia de protocolos de la capa de transporte. Implementa el mínimo que debe hacer un protocolo de transporte (RFC 768). UDP sacrifica las garantías de entrega por algo más valioso en ciertos escenarios: velocidad pura y simplicidad. Esto es especialmente útil en videojuegos interactivos, DNS o transmisión de vídeos. Las características principales de UDP son las siguientes:
 
-- **Protocolo ligero y simple**: Es un protocolo basado en el principio best-effort. Esta aproximación significa que hace todo lo posible por entregar los datos al destinatario, pero no ofrece ninguna garantía sobre la entrega de los mismos, ni nos enteraremos sino se entregan debido a que se pierden o tienen errores.
+- **Protocolo ligero y simple**: Es un protocolo basado en el principio best-effort. Esta aproximación significa que hace todo lo posible por entregar los datos al destinatario, pero no ofrece ninguna garantía sobre la entrega de los mismos, ni nos enteraremos si no se entregan debido a que se pierden o tienen errores.
 - **No orientado a conexión**: Cuando vamos a enviar información no es necesario establecer una conexión previa entre receptor y emisor. Podríamos decir que cada paquete que se envía es autosuficiente, tiene toda la información necesaria para representar el "estado" de la conexión. Si se pierde, no hay mecanismo para recuperarlo. Esta independencia tiene grandes consecuencias. Primero, simplifica la implementación. Segundo, se elimina la necesidad del proceso de handshake típico de los protocolos orientados a conexión, reduciendo tanto la latencia inicial como la complejidad del protocolo. Tercero, reduce considerablemente los recursos necesarios en el servidor, ya que este no tiene que mantener ningún estado.
 - **Entrega no fiable y sin orden**: UDP no ofrece ninguna garantía de entrega sobre la información que se envía. Esta información puede perderse, puede duplicarse, o pueden llegar desordenados. A veces se denomina UDP como protocolo "fire-and-forget", es decir, que envías el paquete y te olvidas de que ha existido, independientemente de que llegue o no.
 - **Integridad básica**: UDP tiene una comprobación de integridad a través de un checksum. Cuando el paquete llega a su receptor, UDP comprueba que el checksum es correcto, y en caso negativo, el paquete se descarta de forma silenciosa.
@@ -42,7 +42,7 @@ Respecto a las características no proporcionadas, tenemos el control de flujo, 
 
 La simplicidad de UDP nos ofrece sin embargo, otra opción. Implementar nosotros mismos a nivel de capa de aplicación las garantías que consideremos necesarias y no pagar el "precio" por las que no vamos a utilizar. Por ejemplo, supongamos que vamos a desarrollar un juego y enviamos las actualizaciones del jugador con estos requisitos:
 
-- Se ignorarán los paquetes fuera de orden. Si enviamos (A B C), y UDP recibe (A C B), a nivel de aplicación descataríamos B, resultando en (A C).
+- Se ignorarán los paquetes fuera de orden. Si enviamos (A B C), y UDP recibe (A C B), a nivel de aplicación descartaríamos B, resultando en (A C).
 - Se ignorarán los duplicados. Si enviamos (A B C), UDP recibe (A A B), a nivel de aplicación descartamos la segunda A, resultando en (A B).
 
 Para esta implementación nuestro protocolo podría añadir un número de paquete en los primeros bytes de UDP (antes de la actualización del juego), y el servidor tener un estado del último paquete que recibió. Cada vez que recibimos un paquete lo aceptamos si el número de paquete del servidor < número del paquete recibido, y lo rechazamos de otra forma. Con este pequeño y sencillo protocolo hemos conseguido ignorar paquetes fuera de orden y duplicado con una sobrecarga mínima en el protocolo, y sin la sobrecarga del resto de funcionalidades que no son necesarias.
@@ -53,7 +53,7 @@ La estructura de paquete de UDP es la siguiente:
 ![Estructura del paquete UDP](resources/udp_packet_structure.png){#fig-udp-packet width=80%}
 
 
-Como podéis ver la estructura del paquete es realmente simple en comparación con el resto de protocolos. El puerto de destino le permite a UDP demultiplexar correctamente el paquete, mientras el de origen le permite al servidor contestar. La longitud indica el tamaño de los datos, que es un número de 16 bits, es decir, que podría ser hasta 65535 (no incluido), pero en la práctica está limitado por el MTU. Por último, el checksum que es una forma de verificar la integridad del paquete. Esta verificación es contra cambios accidentales, pero puede ser manipulada.
+Como podéis ver la estructura del paquete es realmente simple en comparación con el resto de protocolos. El puerto de destino le permite a UDP demultiplexar correctamente el paquete, mientras el de origen le permite al servidor contestar. La longitud indica el tamaño total del datagrama UDP (cabecera de 8 bytes + datos), que es un número de 16 bits, es decir, que podría ser hasta 65535, pero en la práctica está limitado por el MTU. Por último, el checksum que es una forma de verificar la integridad del paquete. Esta verificación es contra cambios accidentales, pero puede ser manipulada.
 
 El cálculo del checksum UDP sigue un procedimiento sistemático que garantiza la verificación de integridad de todo el datagrama: 
 
@@ -104,7 +104,9 @@ function calculateUDPChecksum(srcIP, dstIP, srcPort, dstPort, data) {
     
     // Add carry bits and return one's complement
     while (sum >> 16) sum = (sum & 0xFFFF) + (sum >> 16);
-    return (~sum) & 0xFFFF;
+    const checksum = (~sum) & 0xFFFF;
+    // Special case: 0x0000 is transmitted as 0xFFFF (0 means "no checksum" in UDP/IPv4)
+    return checksum === 0 ? 0xFFFF : checksum;
 }
 ```
 
@@ -112,7 +114,7 @@ UDP es especialmente adecuado para aplicaciones donde la velocidad prima sobre l
 
 ### TCP (Transmission Control Protocol)
 
-TCP (Transmission Control Protocol) es el protocolo de transporte más utilizado en Internet y representa el extremo opuesto a UDP en términos de garantías y complejidad [RFC 793]. TCP prioriza la confiabilidad y el orden de los datos sobre la velocidad pura, siendo fundamental para aplicaciones como navegadores web, correo electrónico, transferencia de archivos y cualquier servicio que requiera integridad absoluta de los datos. Las características principales de TCP son las siguientes:
+TCP (Transmission Control Protocol) es el protocolo de transporte más utilizado en Internet y representa el extremo opuesto a UDP en términos de garantías y complejidad (RFC 9293, originalmente RFC 793). TCP prioriza la confiabilidad y el orden de los datos sobre la velocidad pura, siendo fundamental para aplicaciones como navegadores web, correo electrónico, transferencia de archivos y cualquier servicio que requiera integridad absoluta de los datos. Las características principales de TCP son las siguientes:
 
 - **Protocolo confiable y complejo**: TCP implementa múltiples mecanismos para garantizar que todos los datos enviados lleguen al destinatario en el orden correcto y sin errores. Esta confiabilidad viene al costo de mayor complejidad, latencia y overhead del protocolo.
 - **Orientado a conexión**: Antes de enviar cualquier dato, TCP requiere establecer una conexión formal entre cliente y servidor mediante un proceso de handshaking de tres fases. Esta conexión mantiene estado en ambos extremos, permitiendo el seguimiento de cada byte enviado y recibido.
@@ -143,7 +145,7 @@ Los flags de control son cruciales para el funcionamiento de TCP:
 - **ACK**: Indica que el campo de acknowledgment es válido.
 - **FIN**: Señala el fin de los datos del emisor.
 - **RST**: Fuerza el reinicio de la conexión.
-- **PSH**: Solicita entrega inmediata al proceso aplicación.
+- **PSH**: Solicita entrega inmediata al proceso de aplicación.
 - **URG**: Indica datos urgentes.
 
 El campo Window implementa el control de flujo, indicando cuántos bytes está dispuesto a recibir el destinatario. El checksum funciona de manera similar a UDP pero cubriendo todo el segmento TCP.
@@ -203,7 +205,7 @@ Cuando la ventana de recepción se reduce a cero, el emisor detiene el envío pe
 
 #### Control de Congestión
 
-El control de congestión TCP es uno de los algoritmos más importantes de Internet. Utiliza la **ventana de congestion** para regular la velocidad de envío. La ventana de congestión es una variable del emisor que representa el número máximo de bytes que pueden estar en el "aire" en la red, es decir, el número máximo de bytes que pueden ser enviados sin que sean reconocidos (ack). Se combina con la ventana de recepción para determinar la tasa de envío actual, siendo la tasa efectiva el mínimo de ambas. La ventana de congestión se regula en base a dos mecanismos:
+El control de congestión TCP es uno de los algoritmos más importantes de Internet. Utiliza la **ventana de congestión** para regular la velocidad de envío. La ventana de congestión es una variable del emisor que representa el número máximo de bytes que pueden estar en el "aire" en la red, es decir, el número máximo de bytes que pueden ser enviados sin que sean reconocidos (ack). Se combina con la ventana de recepción para determinar la tasa de envío actual, siendo la tasa efectiva el mínimo de ambas. La ventana de congestión se regula en base a dos mecanismos:
 
 - Slow start (arranque lento): Se inicia con una ventana de congestión igual a 1 MSS. Duplica la ventana cada RTT (ver ejemplo en @fig-slow-start) hasta detectar pérdida o alcanzar un umbral. Es decir, el tamaño crece exponencialmente y es ideal para descubrir el ancho de banda.
 - Congestion avoidance (evitación de congestión): Tiene un comportamiento más conservador. Incrementa 1 MSS por cada RTT (ver el ejemplo en @fig-congestion-avoidance).
@@ -211,7 +213,7 @@ El control de congestión TCP es uno de los algoritmos más importantes de Inter
 y dos eventos que regulan el paso entre los dos mecanismos:
 
 - Salta un temporizador: Pérdida severa. Se reduce la ventana de congestión a 1 MSS y pasamos a modo slow start.
-- Tres ACK duplicados: Pérdida no tan severa, se reduce la ventana de congestión a la mitad.
+- Tres ACK duplicados: Pérdida no tan severa, se reducen la ventana de congestión y el umbral a la mitad y se continúa en congestion avoidance (fast recovery).
 
 
 ::: {.columns}
@@ -233,7 +235,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # Configurar el gráfico
-plt.figure(figsize=(14, 8))
 plt.rcParams['font.size'] = 11
 
 # Parámetros de simulación
@@ -287,7 +288,7 @@ for rtt in range(rtt_count):
         # Crecimiento normal
         if fase_actual == "Slow Start":
             # Crecimiento exponencial
-            ventana_actual = min(ventana_actual * 2, 64)  # Limitar crecimiento
+            ventana_actual = min(ventana_actual * 2, umbral)  # Limitar crecimiento al umbral
             # Cambiar a Congestion Avoidance si alcanza el umbral
             if ventana_actual >= umbral:
                 fase_actual = "Congestion Avoidance"
@@ -344,7 +345,7 @@ legend_elements = [
 ax1.legend(handles=legend_elements, loc='upper right', fontsize=10)
 
 plt.tight_layout()
-plt.savefig('resources/tcp_congestion_window.png', format='svg', bbox_inches='tight')
+plt.savefig('resources/tcp_congestion_window.png', format='png', bbox_inches='tight')
 plt.close()
 ```
  
@@ -380,6 +381,6 @@ La decisión de elegir entre TCP y UDP depende de la interactividad y la toleran
 
 Por contra, si la latencia es de 100ms a 200ms, se necesita una entrega ordenada garantizada y detección y corrección de errores, TCP es la mejor opción. Con tolerancias de latencia mayores, no tenemos que preocuparnos por bloqueo de cabeza de línea, es decir, que un paquete perdido impida el procesamiento de los posteriores que ya llegaron. También tendríamos que tener en cuenta las latencias variables, debido a retransmisiones, lo cual podría generar saltos de estado, incluso con tolerancias de 100ms. Por último, habría que considerar también que incurriremos en un mayor tráfico de red, tanto por el tráfico de control como por el mayor tamaño de los paquetes TCP. Los juegos de rol y por turnos son ejemplos de juegos que se adaptan muy bien a TCP.
 
-Pasando a ejemplos concretos, World of Warcraft es un ejemplo de juego implementado sobre TCP. Los hechizos y ataques necesitan entrega garantizada para mantener la consistencia, así como la actualizaciones del inventario y estado de las misiones. Generalmente los MMORPGs pueden soportar latencias de 100s a 200ms.
+Pasando a ejemplos concretos, World of Warcraft es un ejemplo de juego implementado sobre TCP. Los hechizos y ataques necesitan entrega garantizada para mantener la consistencia, así como las actualizaciones del inventario y estado de las misiones. Generalmente los MMORPGs pueden soportar latencias de 100 a 200 ms.
 
 En el caso de Counter Strike se utiliza UDP debido a que la retroalimentación inmediata es más importante que la entrega garantizada. Por ejemplo, las actualizaciones de posición y disparos necesitan una latencia muy baja. Es tan importante, que aún con UDP, es necesario utilizar técnicas de interpolación de estados en los clientes para conseguir transiciones suaves. Esta interpolación limita el efecto de paquetes perdidos.
