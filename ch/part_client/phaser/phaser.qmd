@@ -1,7 +1,7 @@
 
 # Phaser 3 {#sec-phaser}
 
-En el capítulo anterior hemos aprendido los fundamentos de JavaScript, incluyendo su orientación a objetos, el manejo del DOM y BOM, y cómo configurar un entorno de desarrollo moderno con Node.js y Webpack. Ahora vamos a aplicar todos estos conocimientos para crear videojuegos web utilizando Phaser 3, uno de los frameworks más populares y potentes para el desarrollo de juegos en navegadores.
+En el capítulo anterior (@sec-javascript) hemos aprendido los fundamentos de JavaScript, incluyendo su orientación a objetos, los conceptos de DOM y BOM, y cómo configurar un entorno de desarrollo moderno con Node.js y Webpack. Ahora vamos a aplicar todos estos conocimientos para crear videojuegos web utilizando Phaser 3, uno de los frameworks más populares y potentes para el desarrollo de juegos en navegadores.
 
 Phaser 3 es un framework open source de HTML5 diseñado para la creación de videojuegos que se ejecutan directamente en navegadores web. Liberado en 2018, representa una evolución significativa respecto a versiones anteriores, ofreciendo un sistema más modular y potente para el desarrollo de juegos 2D. Phaser aprovecha todo lo que hemos aprendido sobre JavaScript: utiliza clases ES2015+ para estructurar el código, manipula el DOM para renderizar gráficos en el canvas, y se integra perfectamente con las herramientas de desarrollo modernas como npm y Webpack que ya conocemos.
 
@@ -9,7 +9,7 @@ Phaser 3 es un framework open source de HTML5 diseñado para la creación de vid
 
 El framework se caracteriza por su versatilidad y accesibilidad. Al estar basado en tecnologías web estándar (HTML5, JavaScript y Canvas/WebGL), permite crear juegos que no requieren instalación adicional por parte del usuario final. Esto facilita enormemente la distribución y accesibilidad de los juegos desarrollados.
 
-Phaser 3 soporta dos sistemas de renderizado: **Canvas**, que es el modo por defecto y el más compatible entre navegadores y dispositivos, y **WebGL**, que permite gráficos más avanzados pero requiere mayor soporte del hardware. La elección entre uno u otro dependerá de las necesidades específicas del proyecto y del público objetivo.
+Phaser 3 soporta dos sistemas de renderizado: **WebGL**, que es el preferido por defecto y permite gráficos más avanzados pero requiere mayor soporte del hardware, y **Canvas**, el más compatible entre navegadores y dispositivos, que se usa como respaldo. La elección entre uno u otro dependerá de las necesidades específicas del proyecto y del público objetivo.
 
 Está orientado tanto a escritorio como a dispositivos móviles, lo que lo convierte en una opción ideal para el desarrollo de juegos multiplataforma sin necesidad de reescribir código para diferentes sistemas operativos.
 
@@ -25,20 +25,20 @@ Podemos obtenerlo de tres formas:
 
 **Descarga directa**: Desde [https://phaser.io/download/stable](https://phaser.io/download/stable)
 
-**Repositorio GitHub**: [https://github.com/photonstorm/phaser](https://github.com/photonstorm/phaser)
+**Repositorio GitHub**: [https://github.com/phaserjs/phaser](https://github.com/phaserjs/phaser)
 
 **CDN** (la más rápida para empezar):
 ```html
-<script src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/phaser@3.88.2/dist/phaser.js"></script>
 ```
 
 ## Estructura básica de un juego en Phaser 3
 
 ### El elemento Canvas
 
-Phaser utiliza el elemento HTML5 `<canvas>` para renderizar los gráficos del juego. Este elemento es una etiqueta de HTML5 que permite dibujar gráficos mediante JavaScript y CSS.
+Phaser utiliza el elemento HTML5 `<canvas>` para renderizar los gráficos del juego. Este elemento es una etiqueta de HTML5 que permite dibujar gráficos mediante JavaScript.
 
-El canvas funciona como un lienzo en blanco donde podemos dibujar formas, imágenes y animaciones. A diferencia de un elemento `<img>`, el canvas no tiene atributos `src` ni `alt`, pero sí tiene `width` y `height` que definen el espacio de coordenadas (por defecto 300x300 píxeles).
+El canvas funciona como un lienzo en blanco donde podemos dibujar formas, imágenes y animaciones. A diferencia de un elemento `<img>`, el canvas no tiene atributos `src` ni `alt`, pero sí tiene `width` y `height` que definen el espacio de coordenadas (por defecto 300x150 píxeles).
 
 El sistema de coordenadas del canvas coloca el origen (0,0) en la esquina superior izquierda, con el eje X positivo hacia la derecha y el eje Y positivo hacia abajo.
 
@@ -133,12 +133,12 @@ var game = new Phaser.Game(config);
 - **`width` y `height`**: Dimensiones del canvas en píxeles. Definen el área de juego visible. En el ejemplo, 800x600 píxeles es un tamaño clásico que funciona bien en la mayoría de pantallas. Otras opciones comunes:
   - 1024x768 para juegos más grandes
   - 320x240 para juegos retro de pixel art
-  - Se puede usar `scale` para hacer el juego responsive (más sobre esto en configuración avanzada)
+  - Se puede usar `scale` para hacer el juego responsive
 
 - **`backgroundColor`**: Color de fondo del canvas en formato hexadecimal. Si no se especifica, será negro por defecto. Útil para dar un estilo visual inicial antes de cargar recursos.
 
 - **`physics`**: Objeto de configuración del motor de físicas. Tiene dos propiedades principales:
-  - **`default`**: Motor de físicas a usar (`'arcade'`, `'impact'`, o `'matter'`). Arcade es el más usado por su simplicidad y rendimiento.
+  - **`default`**: Motor de físicas a usar (`'arcade'` o `'matter'`). Arcade es el más usado por su simplicidad y rendimiento.
   - **`arcade`**: Objeto con configuración específica del motor Arcade Physics:
     - **`gravity`**: Objeto con `x` e `y` que define la gravedad en píxeles/segundo². `{ y: 300 }` simula gravedad terrestre hacia abajo. Si fuera `{ y: -300 }` sería hacia arriba.
     - **`debug`**: Boolean. Si es `true`, muestra los contornos de los cuerpos físicos en verde/azul, muy útil durante desarrollo para visualizar colisiones.
@@ -190,13 +190,35 @@ function create() {
 
     // Crear plataforma con físicas
     var plataforma = this.physics.add.image(400, 500, 'suelo');
-    plataforma.setImmovable(true);          // No se mueve al colisionar
-    plataforma.setCollideWorldBounds(true); // No sale de los límites
+    plataforma.setImmovable(true);           // No se mueve al colisionar
+    plataforma.body.setAllowGravity(false);  // No le afecta la gravedad global
+    plataforma.setCollideWorldBounds(true);  // No sale de los límites
 
     // Crear jugador
     this.jugador = this.physics.add.sprite(100, 450, 'jugador');
     this.jugador.setBounce(0.2);
     this.jugador.setCollideWorldBounds(true);
+
+    // Crear las animaciones del jugador
+    this.anims.create({
+        key: 'izquierda',
+        frames: this.anims.generateFrameNumbers('jugador', { start: 0, end: 3 }),
+        frameRate: 10,
+        repeat: -1
+    });
+
+    this.anims.create({
+        key: 'quieto',
+        frames: [{ key: 'jugador', frame: 4 }],
+        frameRate: 20
+    });
+
+    this.anims.create({
+        key: 'derecha',
+        frames: this.anims.generateFrameNumbers('jugador', { start: 5, end: 8 }),
+        frameRate: 10,
+        repeat: -1
+    });
 
     // Configurar colisión entre jugador y plataforma
     this.physics.add.collider(this.jugador, plataforma);
@@ -217,7 +239,7 @@ El orden de creación es importante: los elementos se renderizan en el orden en 
 
 **update(time, delta) - Bucle principal del juego**
 
-Esta función se ejecuta continuamente, aproximadamente 60 veces por segundo (60 FPS), formando el bucle principal del juego (game loop). Aquí colocamos toda la lógica que debe actualizarse constantemente: movimiento del jugador, comportamiento de enemigos, detección de condiciones de victoria o derrota, actualización de puntuación, etc.
+Esta función se ejecuta continuamente, normalmente 60 veces por segundo (según la tasa de refresco del monitor), formando el bucle principal del juego (game loop). Aquí colocamos toda la lógica que debe actualizarse constantemente: movimiento del jugador, comportamiento de enemigos, detección de condiciones de victoria o derrota, actualización de puntuación, etc.
 
 Los parámetros son:
 
@@ -258,7 +280,7 @@ El parámetro `delta` es especialmente útil para movimientos independientes del
 
 1. **preload()** → Carga recursos una vez al inicio
 2. **create()** → Inicializa objetos y configuración una vez después de la carga
-3. **update()** → Se ejecuta continuamente 60 veces por segundo durante todo el juego
+3. **update()** → Se ejecuta continuamente (normalmente 60 veces por segundo, según la tasa de refresco del monitor) durante todo el juego
 
 ## Gestión de escenas
 
@@ -281,6 +303,9 @@ Lo revolucionario del sistema de escenas es que cada una es completamente indepe
 ```javascript
 // Escena 1: Pantalla de carga inicial
 class Boot extends Phaser.Scene {
+    constructor() {
+        super('Boot');
+    }
     preload() {
         // Cargar recursos mínimos (logo, barra de carga)
     }
@@ -291,6 +316,9 @@ class Boot extends Phaser.Scene {
 
 // Escena 2: Menú principal
 class MenuPrincipal extends Phaser.Scene {
+    constructor() {
+        super('MenuPrincipal');
+    }
     create() {
         // Mostrar título, botones de jugar, opciones, créditos
     }
@@ -298,6 +326,9 @@ class MenuPrincipal extends Phaser.Scene {
 
 // Escena 3: El juego real
 class Nivel1 extends Phaser.Scene {
+    constructor() {
+        super('Nivel1');
+    }
     preload() {
         // Cargar recursos específicos del nivel 1
     }
@@ -311,6 +342,9 @@ class Nivel1 extends Phaser.Scene {
 
 // Escena 4: Pantalla final
 class GameOver extends Phaser.Scene {
+    constructor() {
+        super('GameOver');
+    }
     create() {
         // Mostrar puntuación final, botón para reiniciar
     }
@@ -545,7 +579,7 @@ Este ejemplo crea un efecto de seguimiento suave: en lugar de mover el sprite di
 
 Los motores de físicas son componentes esenciales en el desarrollo de videojuegos que simulan el comportamiento del mundo real: gravedad, colisiones, rebotes, fricción y fuerzas. Sin un motor de físicas, tendríamos que programar manualmente cada uno de estos comportamientos, lo cual sería extremadamente complejo y propenso a errores. Un motor de físicas nos proporciona estas funcionalidades de manera optimizada y consistente.
 
-Phaser 3 incluye tres motores de físicas diferentes, cada uno diseñado para diferentes niveles de complejidad y casos de uso específicos. La elección del motor adecuado dependerá del tipo de juego que estemos desarrollando y del nivel de realismo físico que necesitemos.
+Phaser 3 incluye dos motores de físicas diferentes, cada uno diseñado para diferentes niveles de complejidad y casos de uso específicos. La elección del motor adecuado dependerá del tipo de juego que estemos desarrollando y del nivel de realismo físico que necesitemos.
 
 ### Arcade Physics
 
@@ -571,21 +605,11 @@ var config = {
 
 La gravedad se especifica en píxeles por segundo al cuadrado. Un valor de 300 simula una gravedad similar a la terrestre para juegos de plataformas. El modo `debug: true` muestra los contornos de los cuerpos físicos, muy útil durante el desarrollo.
 
-En todos los ejemplos usaremos el motor Arcade, para los otros motores podría ser necesario hacer cambios.
-
-### Impact Physics
-
-Originalmente creado para el motor Impact, permite físicas más complejas que Arcade.
-
-**Características**:
-
-- Soporta pendientes en tiles (muy útil para plataformas)
-- Más complejo que Arcade pero menos que Matter
-- Bueno para juegos de plataformas con terrenos inclinados
+En todos los ejemplos usaremos el motor Arcade; con el otro motor podría ser necesario hacer cambios.
 
 ### Matter Physics
 
-Es el motor más avanzado y realista de los tres.
+Es el motor más avanzado y realista de los dos.
 
 **Características**:
 
@@ -619,7 +643,7 @@ El rebote (`bounce`) determina cuánta energía conserva el objeto al chocar: 0 
 
 ## Sistema de entrada (Input)
 
-La interacción del jugador es el corazón de cualquier videojuego. En el capítulo de JavaScript aprendimos sobre el sistema de eventos del DOM para detectar clics y pulsaciones de teclas. Phaser 3 construye sobre estos conceptos y proporciona un sistema de entrada (input) mucho más potente y especializado para videojuegos, que simplifica la detección de teclado, ratón, táctil y gamepad.
+La interacción del jugador es el corazón de cualquier videojuego. En el capítulo de JavaScript (@sec-javascript) conocimos el DOM del navegador, cuyo sistema de eventos permite detectar clics y pulsaciones de teclas. Phaser 3 construye sobre estos conceptos y proporciona un sistema de entrada (input) mucho más potente y especializado para videojuegos, que simplifica la detección de teclado, ratón, táctil y gamepad.
 
 El sistema de input de Phaser 3 unifica diferentes tipos de entrada bajo una API consistente, permitiendo que nuestro juego funcione tanto en escritorio (con teclado y ratón) como en dispositivos móviles (con pantalla táctil) sin necesidad de escribir código específico para cada plataforma. Además, Phaser optimiza la detección de entrada para el contexto de videojuegos, donde necesitamos respuestas instantáneas y la capacidad de detectar múltiples entradas simultáneas.
 
@@ -768,7 +792,8 @@ function create() {
     let jugador = this.physics.add.image(100, 450, 'personaje');
     let plataforma = this.physics.add.image(400, 500, 'suelo');
     plataforma.setImmovable(true);
-    
+    plataforma.body.setAllowGravity(false);
+
     // Colisión con resolución física
     this.physics.add.collider(jugador, plataforma);
     
@@ -918,4 +943,4 @@ function update() {
 ```
 
 
-Propiedades útiles: `touching.down`, `touching.up`, `touching.left`, `touching.right`, `blocked.down`, `blocked.up`. La diferencia entre `touching` y `blocked` es que `touching` detecta contacto con cualquier objeto, mientras que `blocked` solo detecta contacto con objetos inmóviles. Estas propiedades son esenciales para controlar mecánicas como saltos o detectar si un personaje está contra una pared.
+Propiedades útiles: `touching.down`, `touching.up`, `touching.left`, `touching.right`, `blocked.down`, `blocked.up`. La diferencia entre `touching` y `blocked` es que `touching` detecta contacto con cualquier objeto, mientras que `blocked` solo detecta contacto con objetos inmóviles y con los límites del mundo; para saltos robustos conviene comprobar `body.blocked.down || body.touching.down`. Estas propiedades son esenciales para controlar mecánicas como saltos o detectar si un personaje está contra una pared.

@@ -2,7 +2,7 @@
 
 ## Introducción
 
-JavaScript es un lenguaje de programación que permite incorporar interactividad en las páginas web, lo que lo convierte en una herramienta fundamental para el desarrollo de videojuegos web. Con JavaScript se puede modificar la página y ejecutar código cuando se interactúa con ella a través del modelo de objetos del documento (DOM). También se pueden hacer peticiones al servidor web en segundo plano y actualizar el contenido de la web con los resultados (AJAX).
+JavaScript es un lenguaje de programación que permite incorporar interactividad en las páginas web, lo que lo convierte en una herramienta fundamental para el desarrollo de videojuegos web. Con JavaScript se puede modificar la página y ejecutar código cuando se interactúa con ella a través del modelo de objetos del documento (DOM). También se pueden hacer peticiones al servidor web en segundo plano y actualizar el contenido de la web con los resultados (AJAX), aunque en este capítulo nos centraremos en el lenguaje en sí y en su entorno de desarrollo.
 
 ### Características de JavaScript
 
@@ -16,9 +16,9 @@ JavaScript es un lenguaje de programación basado en el estándar ECMAScript de 
 
 **Versiones actuales**: Desde ES2015, ECMAScript sigue un ciclo de actualizaciones anuales con compatibilidad hacia atrás:
 
-- ECMAScript 2016-2024 (versiones 7-15)
+- ECMAScript 2016-2025 (versiones 7-16)
 - Cada versión añade nuevas características manteniendo compatibilidad
-- Los navegadores modernos soportan características hasta ES2023
+- Los navegadores modernos soportan las características de las versiones más recientes del estándar
 
 ### JavaScript vs Java
 
@@ -413,8 +413,8 @@ JavaScript mantiene las características imperativas familiares para programador
 
 ### Orientado a Objetos
 
-- Todos los valores a excepción de los tipos primitivos son objetos,
-- Sin embargo, a diferencia de Java, el boxing es automático.
+- Todos los valores a excepción de los tipos primitivos son objetos.
+- Los primitivos se encapsulan automáticamente en objetos wrapper (String, Number…) al acceder a sus métodos.
 - Existe recolector de basura para liberar la memoria automáticamente
 - La orientación a objetos está basada en prototipos, aunque ES2015+ añadió sintaxis de clases
 - En tiempo de ejecución se pueden crear objetos, cambiar atributos e invocar métodos
@@ -538,7 +538,7 @@ El concepto de ámbito (scope) es fundamental para entender cómo JavaScript man
 
 JavaScript maneja diferentes tipos de datos que nos permiten representar toda la información necesaria para un videojuego. A diferencia de lenguajes como Java o C++, JavaScript es de tipado dinámico, lo que significa que una variable puede cambiar de tipo durante la ejecución del programa.
 
-**Primitivos** (todos son objetos en JavaScript):
+**Primitivos** (se auto-encapsulan en objetos wrapper al invocar métodos sobre ellos):
 
 ```javascript
 // Number - enteros y reales
@@ -649,7 +649,7 @@ Los arrays de JavaScript son dinámicos por naturaleza, pueden contener elemento
 let empty = [];
 let numbers = [1, 2, 3, 4, 5];
 let mixed = ["texto", 42, true, null];
-let inventory = new Array(10); // Array de 10 elementos undefined
+let inventory = new Array(10); // Array disperso de longitud 10 con huecos vacíos
 
 // Acceso y modificación
 console.log(numbers[0]);        // 1
@@ -657,7 +657,7 @@ numbers[2] = 999;              // Modifica el elemento
 console.log(numbers.length);    // 5
 
 // Arrays pueden crecer dinámicamente
-numbers[10] = 100;             // Crea huecos con undefined
+numbers[10] = 100;             // Crea huecos vacíos (array disperso)
 console.log(numbers.length);    // 11
 ```
 
@@ -700,6 +700,7 @@ let lastEnemy = enemies.pop();                          // Quitar del final
 
 // Eliminar/insertar elementos
 enemies.splice(1, 2);                 // Eliminar 2 elementos desde índice 1
+const newEnemy = { id: 5, health: 60, type: "slime" };
 enemies.splice(1, 0, newEnemy);       // Insertar en índice 1
 ```
 
@@ -1125,22 +1126,18 @@ const CookieUtil = {
         const fecha = new Date();
         fecha.setTime(fecha.getTime() + (dias * 24 * 60 * 60 * 1000));
         document.cookie = `${nombre}=${valor}; expires=${fecha.toUTCString()}; path=/`;
+    },
+
+    get(nombre) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${nombre}=`);
+        return parts.length === 2 ? parts.pop().split(';').shift() : null;
+    },
+
+    delete(nombre) {
+        document.cookie = `${nombre}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
     }
 };
-```
-
-```javascript
-get(nombre) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${nombre}=`);
-    return parts.length === 2 ? parts.pop().split(';').shift() : null;
-}
-```
-
-```javascript
-delete(nombre) {
-    document.cookie = `${nombre}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
-}
 ```
 
 Uso de la utilidad:
@@ -1215,21 +1212,21 @@ if (GameSave.exists()) {
 }
 ```
 
-# JavaScript Orientado a Objetos
+## JavaScript Orientado a Objetos
 
-## Introducción
+### Introducción
 
-JavaScript es el lenguaje fundamental para el desarrollo de videojuegos web modernos. A diferencia de otros lenguajes que habéis estudiado, JavaScript utiliza un sistema de orientación a objetos basado en **prototipos** en lugar de clases tradicionales, aunque las versiones modernas incluyen sintaxis de clases que simplifican el desarrollo.
+JavaScript es el lenguaje fundamental para el desarrollo de videojuegos web modernos. A diferencia de otros lenguajes que hemos estudiado, JavaScript utiliza un sistema de orientación a objetos basado en **prototipos** en lugar de clases tradicionales, aunque las versiones modernas incluyen sintaxis de clases que simplifican el desarrollo.
 
 En este capítulo profundizaremos en las características únicas de JavaScript para videojuegos: la orientación a objetos basada en prototipos, las clases modernas ES2015+, y cómo trabajar con objetos dinámicos.
 
-## Orientación a Objetos en JavaScript
+### Orientación a Objetos en JavaScript
 
-### Diferencias con Java: Clases vs Prototipos
+#### Diferencias con Java: Clases vs Prototipos
 
 Mientras que Java utiliza un sistema basado en clases donde los objetos son instancias de una clase predefinida, JavaScript tradicionalmente utiliza **prototipos**. En JavaScript, cualquier objeto puede servir como prototipo para otros objetos, creando una cadena de herencia más flexible.
 
-#### Creación Básica de Objetos
+##### Creación Básica de Objetos
 
 ```javascript
 // Objeto literal simple
@@ -1254,7 +1251,7 @@ console.log(goblin.toString); // function (heredado de Object)
 
 En este ejemplo, `goblin` hereda el método `atacar()` del objeto `enemigo`. Cuando JavaScript busca una propiedad en `goblin` y no la encuentra, automáticamente busca en su prototipo (`enemigo`), y si no la encuentra ahí, continúa hacia arriba en la cadena hasta llegar a `Object.prototype`.
 
-#### Herencia con Prototipos
+##### Herencia con Prototipos
 
 Para crear una jerarquía de herencia más compleja con prototipos, necesitamos establecer la cadena de prototipos manualmente:
 
@@ -1299,7 +1296,7 @@ jugador.levelUp();    // Método del prototipoJugador
 
 Este ejemplo muestra una cadena de herencia: `jugador` → `prototipoJugador` → `personajeBase` → `Object.prototype`. Cada nivel puede añadir o sobrescribir métodos.
 
-#### Acceso a Propiedades y Métodos de Objetos
+##### Acceso a Propiedades y Métodos de Objetos
 
 JavaScript permite acceder a las propiedades de un objeto tanto con notación punto como con corchetes:
 
@@ -1326,7 +1323,7 @@ config["maxJugadores"] = 4;
 
 La notación con corchetes es especialmente útil cuando el nombre de la propiedad está en una variable o cuando queremos iterar sobre las propiedades del objeto.
 
-#### Iteración sobre Propiedades
+##### Iteración sobre Propiedades
 
 ```javascript
 const inventario = {
@@ -1356,7 +1353,7 @@ console.log(cantidades); // [1, 5, 150]
 
 El bucle `for...in` itera sobre todas las propiedades enumerables del objeto, incluyendo las heredadas del prototipo. Si solo queremos las propiedades propias del objeto, podemos usar `Object.keys()` o verificar con `hasOwnProperty()`.
 
-#### Diferencias entre null y undefined
+##### Diferencias entre null y undefined
 
 JavaScript tiene dos valores especiales para representar "nada":
 
@@ -1380,7 +1377,7 @@ jugador?.mover?.(5, 0);   // Solo ejecuta si jugador y mover existen
 
 Esta diferencia es importante en videojuegos donde objetos pueden existir o no (enemigos destruidos, power-ups recogidos, etc.).
 
-### Función Constructor (Patrón Tradicional)
+#### Función Constructor (Patrón Tradicional)
 
 Antes de ES2015, el patrón más común para crear "clases" era usar funciones constructor:
 
@@ -1415,14 +1412,15 @@ player1.mover(2, 3); // "Aragorn se mueve a (20, 35)"
 
 // IMPORTANTE: Siempre usar 'new'
 const player2 = Jugador("Legolas", 0, 0); // ¡ERROR! Sin 'new'
-// Sin 'new', 'this' apuntaría al objeto global, causando problemas
+// Sin 'new', en modo no estricto 'this' apunta al objeto global (creando
+// globales accidentales); en modo estricto lanza un TypeError
 ```
 
 La función constructor se ejecuta cuando usamos el operador `new`. Este operador crea un nuevo objeto, establece `this` para que apunte a ese objeto, y al final devuelve el objeto automáticamente.
 
 Los métodos se definen en `Jugador.prototype` para que todos los objetos creados con este constructor compartan las mismas funciones en memoria, siendo más eficiente que definir los métodos dentro del constructor.
 
-#### Herencia con Funciones Constructor
+##### Herencia con Funciones Constructor
 
 ```javascript
 // Constructor padre
@@ -1457,7 +1455,7 @@ console.log(conan.atacar());  // "Conan ataca con fuerza 25" (propio)
 
 Este patrón requiere tres pasos: llamar al constructor padre con `call()`, establecer la cadena de prototipos con `Object.create()`, y restaurar la propiedad `constructor`.
 
-### Clases ES2015+ (Sintaxis Moderna)
+#### Clases ES2015+ (Sintaxis Moderna)
 
 Las clases modernas ofrecen una sintaxis más familiar para desarrolladores de Java, pero internamente siguen usando prototipos. La palabra clave `class` es "azúcar sintáctico" sobre el sistema de prototipos existente.
 
@@ -1540,7 +1538,7 @@ class Enemigo extends GameObject {
 
 - **`super.actualizar(deltaTime)`**: En un método, llama al método del mismo nombre en la clase padre.
 
-#### Ejemplo de Uso
+##### Ejemplo de Uso
 
 ```javascript
 // Crear enemigos usando el constructor normal
@@ -1562,7 +1560,7 @@ enemigos.forEach(enemigo => {
 });
 ```
 
-#### Ventajas de las Clases ES2015+
+##### Ventajas de las Clases ES2015+
 
 1. **Sintaxis más clara**: Más familiar para desarrolladores de otros lenguajes orientados a objetos.
 
@@ -1574,4 +1572,4 @@ enemigos.forEach(enemigo => {
 
 5. **Mejor soporte de herramientas**: Los IDEs y linters comprenden mejor las clases modernas.
 
-La sintaxis de clases es la recomendada para proyectos nuevos de videojuegos, especialmente cuando trabajáis en equipo o cuando el proyecto va a crecer en complejidad. Sin embargo, entender el sistema de prototipos subyacente os ayudará a comprender mejor cómo funciona JavaScript internamente y a debuggear problemas más efectivamente.
+La sintaxis de clases es la recomendada para proyectos nuevos de videojuegos, especialmente cuando trabajamos en equipo o cuando el proyecto va a crecer en complejidad. Sin embargo, entender el sistema de prototipos subyacente nos ayudará a comprender mejor cómo funciona JavaScript internamente y a debuggear problemas más efectivamente.

@@ -41,7 +41,7 @@ Todo documento HTML sigue una estructura estándar:
 
 **Explicación de cada parte:**
 
-- `<!DOCTYPE html>`: Declara que este es un documento HTML5 (la versión más reciente).
+- `<!DOCTYPE html>`: Declara que este es un documento HTML (la declaración estándar introducida con HTML5).
 - `<html>`: Elemento raíz que contiene todo el documento. El atributo `lang="es"` indica el idioma.
 - `<head>`: Contiene metadatos e información que no se muestra directamente (título, enlaces a CSS, etc.).
 - `<meta charset="UTF-8">`: Define la codificación de caracteres para soportar acentos y símbolos especiales.
@@ -199,7 +199,7 @@ Los formularios permiten recopilar información del usuario:
 
     <!-- Campo numérico -->
     <label for="age">Edad:</label>
-    <input type="number" id="age" min="1" max="100">
+    <input type="number" id="age" name="age" min="1" max="100">
 
     <!-- Botones de radio (una opción) -->
     <p>Dificultad:</p>
@@ -538,7 +538,7 @@ El concepto más importante de CSS es el **modelo de caja**. Cada elemento HTML 
 }
 ```
 
-**2. Relleno (padding):** Es el espacio entre el contenido y el borde. Es transparente y adopta el color de fondo del elemento. Sirve para dar "respiración" al contenido.
+**2. Relleno (padding):** Es el espacio entre el contenido y el borde. El fondo del elemento se extiende también bajo el padding. Sirve para dar "respiración" al contenido.
 
 ```css
 .con-padding {
@@ -611,7 +611,7 @@ Ancho total = margin-left + border-left + padding-left + width + padding-right +
 Alto total = margin-top + border-top + padding-top + height + padding-bottom + border-bottom + margin-bottom
 ```
 
-Ejemplo: si un elemento tiene `width: 200px`, `padding: 10px`, `border: 2px`, el ancho visible será 224px (2 + 10 + 200 + 10 + 2).
+Ejemplo: si un elemento tiene `width: 200px`, `padding: 10px`, `border: 2px solid`, el ancho visible será 224px (2 + 10 + 200 + 10 + 2).
 
 **Box-sizing:** Para simplificar este cálculo, existe la propiedad `box-sizing`:
 
@@ -620,7 +620,7 @@ Ejemplo: si un elemento tiene `width: 200px`, `padding: 10px`, `border: 2px`, el
     box-sizing: content-box;  /* Predeterminado: width solo afecta al contenido */
     width: 200px;
     padding: 10px;
-    border: 2px;
+    border: 2px solid;
     /* Ancho total = 224px (2+10+200+10+2) */
 }
 
@@ -628,7 +628,7 @@ Ejemplo: si un elemento tiene `width: 200px`, `padding: 10px`, `border: 2px`, el
     box-sizing: border-box;   /* width incluye contenido + padding + border */
     width: 200px;
     padding: 10px;
-    border: 2px;
+    border: 2px solid;
     /* Ancho total = 200px (el padding y border se restan del contenido) */
 }
 ```
@@ -678,7 +678,7 @@ Elementos que son inline por defecto: `<span>`, `<a>`, `<strong>`, `<em>`, `<img
 Características:
 - Solo ocupan el espacio de su contenido
 - No interrumpen el flujo del texto
-- NO aceptan `width` ni `height`
+- NO aceptan `width` ni `height` (excepto los elementos reemplazados como `<img>`)
 - Los márgenes verticales no funcionan correctamente
 
 **Inline-block (lo mejor de ambos mundos):**
@@ -745,7 +745,7 @@ El elemento se desplaza desde su posición original, pero su espacio original se
 }
 ```
 
-El elemento se extrae completamente del flujo normal y se posiciona respecto al ancestro posicionado más cercano (cualquier elemento con `position` diferente de `static`). Si no hay ninguno, se posiciona respecto al `<body>`.
+El elemento se extrae completamente del flujo normal y se posiciona respecto al ancestro posicionado más cercano (cualquier elemento con `position` diferente de `static`). Si no hay ninguno, se posiciona respecto al bloque contenedor inicial (en la práctica, el viewport de la página).
 
 Usos comunes:
 - Menús desplegables
@@ -814,12 +814,12 @@ La pseudo-clase `:hover` es muy útil para dar feedback visual al usuario. `:act
 **Selectores de posición:**
 
 ```css
-/* El primer elemento de su tipo */
+/* El elemento que es el primer hijo de su padre */
 li:first-child {
     font-weight: bold;
 }
 
-/* El último elemento de su tipo */
+/* El elemento que es el último hijo de su padre */
 li:last-child {
     border-bottom: none;
 }
