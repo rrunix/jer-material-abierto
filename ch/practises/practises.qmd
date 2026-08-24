@@ -345,7 +345,7 @@ La entrega está configurada como "entrega en grupo", por lo que únicamente una
 | CATEGORÍA | PUNTOS | CRITERIOS A EVALUAR |
 | :--- | :--- | :--- |
 | **Entrega** | **5 puntos** | ¿Han evolucionado el markdown?<br>¿Han hecho un *release* en github?<br>¿Incluyen documentación de la API REST? |
-| **Servidor - Gestión de conexiones** | **20 puntos** | ¿El servidor detecta cuando se conectan usuarios?<br>¿El servidor detecta cuando se desconectan usuarios?<br>¿Implementa sistema de logging adecuado? |
+| **Servidor - Gestión de conexiones** | **20 puntos** | ¿El servidor detecta cuando se conectan usuarios?<br>¿El servidor detecta cuando se desconectan usuarios?<br>¿Implementa sistema de trazas adecuado? |
 | **Cliente - Gestión de conexiones** | **20 puntos** | ¿Los clientes se enteran de la conexión de otros usuarios?<br>¿Los clientes se enteran de la desconexión de otros usuarios?<br>¿Detecta la caída del servidor? |
 | **API REST** | **25 puntos** | ¿Utilizan correctamente GET, POST, PUT, DELETE?<br>¿La arquitectura cliente-servidor es adecuada?<br>¿Las peticiones y respuestas están bien estructuradas?<br>¿Maneja errores correctamente? |
 | **Gestión de usuarios** | **15 puntos** | ¿Implementa sistema de nickname/login?<br>¿Almacena datos adicionales del jugador (puntuación, aspecto, etc.)?<br>¿Los datos persisten correctamente? |
