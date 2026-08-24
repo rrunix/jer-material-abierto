@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>9&nbsp; Phaser 3 – Apuntes de Juegos en Red</title>
+<title>9&nbsp; Phaser 3 – Material docente en abierto de la asignatura Juegos en Red</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -136,7 +136,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <a href="../../../index.html" class="sidebar-logo-link">
       </a>
     <div class="sidebar-title mb-0 py-0">
-      <a href="../../../">Apuntes de Juegos en Red</a> 
+      <a href="../../../">Material docente en abierto de la asignatura Juegos en Red</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -164,7 +164,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../ch/part_networks/part_intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Parte: Introducción a los juegos en red y a las redes de comunicaciones</span></a>
+ <span class="menu-text">Introducción a los juegos en red y a las redes de comunicaciones</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -264,13 +264,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../ch/part_servercoms/rest/rest_client.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Cliente API REST con Javascript</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Cliente API REST con JavaScript</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../ch/part_servercoms/rest/rest_server.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Servidor API REST con Javascript</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Servidor API REST con JavaScript</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -288,13 +288,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../ch/part_servercoms/ws/ws_client.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Cliente WebSockets con JavasScript</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Cliente WebSockets con JavaScript</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../ch/part_servercoms/ws/ws_server.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Servidor WebSockets con JavasScript</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Servidor WebSockets con JavaScript</span></span></a>
   </div>
 </li>
       </ul>
@@ -359,7 +359,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#motores-de-físicas-en-phaser-3" id="toc-motores-de-físicas-en-phaser-3" class="nav-link" data-scroll-target="#motores-de-físicas-en-phaser-3"><span class="header-section-number">9.6</span> Motores de físicas en Phaser 3</a>
   <ul class="collapse">
   <li><a href="#arcade-physics" id="toc-arcade-physics" class="nav-link" data-scroll-target="#arcade-physics">Arcade Physics</a></li>
-  <li><a href="#impact-physics" id="toc-impact-physics" class="nav-link" data-scroll-target="#impact-physics">Impact Physics</a></li>
   <li><a href="#matter-physics" id="toc-matter-physics" class="nav-link" data-scroll-target="#matter-physics">Matter Physics</a></li>
   <li><a href="#añadir-físicas-a-objetos" id="toc-añadir-físicas-a-objetos" class="nav-link" data-scroll-target="#añadir-físicas-a-objetos">Añadir físicas a objetos</a></li>
   </ul></li>
@@ -402,12 +401,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>En el capítulo anterior hemos aprendido los fundamentos de JavaScript, incluyendo su orientación a objetos, el manejo del DOM y BOM, y cómo configurar un entorno de desarrollo moderno con Node.js y Webpack. Ahora vamos a aplicar todos estos conocimientos para crear videojuegos web utilizando Phaser 3, uno de los frameworks más populares y potentes para el desarrollo de juegos en navegadores.</p>
+<p>En el capítulo anterior (<a href="../js/js.html" class="quarto-xref"><span>Capítulo 7</span></a>) hemos aprendido los fundamentos de JavaScript, incluyendo su orientación a objetos, los conceptos de DOM y BOM, y cómo configurar un entorno de desarrollo moderno con Node.js y Webpack. Ahora vamos a aplicar todos estos conocimientos para crear videojuegos web utilizando Phaser 3, uno de los frameworks más populares y potentes para el desarrollo de juegos en navegadores.</p>
 <p>Phaser 3 es un framework open source de HTML5 diseñado para la creación de videojuegos que se ejecutan directamente en navegadores web. Liberado en 2018, representa una evolución significativa respecto a versiones anteriores, ofreciendo un sistema más modular y potente para el desarrollo de juegos 2D. Phaser aprovecha todo lo que hemos aprendido sobre JavaScript: utiliza clases ES2015+ para estructurar el código, manipula el DOM para renderizar gráficos en el canvas, y se integra perfectamente con las herramientas de desarrollo modernas como npm y Webpack que ya conocemos.</p>
 <section id="características-principales" class="level2" data-number="9.1">
 <h2 data-number="9.1" class="anchored" data-anchor-id="características-principales"><span class="header-section-number">9.1</span> Características principales</h2>
 <p>El framework se caracteriza por su versatilidad y accesibilidad. Al estar basado en tecnologías web estándar (HTML5, JavaScript y Canvas/WebGL), permite crear juegos que no requieren instalación adicional por parte del usuario final. Esto facilita enormemente la distribución y accesibilidad de los juegos desarrollados.</p>
-<p>Phaser 3 soporta dos sistemas de renderizado: <strong>Canvas</strong>, que es el modo por defecto y el más compatible entre navegadores y dispositivos, y <strong>WebGL</strong>, que permite gráficos más avanzados pero requiere mayor soporte del hardware. La elección entre uno u otro dependerá de las necesidades específicas del proyecto y del público objetivo.</p>
+<p>Phaser 3 soporta dos sistemas de renderizado: <strong>WebGL</strong>, que es el preferido por defecto y permite gráficos más avanzados pero requiere mayor soporte del hardware, y <strong>Canvas</strong>, el más compatible entre navegadores y dispositivos, que se usa como respaldo. La elección entre uno u otro dependerá de las necesidades específicas del proyecto y del público objetivo.</p>
 <p>Está orientado tanto a escritorio como a dispositivos móviles, lo que lo convierte en una opción ideal para el desarrollo de juegos multiplataforma sin necesidad de reescribir código para diferentes sistemas operativos.</p>
 </section>
 <section id="requisitos-para-empezar" class="level2" data-number="9.2">
@@ -421,17 +420,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="framework-phaser-3">Framework Phaser 3</h3>
 <p>Podemos obtenerlo de tres formas:</p>
 <p><strong>Descarga directa</strong>: Desde <a href="https://phaser.io/download/stable">https://phaser.io/download/stable</a></p>
-<p><strong>Repositorio GitHub</strong>: <a href="https://github.com/photonstorm/phaser">https://github.com/photonstorm/phaser</a></p>
+<p><strong>Repositorio GitHub</strong>: <a href="https://github.com/phaserjs/phaser">https://github.com/phaserjs/phaser</a></p>
 <p><strong>CDN</strong> (la más rápida para empezar):</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">script</span><span class="ot"> src</span><span class="op">=</span><span class="st">"//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"</span><span class="dt">&gt;&lt;/</span><span class="kw">script</span><span class="dt">&gt;</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">script</span><span class="ot"> src</span><span class="op">=</span><span class="st">"https://cdn.jsdelivr.net/npm/phaser@3.88.2/dist/phaser.js"</span><span class="dt">&gt;&lt;/</span><span class="kw">script</span><span class="dt">&gt;</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="estructura-básica-de-un-juego-en-phaser-3" class="level2" data-number="9.3">
 <h2 data-number="9.3" class="anchored" data-anchor-id="estructura-básica-de-un-juego-en-phaser-3"><span class="header-section-number">9.3</span> Estructura básica de un juego en Phaser 3</h2>
 <section id="el-elemento-canvas" class="level3">
 <h3 class="anchored" data-anchor-id="el-elemento-canvas">El elemento Canvas</h3>
-<p>Phaser utiliza el elemento HTML5 <code>&lt;canvas&gt;</code> para renderizar los gráficos del juego. Este elemento es una etiqueta de HTML5 que permite dibujar gráficos mediante JavaScript y CSS.</p>
-<p>El canvas funciona como un lienzo en blanco donde podemos dibujar formas, imágenes y animaciones. A diferencia de un elemento <code>&lt;img&gt;</code>, el canvas no tiene atributos <code>src</code> ni <code>alt</code>, pero sí tiene <code>width</code> y <code>height</code> que definen el espacio de coordenadas (por defecto 300x300 píxeles).</p>
+<p>Phaser utiliza el elemento HTML5 <code>&lt;canvas&gt;</code> para renderizar los gráficos del juego. Este elemento es una etiqueta de HTML5 que permite dibujar gráficos mediante JavaScript.</p>
+<p>El canvas funciona como un lienzo en blanco donde podemos dibujar formas, imágenes y animaciones. A diferencia de un elemento <code>&lt;img&gt;</code>, el canvas no tiene atributos <code>src</code> ni <code>alt</code>, pero sí tiene <code>width</code> y <code>height</code> que definen el espacio de coordenadas (por defecto 300x150 píxeles).</p>
 <p>El sistema de coordenadas del canvas coloca el origen (0,0) en la esquina superior izquierda, con el eje X positivo hacia la derecha y el eje Y positivo hacia abajo.</p>
 </section>
 <section id="configuración-inicial-del-juego" class="level3">
@@ -517,12 +516,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>1024x768 para juegos más grandes</li>
 <li>320x240 para juegos retro de pixel art</li>
-<li>Se puede usar <code>scale</code> para hacer el juego responsive (más sobre esto en configuración avanzada)</li>
+<li>Se puede usar <code>scale</code> para hacer el juego responsive</li>
 </ul></li>
 <li><p><strong><code>backgroundColor</code></strong>: Color de fondo del canvas en formato hexadecimal. Si no se especifica, será negro por defecto. Útil para dar un estilo visual inicial antes de cargar recursos.</p></li>
 <li><p><strong><code>physics</code></strong>: Objeto de configuración del motor de físicas. Tiene dos propiedades principales:</p>
 <ul>
-<li><strong><code>default</code></strong>: Motor de físicas a usar (<code>'arcade'</code>, <code>'impact'</code>, o <code>'matter'</code>). Arcade es el más usado por su simplicidad y rendimiento.</li>
+<li><strong><code>default</code></strong>: Motor de físicas a usar (<code>'arcade'</code> o <code>'matter'</code>). Arcade es el más usado por su simplicidad y rendimiento.</li>
 <li><strong><code>arcade</code></strong>: Objeto con configuración específica del motor Arcade Physics:
 <ul>
 <li><strong><code>gravity</code></strong>: Objeto con <code>x</code> e <code>y</code> que define la gravedad en píxeles/segundo². <code>{ y: 300 }</code> simula gravedad terrestre hacia abajo. Si fuera <code>{ y: -300 }</code> sería hacia arriba.</li>
@@ -567,30 +566,52 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Crear plataforma con físicas</span></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> plataforma <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="at">physics</span><span class="op">.</span><span class="at">add</span><span class="op">.</span><span class="fu">image</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">500</span><span class="op">,</span> <span class="st">'suelo'</span>)<span class="op">;</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    plataforma<span class="op">.</span><span class="fu">setImmovable</span>(<span class="kw">true</span>)<span class="op">;</span>          <span class="co">// No se mueve al colisionar</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    plataforma<span class="op">.</span><span class="fu">setCollideWorldBounds</span>(<span class="kw">true</span>)<span class="op">;</span> <span class="co">// No sale de los límites</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Crear jugador</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">jugador</span> <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="at">physics</span><span class="op">.</span><span class="at">add</span><span class="op">.</span><span class="fu">sprite</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">450</span><span class="op">,</span> <span class="st">'jugador'</span>)<span class="op">;</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">jugador</span><span class="op">.</span><span class="fu">setBounce</span>(<span class="fl">0.2</span>)<span class="op">;</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">jugador</span><span class="op">.</span><span class="fu">setCollideWorldBounds</span>(<span class="kw">true</span>)<span class="op">;</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Configurar colisión entre jugador y plataforma</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">physics</span><span class="op">.</span><span class="at">add</span><span class="op">.</span><span class="fu">collider</span>(<span class="kw">this</span><span class="op">.</span><span class="at">jugador</span><span class="op">,</span> plataforma)<span class="op">;</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Configurar controles</span></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">cursors</span> <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="at">input</span><span class="op">.</span><span class="at">keyboard</span><span class="op">.</span><span class="fu">createCursorKeys</span>()<span class="op">;</span></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Inicializar puntuación</span></span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">puntuacion</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">textoPuntuacion</span> <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="at">add</span><span class="op">.</span><span class="fu">text</span>(<span class="dv">16</span><span class="op">,</span> <span class="dv">16</span><span class="op">,</span> <span class="st">'Puntos: 0'</span><span class="op">,</span> {</span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>        <span class="dt">fontSize</span><span class="op">:</span> <span class="st">'32px'</span><span class="op">,</span></span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>        <span class="dt">fill</span><span class="op">:</span> <span class="st">'#000'</span></span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    plataforma<span class="op">.</span><span class="fu">setImmovable</span>(<span class="kw">true</span>)<span class="op">;</span>           <span class="co">// No se mueve al colisionar</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    plataforma<span class="op">.</span><span class="at">body</span><span class="op">.</span><span class="fu">setAllowGravity</span>(<span class="kw">false</span>)<span class="op">;</span>  <span class="co">// No le afecta la gravedad global</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    plataforma<span class="op">.</span><span class="fu">setCollideWorldBounds</span>(<span class="kw">true</span>)<span class="op">;</span>  <span class="co">// No sale de los límites</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Crear jugador</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">jugador</span> <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="at">physics</span><span class="op">.</span><span class="at">add</span><span class="op">.</span><span class="fu">sprite</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">450</span><span class="op">,</span> <span class="st">'jugador'</span>)<span class="op">;</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">jugador</span><span class="op">.</span><span class="fu">setBounce</span>(<span class="fl">0.2</span>)<span class="op">;</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">jugador</span><span class="op">.</span><span class="fu">setCollideWorldBounds</span>(<span class="kw">true</span>)<span class="op">;</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Crear las animaciones del jugador</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">anims</span><span class="op">.</span><span class="fu">create</span>({</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>        <span class="dt">key</span><span class="op">:</span> <span class="st">'izquierda'</span><span class="op">,</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>        <span class="dt">frames</span><span class="op">:</span> <span class="kw">this</span><span class="op">.</span><span class="at">anims</span><span class="op">.</span><span class="fu">generateFrameNumbers</span>(<span class="st">'jugador'</span><span class="op">,</span> { <span class="dt">start</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">end</span><span class="op">:</span> <span class="dv">3</span> })<span class="op">,</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>        <span class="dt">frameRate</span><span class="op">:</span> <span class="dv">10</span><span class="op">,</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>        <span class="dt">repeat</span><span class="op">:</span> <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">anims</span><span class="op">.</span><span class="fu">create</span>({</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>        <span class="dt">key</span><span class="op">:</span> <span class="st">'quieto'</span><span class="op">,</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>        <span class="dt">frames</span><span class="op">:</span> [{ <span class="dt">key</span><span class="op">:</span> <span class="st">'jugador'</span><span class="op">,</span> <span class="dt">frame</span><span class="op">:</span> <span class="dv">4</span> }]<span class="op">,</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>        <span class="dt">frameRate</span><span class="op">:</span> <span class="dv">20</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">anims</span><span class="op">.</span><span class="fu">create</span>({</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>        <span class="dt">key</span><span class="op">:</span> <span class="st">'derecha'</span><span class="op">,</span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>        <span class="dt">frames</span><span class="op">:</span> <span class="kw">this</span><span class="op">.</span><span class="at">anims</span><span class="op">.</span><span class="fu">generateFrameNumbers</span>(<span class="st">'jugador'</span><span class="op">,</span> { <span class="dt">start</span><span class="op">:</span> <span class="dv">5</span><span class="op">,</span> <span class="dt">end</span><span class="op">:</span> <span class="dv">8</span> })<span class="op">,</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>        <span class="dt">frameRate</span><span class="op">:</span> <span class="dv">10</span><span class="op">,</span></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>        <span class="dt">repeat</span><span class="op">:</span> <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Configurar colisión entre jugador y plataforma</span></span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">physics</span><span class="op">.</span><span class="at">add</span><span class="op">.</span><span class="fu">collider</span>(<span class="kw">this</span><span class="op">.</span><span class="at">jugador</span><span class="op">,</span> plataforma)<span class="op">;</span></span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Configurar controles</span></span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">cursors</span> <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="at">input</span><span class="op">.</span><span class="at">keyboard</span><span class="op">.</span><span class="fu">createCursorKeys</span>()<span class="op">;</span></span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Inicializar puntuación</span></span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">puntuacion</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">textoPuntuacion</span> <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="at">add</span><span class="op">.</span><span class="fu">text</span>(<span class="dv">16</span><span class="op">,</span> <span class="dv">16</span><span class="op">,</span> <span class="st">'Puntos: 0'</span><span class="op">,</span> {</span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>        <span class="dt">fontSize</span><span class="op">:</span> <span class="st">'32px'</span><span class="op">,</span></span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>        <span class="dt">fill</span><span class="op">:</span> <span class="st">'#000'</span></span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>El orden de creación es importante: los elementos se renderizan en el orden en que se añaden, por lo que si queremos que algo aparezca sobre otra cosa, debemos crearlo después. Observa cómo primero añadimos el fondo, luego las plataformas y finalmente el jugador y el texto, asegurando que cada elemento aparezca en la capa visual correcta.</p>
 <p><strong>update(time, delta) - Bucle principal del juego</strong></p>
-<p>Esta función se ejecuta continuamente, aproximadamente 60 veces por segundo (60 FPS), formando el bucle principal del juego (game loop). Aquí colocamos toda la lógica que debe actualizarse constantemente: movimiento del jugador, comportamiento de enemigos, detección de condiciones de victoria o derrota, actualización de puntuación, etc.</p>
+<p>Esta función se ejecuta continuamente, normalmente 60 veces por segundo (según la tasa de refresco del monitor), formando el bucle principal del juego (game loop). Aquí colocamos toda la lógica que debe actualizarse constantemente: movimiento del jugador, comportamiento de enemigos, detección de condiciones de victoria o derrota, actualización de puntuación, etc.</p>
 <p>Los parámetros son:</p>
 <ul>
 <li><strong><code>time</code></strong>: Tiempo total transcurrido desde que se inició el juego, en milisegundos</li>
@@ -625,7 +646,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ol type="1">
 <li><strong>preload()</strong> → Carga recursos una vez al inicio</li>
 <li><strong>create()</strong> → Inicializa objetos y configuración una vez después de la carga</li>
-<li><strong>update()</strong> → Se ejecuta continuamente 60 veces por segundo durante todo el juego</li>
+<li><strong>update()</strong> → Se ejecuta continuamente (normalmente 60 veces por segundo, según la tasa de refresco del monitor) durante todo el juego</li>
 </ol>
 </section>
 </section>
@@ -643,40 +664,52 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>Ejemplo de estructura típica de un juego:</strong></p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Escena 1: Pantalla de carga inicial</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Boot <span class="kw">extends</span> Phaser<span class="op">.</span><span class="at">Scene</span> {</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">preload</span>() {</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Cargar recursos mínimos (logo, barra de carga)</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">constructor</span>() {</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        <span class="kw">super</span>(<span class="st">'Boot'</span>)<span class="op">;</span></span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">create</span>() {</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">scene</span><span class="op">.</span><span class="fu">start</span>(<span class="st">'MenuPrincipal'</span>)<span class="op">;</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">preload</span>() {</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Cargar recursos mínimos (logo, barra de carga)</span></span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">// Escena 2: Menú principal</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MenuPrincipal <span class="kw">extends</span> Phaser<span class="op">.</span><span class="at">Scene</span> {</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">create</span>() {</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Mostrar título, botones de jugar, opciones, créditos</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co">// Escena 3: El juego real</span></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Nivel1 <span class="kw">extends</span> Phaser<span class="op">.</span><span class="at">Scene</span> {</span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">preload</span>() {</span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Cargar recursos específicos del nivel 1</span></span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">create</span>() {</span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Crear plataformas, enemigos, jugador</span></span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">update</span>() {</span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Lógica del juego</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">create</span>() {</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">scene</span><span class="op">.</span><span class="fu">start</span>(<span class="st">'MenuPrincipal'</span>)<span class="op">;</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co">// Escena 2: Menú principal</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MenuPrincipal <span class="kw">extends</span> Phaser<span class="op">.</span><span class="at">Scene</span> {</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">constructor</span>() {</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>        <span class="kw">super</span>(<span class="st">'MenuPrincipal'</span>)<span class="op">;</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">create</span>() {</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Mostrar título, botones de jugar, opciones, créditos</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="co">// Escena 3: El juego real</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Nivel1 <span class="kw">extends</span> Phaser<span class="op">.</span><span class="at">Scene</span> {</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">constructor</span>() {</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>        <span class="kw">super</span>(<span class="st">'Nivel1'</span>)<span class="op">;</span></span>
 <span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="co">// Escena 4: Pantalla final</span></span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> GameOver <span class="kw">extends</span> Phaser<span class="op">.</span><span class="at">Scene</span> {</span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">create</span>() {</span>
-<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Mostrar puntuación final, botón para reiniciar</span></span>
-<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">preload</span>() {</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Cargar recursos específicos del nivel 1</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">create</span>() {</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Crear plataformas, enemigos, jugador</span></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">update</span>() {</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Lógica del juego</span></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a><span class="co">// Escena 4: Pantalla final</span></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> GameOver <span class="kw">extends</span> Phaser<span class="op">.</span><span class="at">Scene</span> {</span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>    <span class="fu">constructor</span>() {</span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>        <span class="kw">super</span>(<span class="st">'GameOver'</span>)<span class="op">;</span></span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>    <span class="fu">create</span>() {</span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Mostrar puntuación final, botón para reiniciar</span></span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Cada escena es una clase que extiende <code>Phaser.Scene</code>, permitiendo aprovechar la orientación a objetos de JavaScript que aprendimos en el capítulo anterior.</p>
 </section>
 <section id="scenemanager" class="level3">
@@ -868,7 +901,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="motores-de-físicas-en-phaser-3" class="level2" data-number="9.6">
 <h2 data-number="9.6" class="anchored" data-anchor-id="motores-de-físicas-en-phaser-3"><span class="header-section-number">9.6</span> Motores de físicas en Phaser 3</h2>
 <p>Los motores de físicas son componentes esenciales en el desarrollo de videojuegos que simulan el comportamiento del mundo real: gravedad, colisiones, rebotes, fricción y fuerzas. Sin un motor de físicas, tendríamos que programar manualmente cada uno de estos comportamientos, lo cual sería extremadamente complejo y propenso a errores. Un motor de físicas nos proporciona estas funcionalidades de manera optimizada y consistente.</p>
-<p>Phaser 3 incluye tres motores de físicas diferentes, cada uno diseñado para diferentes niveles de complejidad y casos de uso específicos. La elección del motor adecuado dependerá del tipo de juego que estemos desarrollando y del nivel de realismo físico que necesitemos.</p>
+<p>Phaser 3 incluye dos motores de físicas diferentes, cada uno diseñado para diferentes niveles de complejidad y casos de uso específicos. La elección del motor adecuado dependerá del tipo de juego que estemos desarrollando y del nivel de realismo físico que necesitemos.</p>
 <section id="arcade-physics" class="level3">
 <h3 class="anchored" data-anchor-id="arcade-physics">Arcade Physics</h3>
 <p>Es el motor de físicas más simple y el que utilizaremos principalmente. Está optimizado para rendimiento y es perfecto para la mayoría de juegos 2D.</p>
@@ -888,21 +921,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    }</span>
 <span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>La gravedad se especifica en píxeles por segundo al cuadrado. Un valor de 300 simula una gravedad similar a la terrestre para juegos de plataformas. El modo <code>debug: true</code> muestra los contornos de los cuerpos físicos, muy útil durante el desarrollo.</p>
-<p>En todos los ejemplos usaremos el motor Arcade, para los otros motores podría ser necesario hacer cambios.</p>
-</section>
-<section id="impact-physics" class="level3">
-<h3 class="anchored" data-anchor-id="impact-physics">Impact Physics</h3>
-<p>Originalmente creado para el motor Impact, permite físicas más complejas que Arcade.</p>
-<p><strong>Características</strong>:</p>
-<ul>
-<li>Soporta pendientes en tiles (muy útil para plataformas)</li>
-<li>Más complejo que Arcade pero menos que Matter</li>
-<li>Bueno para juegos de plataformas con terrenos inclinados</li>
-</ul>
+<p>En todos los ejemplos usaremos el motor Arcade; con el otro motor podría ser necesario hacer cambios.</p>
 </section>
 <section id="matter-physics" class="level3">
 <h3 class="anchored" data-anchor-id="matter-physics">Matter Physics</h3>
-<p>Es el motor más avanzado y realista de los tres.</p>
+<p>Es el motor más avanzado y realista de los dos.</p>
 <p><strong>Características</strong>:</p>
 <ul>
 <li>Soporta formas complejas y polígonos</li>
@@ -932,7 +955,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="sistema-de-entrada-input" class="level2" data-number="9.7">
 <h2 data-number="9.7" class="anchored" data-anchor-id="sistema-de-entrada-input"><span class="header-section-number">9.7</span> Sistema de entrada (Input)</h2>
-<p>La interacción del jugador es el corazón de cualquier videojuego. En el capítulo de JavaScript aprendimos sobre el sistema de eventos del DOM para detectar clics y pulsaciones de teclas. Phaser 3 construye sobre estos conceptos y proporciona un sistema de entrada (input) mucho más potente y especializado para videojuegos, que simplifica la detección de teclado, ratón, táctil y gamepad.</p>
+<p>La interacción del jugador es el corazón de cualquier videojuego. En el capítulo de JavaScript (<a href="../js/js.html" class="quarto-xref"><span>Capítulo 7</span></a>) conocimos el DOM del navegador, cuyo sistema de eventos permite detectar clics y pulsaciones de teclas. Phaser 3 construye sobre estos conceptos y proporciona un sistema de entrada (input) mucho más potente y especializado para videojuegos, que simplifica la detección de teclado, ratón, táctil y gamepad.</p>
 <p>El sistema de input de Phaser 3 unifica diferentes tipos de entrada bajo una API consistente, permitiendo que nuestro juego funcione tanto en escritorio (con teclado y ratón) como en dispositivos móviles (con pantalla táctil) sin necesidad de escribir código específico para cada plataforma. Además, Phaser optimiza la detección de entrada para el contexto de videojuegos, donde necesitamos respuestas instantáneas y la capacidad de detectar múltiples entradas simultáneas.</p>
 <section id="teclado" class="level3">
 <h3 class="anchored" data-anchor-id="teclado">Teclado</h3>
@@ -1061,17 +1084,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> jugador <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="at">physics</span><span class="op">.</span><span class="at">add</span><span class="op">.</span><span class="fu">image</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">450</span><span class="op">,</span> <span class="st">'personaje'</span>)<span class="op">;</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> plataforma <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="at">physics</span><span class="op">.</span><span class="at">add</span><span class="op">.</span><span class="fu">image</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">500</span><span class="op">,</span> <span class="st">'suelo'</span>)<span class="op">;</span></span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    plataforma<span class="op">.</span><span class="fu">setImmovable</span>(<span class="kw">true</span>)<span class="op">;</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Colisión con resolución física</span></span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">physics</span><span class="op">.</span><span class="at">add</span><span class="op">.</span><span class="fu">collider</span>(jugador<span class="op">,</span> plataforma)<span class="op">;</span></span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Overlap sin resolución física</span></span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> estrella <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="at">physics</span><span class="op">.</span><span class="at">add</span><span class="op">.</span><span class="fu">image</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="st">'estrella'</span>)<span class="op">;</span></span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">physics</span><span class="op">.</span><span class="at">add</span><span class="op">.</span><span class="fu">overlap</span>(jugador<span class="op">,</span> estrella<span class="op">,</span> (j<span class="op">,</span> e) <span class="kw">=&gt;</span> {</span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>        e<span class="op">.</span><span class="fu">destroy</span>()<span class="op">;</span></span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">'¡Estrella recogida!'</span>)<span class="op">;</span></span>
-<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
-<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    plataforma<span class="op">.</span><span class="at">body</span><span class="op">.</span><span class="fu">setAllowGravity</span>(<span class="kw">false</span>)<span class="op">;</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Colisión con resolución física</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">physics</span><span class="op">.</span><span class="at">add</span><span class="op">.</span><span class="fu">collider</span>(jugador<span class="op">,</span> plataforma)<span class="op">;</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Overlap sin resolución física</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> estrella <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="at">physics</span><span class="op">.</span><span class="at">add</span><span class="op">.</span><span class="fu">image</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="st">'estrella'</span>)<span class="op">;</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">physics</span><span class="op">.</span><span class="at">add</span><span class="op">.</span><span class="fu">overlap</span>(jugador<span class="op">,</span> estrella<span class="op">,</span> (j<span class="op">,</span> e) <span class="kw">=&gt;</span> {</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>        e<span class="op">.</span><span class="fu">destroy</span>()<span class="op">;</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">'¡Estrella recogida!'</span>)<span class="op">;</span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>La propiedad <code>setImmovable(true)</code> hace que la plataforma no se mueva al recibir impactos. Sin esto, el jugador empujaría la plataforma al caer sobre ella. Los colliders son ideales para plataformas y paredes, mientras que los overlaps funcionan bien para objetos coleccionables.</p>
 </section>
 <section id="trabajar-con-grupos" class="level3">
@@ -1189,7 +1213,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">jugador</span><span class="op">.</span><span class="fu">setVelocityY</span>(<span class="op">-</span><span class="dv">330</span>)<span class="op">;</span></span>
 <span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>    }</span>
 <span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Propiedades útiles: <code>touching.down</code>, <code>touching.up</code>, <code>touching.left</code>, <code>touching.right</code>, <code>blocked.down</code>, <code>blocked.up</code>. La diferencia entre <code>touching</code> y <code>blocked</code> es que <code>touching</code> detecta contacto con cualquier objeto, mientras que <code>blocked</code> solo detecta contacto con objetos inmóviles. Estas propiedades son esenciales para controlar mecánicas como saltos o detectar si un personaje está contra una pared.</p>
+<p>Propiedades útiles: <code>touching.down</code>, <code>touching.up</code>, <code>touching.left</code>, <code>touching.right</code>, <code>blocked.down</code>, <code>blocked.up</code>. La diferencia entre <code>touching</code> y <code>blocked</code> es que <code>touching</code> detecta contacto con cualquier objeto, mientras que <code>blocked</code> solo detecta contacto con objetos inmóviles y con los límites del mundo; para saltos robustos conviene comprobar <code>body.blocked.down || body.touching.down</code>. Estas propiedades son esenciales para controlar mecánicas como saltos o detectar si un personaje está contra una pared.</p>
 
 
 </section>

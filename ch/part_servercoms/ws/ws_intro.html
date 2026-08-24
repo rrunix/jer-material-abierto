@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>13&nbsp; Introducción a WebSockets – Apuntes de Juegos en Red</title>
+<title>13&nbsp; Introducción a WebSockets – Material docente en abierto de la asignatura Juegos en Red</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -136,7 +136,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <a href="../../../index.html" class="sidebar-logo-link">
       </a>
     <div class="sidebar-title mb-0 py-0">
-      <a href="../../../">Apuntes de Juegos en Red</a> 
+      <a href="../../../">Material docente en abierto de la asignatura Juegos en Red</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -164,7 +164,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../ch/part_networks/part_intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Parte: Introducción a los juegos en red y a las redes de comunicaciones</span></a>
+ <span class="menu-text">Introducción a los juegos en red y a las redes de comunicaciones</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -264,13 +264,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../ch/part_servercoms/rest/rest_client.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Cliente API REST con Javascript</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Cliente API REST con JavaScript</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../ch/part_servercoms/rest/rest_server.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Servidor API REST con Javascript</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Servidor API REST con JavaScript</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -288,13 +288,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../ch/part_servercoms/ws/ws_client.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Cliente WebSockets con JavasScript</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Cliente WebSockets con JavaScript</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../ch/part_servercoms/ws/ws_server.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Servidor WebSockets con JavasScript</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Servidor WebSockets con JavaScript</span></span></a>
   </div>
 </li>
       </ul>
@@ -377,8 +377,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="websockets-como-estándar" class="level2" data-number="13.3">
 <h2 data-number="13.3" class="anchored" data-anchor-id="websockets-como-estándar"><span class="header-section-number">13.3</span> WebSockets como Estándar</h2>
-<p>WebSockets está definido como un estándar de comunicación en el RFC 6455 que funciona sobre un único socket TCP. Una de las grandes ventajas de WebSockets es que utiliza el puerto 80 (el mismo que HTTP) de forma multiplexada, lo que significa que puede soportar varias comunicaciones por el mismo puerto, evita problemas con firewalls y proxies que bloquean puertos no estándar, y está pensado principalmente para navegadores y servidores web.</p>
-<p>Aunque WebSockets comienza con HTTP, no está limitado a este protocolo. Un cliente puede abrir un socket con el servidor y comunicarse con él a través de HTTP (el protocolo web tradicional) o un protocolo propio diseñado específicamente para la aplicación. Esta flexibilidad es especialmente útil en juegos en red, donde podemos diseñar un protocolo de comunicación optimizado para nuestras necesidades específicas.</p>
+<p>WebSockets está definido como un estándar de comunicación en el RFC 6455 que funciona sobre un único socket TCP. Una de las grandes ventajas de WebSockets es que utiliza los puertos estándar 80 para <code>ws://</code> (el mismo que HTTP) y 443 para <code>wss://</code> (el mismo que HTTPS), lo que evita problemas con firewalls y proxies que bloquean puertos no estándar, y está pensado principalmente para navegadores y servidores web.</p>
+<p>Aunque la negociación de WebSockets comienza con HTTP, tras el handshake la comunicación ya no es HTTP: sobre el canal WebSocket la aplicación define libremente su propio protocolo de mensajes (por ejemplo, JSON con tipos de evento). Esta flexibilidad es especialmente útil en juegos en red, donde podemos diseñar un protocolo de comunicación optimizado para nuestras necesidades específicas.</p>
 </section>
 <section id="negociación-de-conexión-websocket" class="level2" data-number="13.4">
 <h2 data-number="13.4" class="anchored" data-anchor-id="negociación-de-conexión-websocket"><span class="header-section-number">13.4</span> Negociación de Conexión WebSocket</h2>
@@ -386,21 +386,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre class="http"><code>GET /demo HTTP/1.1
 Host: example.com
 Connection: Upgrade
-Upgrade: WebSocket
+Upgrade: websocket
+Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==
+Sec-WebSocket-Version: 13
 Origin: http://example.com</code></pre>
-<p>Esta petición comienza como una petición HTTP normal (<code>GET /demo HTTP/1.1</code>), pero el header <code>Connection: Upgrade</code> indica que queremos cambiar de protocolo, el header <code>Upgrade: WebSocket</code> especifica que queremos usar WebSocket, y el header <code>Origin</code> indica desde dónde se origina la petición (importante para seguridad). En esencia, le estamos diciendo al servidor: “Hola, quiero establecer una conexión WebSocket contigo en la ruta <code>/demo</code>”.</p>
+<p>Esta petición comienza como una petición HTTP normal (<code>GET /demo HTTP/1.1</code>), pero el header <code>Connection: Upgrade</code> indica que queremos cambiar de protocolo, el header <code>Upgrade: websocket</code> especifica que queremos usar WebSocket, el header <code>Sec-WebSocket-Key</code> contiene un valor aleatorio en base64 que el servidor usará en su respuesta, el header <code>Sec-WebSocket-Version: 13</code> indica la versión del protocolo, y el header <code>Origin</code> indica desde dónde se origina la petición (importante para seguridad). En esencia, le estamos diciendo al servidor: “Hola, quiero establecer una conexión WebSocket contigo en la ruta <code>/demo</code>”.</p>
 <p>Si el servidor acepta la conexión WebSocket, responde con:</p>
-<pre class="http"><code>HTTP/1.1 101 WebSocket Protocol Handshake
-Upgrade: WebSocket
+<pre class="http"><code>HTTP/1.1 101 Switching Protocols
+Upgrade: websocket
 Connection: Upgrade
-Sec-WebSocket-Origin: http://example.com
-Sec-WebSocket-Location: ws://example.com/demo</code></pre>
-<p>El código 101 indica que se acepta el cambio de protocolo, <code>Upgrade: WebSocket</code> confirma que vamos a usar WebSocket, <code>Connection: Upgrade</code> confirma el cambio de protocolo, <code>Sec-WebSocket-Origin</code> confirma el origen de la conexión, y <code>Sec-WebSocket-Location</code> indica la ubicación del WebSocket con el nuevo protocolo.</p>
-<p>Fíjate en la última línea: <code>ws://example.com/demo</code>. WebSocket introduce dos nuevos esquemas de protocolo: <strong>ws://</strong> para WebSocket en claro (equivalente a <code>http://</code>) y <strong>wss://</strong> para WebSocket seguro sobre TLS (equivalente a <code>https://</code>). Una vez completado este “handshake” (apretón de manos), la conexión HTTP se transforma en una conexión WebSocket persistente, y ambas partes pueden comenzar a intercambiar mensajes libremente.</p>
+Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=</code></pre>
+<p>El código 101 Switching Protocols indica que se acepta el cambio de protocolo, <code>Upgrade: websocket</code> confirma que vamos a usar WebSocket, <code>Connection: Upgrade</code> confirma el cambio de protocolo, y <code>Sec-WebSocket-Accept</code> contiene un valor calculado a partir del <code>Sec-WebSocket-Key</code> de la petición, que demuestra que el servidor ha entendido y aceptado el handshake.</p>
+<p>Fíjate en la URL de conexión: <code>ws://example.com/demo</code>. WebSocket introduce dos nuevos esquemas de protocolo: <strong>ws://</strong> para WebSocket en claro (equivalente a <code>http://</code>) y <strong>wss://</strong> para WebSocket seguro sobre TLS (equivalente a <code>https://</code>). Una vez completado este “handshake” (apretón de manos), la conexión HTTP se transforma en una conexión WebSocket persistente, y ambas partes pueden comenzar a intercambiar mensajes libremente.</p>
 </section>
 <section id="uso-normal-de-websockets" class="level2" data-number="13.5">
 <h2 data-number="13.5" class="anchored" data-anchor-id="uso-normal-de-websockets"><span class="header-section-number">13.5</span> Uso Normal de WebSockets</h2>
-<p>En la práctica, normalmente no tenemos que preocuparnos por la negociación HTTP que acabamos de ver. Las conexiones se realizan automáticamente utilizando los protocolos <strong>ws://</strong> para WebSocket normal y <strong>wss://</strong> para WebSocket seguro. Cuando creamos una conexión WebSocket desde JavaScript (como veremos en el siguiente tema), simplemente usamos:</p>
+<p>En la práctica, normalmente no tenemos que preocuparnos por la negociación HTTP que acabamos de ver. Las conexiones se realizan automáticamente utilizando los protocolos <strong>ws://</strong> para WebSocket normal y <strong>wss://</strong> para WebSocket seguro. Cuando creamos una conexión WebSocket desde JavaScript (como veremos en <a href="ws_client.html" class="quarto-xref"><span>Capítulo 14</span></a>), simplemente usamos:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">new</span> <span class="bu">WebSocket</span>(<span class="st">'ws://example.com/demo'</span>)<span class="op">;</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Y todo el proceso de negociación que hemos explicado ocurre automáticamente entre bastidores. El navegador y el servidor se encargan de todo el intercambio HTTP inicial y del cambio al protocolo WebSocket.</p>
 <p>Para concluir este tema, es importante destacar por qué WebSockets es especialmente útil en el contexto de juegos en red: proporciona comunicación en tiempo real donde los jugadores reciben actualizaciones instantáneas sin demoras; es bidireccional, permitiendo que el servidor envíe eventos a los clientes sin que estos pregunten constantemente; es eficiente, ya que una sola conexión persistente consume menos recursos que múltiples peticiones HTTP; ofrece baja latencia, ideal para juegos que requieren respuestas rápidas; y es un estándar compatible que funciona en todos los navegadores modernos sin necesidad de plugins.</p>
@@ -816,8 +817,8 @@ Sec-WebSocket-Location: ws://example.com/demo</code></pre>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../../ch/part_servercoms/ws/ws_client.html" class="pagination-link" aria-label="Cliente WebSockets con JavasScript">
-        <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Cliente WebSockets con JavasScript</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../../ch/part_servercoms/ws/ws_client.html" class="pagination-link" aria-label="Cliente WebSockets con JavaScript">
+        <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Cliente WebSockets con JavaScript</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

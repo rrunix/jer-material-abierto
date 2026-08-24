@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>3&nbsp; Capa de Acceso a la Red – Apuntes de Juegos en Red</title>
+<title>3&nbsp; Capa de Acceso a la Red – Material docente en abierto de la asignatura Juegos en Red</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -101,7 +101,7 @@ ul.task-list li input[type="checkbox"] {
       <a href="../../../index.html" class="sidebar-logo-link">
       </a>
     <div class="sidebar-title mb-0 py-0">
-      <a href="../../../">Apuntes de Juegos en Red</a> 
+      <a href="../../../">Material docente en abierto de la asignatura Juegos en Red</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -129,7 +129,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../ch/part_networks/part_intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Parte: Introducción a los juegos en red y a las redes de comunicaciones</span></a>
+ <span class="menu-text">Introducción a los juegos en red y a las redes de comunicaciones</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -229,13 +229,13 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../ch/part_servercoms/rest/rest_client.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Cliente API REST con Javascript</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Cliente API REST con JavaScript</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../ch/part_servercoms/rest/rest_server.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Servidor API REST con Javascript</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Servidor API REST con JavaScript</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -253,13 +253,13 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../ch/part_servercoms/ws/ws_client.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Cliente WebSockets con JavasScript</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Cliente WebSockets con JavaScript</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../ch/part_servercoms/ws/ws_server.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Servidor WebSockets con JavasScript</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Servidor WebSockets con JavaScript</span></span></a>
   </div>
 </li>
       </ul>
@@ -353,12 +353,12 @@ ul.task-list li input[type="checkbox"] {
 </ul>
 <p>Como ejemplo, vamos a ver los pasos para el envío de un mensaje desde A a C. Podéis ver la representación en un diagrama de secuencia en la <a href="#fig-example-access-layer" class="quarto-xref">Figura&nbsp;<span>3.1</span></a>. Los pasos serían los siguientes:</p>
 <ol type="1">
-<li>Inicialización del switch. La tabla de direcciones MAC del switch que asocia MAC y puerto está vacia.</li>
+<li>Inicialización del switch. La tabla de direcciones MAC del switch que asocia MAC y puerto está vacía.</li>
 <li>A quiere enviar el paquete a C, pero no conoce su MAC. Por lo tanto envía una trama ARP broadcast por Ethernet para descubrir la dirección MAC de C.</li>
 <li>El switch lo recibe en el puerto 1, aprende que la MAC de A está en el puerto 1, y reenvía el paquete a los demás puertos.</li>
-<li>El switch recibe la respuesta de C desde el puerto 3. Asocia la dirección MAC de C al puerto 3. Reenvia la respuesta a A, que ya sabe que está en el 1.</li>
+<li>El switch recibe la respuesta de C desde el puerto 3. Asocia la dirección MAC de C al puerto 3. Reenvía la respuesta a A, que ya sabe que está en el 1.</li>
 <li>A envía el mensaje con destinatario la dirección MAC de C.</li>
-<li>El switch recibe el mensaje, busca en su tabla y comprueba que la dirección MAC coincide con el puerto 3 y lo reenvia.</li>
+<li>El switch recibe el mensaje, busca en su tabla y comprueba que la dirección MAC coincide con el puerto 3 y lo reenvía.</li>
 </ol>
 <div id="fig-example-access-layer" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -381,7 +381,7 @@ Figura&nbsp;3.1: Ejemplo de envío de paquetes en una red local donde no se cono
 </section>
 <section id="direccionamiento-físico" class="level3">
 <h3 class="anchored" data-anchor-id="direccionamiento-físico">Direccionamiento Físico</h3>
-<p>El direccionamiento físico opera a nivel de hardware y es independiente de los protocolos de capa superior. Utiliza direcciones MAC únicas para identificar cada interfaz de red en el segmento local. Este sistema de direccionamiento es esencial para la entrega precisa de tramas entre dispositivos directamente conectados. Las direcciones MAC son como el DNI del dispositivo, son únicas, estáticas y cada dispositivo tiene una. Están formadas por 48 bits siguen una estructura específica donde los primeros 24 bits constituyen el OUI (Organizationally Unique Identifier) asignado por IEEE a cada fabricante, los últimos 24 bits forman el identificador único del dispositivo asignado por el fabricante, y bits especiales indican si la dirección es individual o grupal y si está administrada universalmente o localmente. Las MAC se representan mediante octetos 6 octetos separados por dos “:”, como por ejemplo “00:1A:2B:3C:4D:5E”.</p>
+<p>El direccionamiento físico opera a nivel de hardware y es independiente de los protocolos de capa superior. Utiliza direcciones MAC únicas para identificar cada interfaz de red en el segmento local. Este sistema de direccionamiento es esencial para la entrega precisa de tramas entre dispositivos directamente conectados. Las direcciones MAC son como el DNI del dispositivo, son únicas, estáticas y cada dispositivo tiene una. Están formadas por 48 bits y siguen una estructura específica donde los primeros 24 bits constituyen el OUI (Organizationally Unique Identifier) asignado por IEEE a cada fabricante, los últimos 24 bits forman el identificador único del dispositivo asignado por el fabricante, y bits especiales indican si la dirección es individual o grupal y si está administrada universalmente o localmente. Las MAC se representan mediante 6 octetos en hexadecimal separados por “:”, como por ejemplo “00:1A:2B:3C:4D:5E”.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -399,12 +399,12 @@ Figura&nbsp;3.1: Ejemplo de envío de paquetes en una red local donde no se cono
 </section>
 <section id="detección-y-corrección-de-errores" class="level3">
 <h3 class="anchored" data-anchor-id="detección-y-corrección-de-errores">Detección y Corrección de Errores</h3>
-<p>Esta función garantiza la integridad de los datos transmitidos a través del medio físico. Implementa algoritmos como Códigos de Redundancia Cíclica (CRC) para detectar errores de transmisión y mecanismos de retransmisión cuando es necesario. Sin esta función, los datos corruptos podrían propagarse por la red causando problemas de comunicación. Los códigos de CRC son ampliamente utilizados y generan un polinomio matemático basado en los datos originales, agregan el resultado como Frame Check Sequence (FCS) al final de cada trama, y permiten al receptor recalcular el CRC para compararlo con el recibido, detectando efectivamente errores de un solo bit y muchos errores de múltiples bits. Para aplicaciones menos críticas existen checksums simples que realizan una suma aritmética de todos los bytes de datos, son menos robustos que CRC pero requieren menos procesamiento computacional.</p>
+<p>Esta función garantiza la integridad de los datos transmitidos a través del medio físico. Implementa algoritmos como Códigos de Redundancia Cíclica (CRC) para detectar errores de transmisión y mecanismos de retransmisión cuando es necesario. Sin esta función, los datos corruptos podrían propagarse por la red causando problemas de comunicación. Los códigos de CRC son ampliamente utilizados y tratan los datos originales como un polinomio, calculando el resto de dividirlo por un polinomio generador; agregan ese resto como Frame Check Sequence (FCS) al final de cada trama, y permiten al receptor recalcular el CRC para compararlo con el recibido, detectando efectivamente errores de un solo bit y muchos errores de múltiples bits. Para aplicaciones menos críticas existen checksums simples que realizan una suma aritmética de todos los bytes de datos, son menos robustos que CRC pero requieren menos procesamiento computacional.</p>
 <p>Las técnicas más avanzadas incluyen Forward Error Correction (FEC) que no solo detecta sino que corrige errores automáticamente, utiliza códigos como Hamming para corrección de errores de un solo bit y Reed-Solomon para errores en ráfagas, y es especialmente importante en medios inalámbricos donde la interferencia y las condiciones ambientales pueden causar errores frecuentes.</p>
 </section>
 <section id="control-de-tamaño" class="level3">
 <h3 class="anchored" data-anchor-id="control-de-tamaño">Control de tamaño</h3>
-<p>Esta función maneja las limitaciones de tamaño impuestas por diferentes tecnologías de red. Cada tecnología de red define un Maximum Transmission Unit (MTU) específico que determina el tamaño máximo de datos que puede transportar una sola trama, donde Ethernet maneja 1500 bytes de datos, Token Ring típicamente 4464 bytes, FDDI 4352 bytes, y PPP sobre enlaces seriales utiliza valores variables aunque comúnmente 1500 bytes para mantener compatibilidad. Cuando los datos de capas superiores exceden el MTU disponible, la Capa de Acceso a la Red descarta automáticamente el paquete.</p>
+<p>Esta función maneja las limitaciones de tamaño impuestas por diferentes tecnologías de red. Cada tecnología de red define un Maximum Transmission Unit (MTU) específico que determina el tamaño máximo de datos que puede transportar una sola trama, donde Ethernet maneja 1500 bytes de datos, Token Ring típicamente 4464 bytes, FDDI 4352 bytes, y PPP sobre enlaces seriales utiliza valores variables aunque comúnmente 1500 bytes para mantener compatibilidad. Cuando los datos de capas superiores exceden el MTU disponible, la capa de red fragmenta el datagrama (IPv4) o el emisor ajusta el tamaño mediante Path MTU Discovery.</p>
 </section>
 <section id="sincronización-y-temporización" class="level3">
 <h3 class="anchored" data-anchor-id="sincronización-y-temporización">Sincronización y Temporización</h3>
@@ -421,7 +421,7 @@ Figura&nbsp;3.1: Ejemplo de envío de paquetes en una red local donde no se cono
 </section>
 <section id="dispositivos-de-la-capa-de-acceso-a-la-red" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="dispositivos-de-la-capa-de-acceso-a-la-red"><span class="header-section-number">3.2</span> Dispositivos de la Capa de Acceso a la Red</h2>
-<p>Los <strong>switches</strong> son dispositivos de red que operan en la Capa de Acceso a la Red, específicamente en la subcapa de enlace de datos. Funcionan como elementos centrales que conectan múltiples dispositivos en una red local, creando dominios de colisión separados para cada puerto. Es decir, que la información de dispositivos conectados por diferentes puertos no colisiona entre sí, ya que no están en el mismo medio. Estos dispositivos evolucionaron desde los <strong>bridges</strong> tradicionales (que conectaban solo 2-4 segmentos) hasta reemplazar los <strong>hubs</strong> tradicionales, donde todos los puertos operaban igual con colisiones frecuentes a un sistema donde cada puerto opera independientemente con capacidades full-duplex que permiten transmisión y recepción simultánea, duplicando efectivamente el ancho de banda disponible. Su importancia radica en funcionalidades clave como el aprendizaje automático de direcciones MAC donde construyen dinámicamente tablas que asocian cada dirección con su puerto específico, el reenvío selectivo que envía tramas únicamente al puerto de destino reduciendo tráfico innecesario.</p>
+<p>Los <strong>switches</strong> son dispositivos de red que operan en la Capa de Acceso a la Red, específicamente en la subcapa de enlace de datos. Funcionan como elementos centrales que conectan múltiples dispositivos en una red local, creando dominios de colisión separados para cada puerto. Es decir, que la información de dispositivos conectados por diferentes puertos no colisiona entre sí, ya que no están en el mismo medio. Estos dispositivos evolucionaron desde los <strong>bridges</strong> tradicionales (que conectaban solo 2-4 segmentos) hasta reemplazar los <strong>hubs</strong> tradicionales, donde todos los puertos operaban igual con colisiones frecuentes. Se pasó a un sistema donde cada puerto opera independientemente con capacidades full-duplex que permiten transmisión y recepción simultánea, duplicando efectivamente el ancho de banda disponible. Su importancia radica en funcionalidades clave como el aprendizaje automático de direcciones MAC donde construyen dinámicamente tablas que asocian cada dirección con su puerto específico, el reenvío selectivo que envía tramas únicamente al puerto de destino reduciendo tráfico innecesario.</p>
 <p>Los switches se categorizan principalmente en dos tipos según sus capacidades de gestión:</p>
 <ul>
 <li>no gestionados: son plug-and-play y se utilizan generalmente en redes pequeñas y domésticas.</li>
@@ -484,7 +484,7 @@ Figura&nbsp;3.1: Ejemplo de envío de paquetes en una red local donde no se cono
 <td>Migración gradual, extensión</td>
 </tr>
 <tr class="odd">
-<td><strong>Modulador</strong></td>
+<td><strong>Transceptores</strong></td>
 <td>Conectividad modular</td>
 <td>SFP/SFP+/QSFP, intercambiables</td>
 <td>Flexibilidad en tipos de conexión</td>
@@ -508,7 +508,7 @@ Figura&nbsp;3.2: Cabeceras de un paquete de Ethernet.
 </figcaption>
 </figure>
 </div>
-<p>La evolución de Ethernet ha sido extraordinaria, comenzando con 10Base-T que maneja 10 Mbps sobre cable trenzado CAT3/5, evolucionando hasta 10GBase-T con 10 Gbps sobre CAT6A/7. En contextos intensivas, o en nodos centrales, se cuenta con implementaciones de mayor velocidad. Todo esto se ha conseguido a través de diferentes estandares de modelos físicos y la mejora de rendimiento en el hardware. También se ha vuelto posible combinar la transmisión de datos y energía eléctrica por un mismo cable, simplificando los dispositivos de red.</p>
+<p>La evolución de Ethernet ha sido extraordinaria, desde el Ethernet original sobre cable coaxial y 10Base-T que maneja 10 Mbps sobre cable trenzado CAT3/5, evolucionando hasta 10GBase-T con 10 Gbps sobre CAT6A/7. En contextos intensivos, o en nodos centrales, se cuenta con implementaciones de mayor velocidad. Todo esto se ha conseguido a través de diferentes estándares de modelos físicos y la mejora de rendimiento en el hardware. También se ha vuelto posible combinar la transmisión de datos y energía eléctrica por un mismo cable, simplificando los dispositivos de red.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Limite de longitud">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -537,11 +537,11 @@ Figura&nbsp;3.3: Cabeceras de un paquete Wi-Fi
 </figcaption>
 </figure>
 </div>
-<p>Al igual que en Ethernet, la evolución de Wi-Fi ha sido enorme. Los primeros estándares, 802.11n (Wi-Fi 4), contaban con velocidades de hasta 600 Mbps, mientras que Wi-Fi 7 (802.11be) promete hasta 46 Gbps. Las mejoras se han enfocado en técnicas para reducir interferencias entre redes y colisiones entre dispositivos, y la inclusión de más bandas:</p>
+<p>Al igual que en Ethernet, la evolución de Wi-Fi ha sido enorme. El estándar original 802.11 (1997) ofrecía 2 Mbps; 802.11n (Wi-Fi 4) alcanzó velocidades de hasta 600 Mbps, mientras que Wi-Fi 7 (802.11be) promete hasta 46 Gbps. Las mejoras se han enfocado en técnicas para reducir interferencias entre redes y colisiones entre dispositivos, y la inclusión de más bandas:</p>
 <ul>
 <li>2.4 GHz: mayor alcance y penetración, pero menor velocidad.</li>
 <li>5 GHz: mayor velocidad pero menor alcance.</li>
-<li>6 GHz: mejor rendimiento, aunque requiere de hardware específico y tiene el mejor alcance.</li>
+<li>6 GHz: mayor velocidad y menos interferencias, aunque requiere de hardware específico y tiene el menor alcance de las tres bandas.</li>
 </ul>
 </section>
 <section id="point-to-point-protocol-ppp" class="level3">

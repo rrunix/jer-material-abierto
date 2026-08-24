@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>10&nbsp; API REST – Apuntes de Juegos en Red</title>
+<title>10&nbsp; API REST – Material docente en abierto de la asignatura Juegos en Red</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -136,7 +136,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <a href="../../../index.html" class="sidebar-logo-link">
       </a>
     <div class="sidebar-title mb-0 py-0">
-      <a href="../../../">Apuntes de Juegos en Red</a> 
+      <a href="../../../">Material docente en abierto de la asignatura Juegos en Red</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -164,7 +164,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../ch/part_networks/part_intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Parte: Introducción a los juegos en red y a las redes de comunicaciones</span></a>
+ <span class="menu-text">Introducción a los juegos en red y a las redes de comunicaciones</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -264,13 +264,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../ch/part_servercoms/rest/rest_client.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Cliente API REST con Javascript</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Cliente API REST con JavaScript</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../ch/part_servercoms/rest/rest_server.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Servidor API REST con Javascript</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Servidor API REST con JavaScript</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -288,13 +288,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../ch/part_servercoms/ws/ws_client.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Cliente WebSockets con JavasScript</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Cliente WebSockets con JavaScript</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../ch/part_servercoms/ws/ws_server.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Servidor WebSockets con JavasScript</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Servidor WebSockets con JavaScript</span></span></a>
   </div>
 </li>
       </ul>
@@ -371,7 +371,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="10.1" class="anchored" data-anchor-id="introducción"><span class="header-section-number">10.1</span> Introducción</h2>
 <p>En el desarrollo de juegos multijugador modernos, la comunicación entre el cliente y el servidor es fundamental. Después de haber implementado un juego con Phaser 3 el siguiente paso natural es conectar nuestro juego con un servidor mediante una API REST.</p>
 <p>En una aplicación web tradicional, el cliente (navegador) se comunica con el servidor utilizando el protocolo HTTP. En aplicaciones web sin AJAX, las peticiones HTTP devuelven un documento HTML que será visualizado por el navegador. Sin embargo, en las aplicaciones con AJAX y las aplicaciones SPA (Single Page Application), las peticiones HTTP se utilizan para intercambiar información entre el navegador y el servidor, pero no HTML.</p>
-<p>Las APIs REST permiten esta comunicación mediante el intercambio de datos estructurados. En el contexto de nuestro juego, necesitaremos la API REST para gestionar registro y autenticación de jugadores, almacenamiento de puntuaciones y estadísticas, gestión de partidas y salas de juego, configuración de perfiles de usuario, y consulta de rankings. Posteriormente, cuando implementemos WebSockets, usaremos esa tecnología para la comunicación en tiempo real durante el juego, pero la API REST seguirá siendo esencial para todas las operaciones que no requieren actualización instantánea.</p>
+<p>Las APIs REST permiten esta comunicación mediante el intercambio de datos estructurados. En el contexto de nuestro juego, necesitaremos la API REST para gestionar registro y autenticación de jugadores, almacenamiento de puntuaciones y estadísticas, gestión de partidas y salas de juego, configuración de perfiles de usuario, y consulta de rankings. Posteriormente, cuando implementemos WebSockets (<a href="../ws/ws_intro.html" class="quarto-xref"><span>Capítulo 13</span></a>), usaremos esa tecnología para la comunicación en tiempo real durante el juego, pero la API REST seguirá siendo esencial para todas las operaciones que no requieren actualización instantánea.</p>
 <p>Imaginemos nuestra aplicación de juego haciendo una petición HTTP para obtener información de un jugador:</p>
 <pre><code>Petición:
 GET http://www.mygame.com/players/alice
@@ -387,7 +387,7 @@ Respuesta:
 </section>
 <section id="qué-es-una-api-rest" class="level2" data-number="10.2">
 <h2 data-number="10.2" class="anchored" data-anchor-id="qué-es-una-api-rest"><span class="header-section-number">10.2</span> ¿Qué es una API REST?</h2>
-<p>REST es un estilo de arquitectura de software basado en HTTP que sigue una serie de principios específicos. Cuando un servicio web cumple estos principios, se denomina RESTful. Una API REST es el servicio que devuelve un servidor web cuando quiere intercambiar información estructurada en lugar de devolver HTML.</p>
+<p>REST es un estilo de arquitectura de software basado en HTTP que sigue una serie de principios específicos. Cuando un servicio web cumple estos principios, se denomina RESTful. Una API REST es la interfaz que expone un servidor web para intercambiar información estructurada en lugar de devolver HTML.</p>
 <p>El término REST fue acuñado en el año 2000 por <strong>Roy Fielding</strong>, uno de los principales autores de la especificación del protocolo HTTP, en su tesis doctoral. Aunque existen otros tipos de servicios web como SOAP (basados en XML y mucho más complejos), las APIs REST se han convertido en el estándar de facto debido a su simplicidad y eficiencia.</p>
 <section id="niveles-de-madurez-rest" class="level3">
 <h3 class="anchored" data-anchor-id="niveles-de-madurez-rest">Niveles de madurez REST</h3>
@@ -471,15 +471,15 @@ Content-Length: 156
 }</code></pre>
 <p>Esta respuesta tiene tres partes: la línea de estado (<code>HTTP/1.1 201 Created</code>) indica la versión HTTP, el código de estado (201) y el mensaje (Created); los headers (cabeceras) son metadatos sobre la respuesta donde <code>Content-Type: application/json</code> indica que la respuesta es JSON, <code>Location: http://...</code> proporciona la URI del recurso creado, y <code>Content-Length: 156</code> indica el tamaño de la respuesta; y el body (cuerpo) contiene los datos JSON del recurso creado.</p>
 <p>Los códigos de estado HTTP son números de tres dígitos que comunican el resultado de la operación:</p>
-<p><strong>1xx - Respuestas informativas</strong>: Indican que la petición fue recibida y el proceso continúa. Raramente usados en REST. El más relevante es 101 Switching Protocols, usado para cambiar de HTTP a WebSockets.</p>
-<p><strong>2xx - Respuestas exitosas</strong>: La petición fue procesada correctamente. Los más comunes son 200 OK (éxito general en GET/PUT), 201 Created (recurso creado tras POST, debe incluir header Location), y 204 No Content (éxito sin contenido, típico en DELETE).</p>
+<p><strong>1xx - Respuestas informativas</strong>: Indican que la petición fue recibida y el proceso continúa. Raramente usados en REST. El más relevante es 101 Switching Protocols, usado para cambiar de HTTP a WebSockets (<a href="../ws/ws_intro.html" class="quarto-xref"><span>Capítulo 13</span></a>).</p>
+<p><strong>2xx - Respuestas exitosas</strong>: La petición fue procesada correctamente. Los más comunes son 200 OK (éxito general en GET/PUT), 201 Created (recurso creado tras POST, debería incluir header Location), y 204 No Content (éxito sin contenido, típico en DELETE).</p>
 <p><strong>3xx - Redirecciones</strong>: El cliente debe tomar acciones adicionales. Incluyen 301 Moved Permanently (recurso movido permanentemente) y 304 Not Modified (usado con caché, el recurso no ha cambiado).</p>
-<p><strong>4xx - Errores del cliente</strong>: Error en la petición. Los más importantes son 400 Bad Request (petición mal formada), 401 Unauthorized (autenticación requerida), 403 Forbidden (sin permisos), 404 Not Found (recurso no existe), 409 Conflict (conflicto con estado actual, ej: usuario ya existe), y 422 Unprocessable Entity (formato correcto pero errores de validación).</p>
+<p><strong>4xx - Errores del cliente</strong>: Error en la petición. Los más importantes son 400 Bad Request (petición mal formada), 401 Unauthorized (autenticación requerida), 403 Forbidden (sin permisos), 404 Not Found (recurso no existe), 409 Conflict (conflicto con estado actual, ej: usuario ya existe), y 422 Unprocessable Content (antes Unprocessable Entity; formato correcto pero errores de validación).</p>
 <p><strong>5xx - Errores del servidor</strong>: El servidor no pudo completar la petición. Los principales son 500 Internal Server Error (error genérico), 503 Service Unavailable (servidor temporalmente no disponible, debe incluir Retry-After), y 504 Gateway Timeout (timeout esperando respuesta de otro servidor).</p>
 </section>
 <section id="ventajas-de-esta-arquitectura" class="level2" data-number="10.6">
 <h2 data-number="10.6" class="anchored" data-anchor-id="ventajas-de-esta-arquitectura"><span class="header-section-number">10.6</span> Ventajas de esta Arquitectura</h2>
-<p>La arquitectura REST ofrece varias ventajas clave. Proporciona separación de responsabilidades, donde la API REST maneja operaciones de gestión mientras que el sistema de comandos se encarga de la lógica del juego, permitiendo que cada componente evolucione independientemente. Ofrece escalabilidad, ya que al separar las operaciones de gestión de las de tiempo real, podemos escalar cada servicio según sus necesidades específicas. Mejora la testabilidad, permitiendo probar la API REST de forma independiente al juego, y el sistema de comandos puede probarse sin necesidad de conexión a red. Finalmente, proporciona flexibilidad, ya que la misma API REST puede servir a múltiples clientes: el juego web, una aplicación móvil, o herramientas de administración.</p>
+<p>En un juego combinaremos la API REST con un canal de comunicación en tiempo real; esta arquitectura híbrida ofrece varias ventajas clave. Proporciona separación de responsabilidades, donde la API REST maneja operaciones de gestión mientras que la lógica del juego se gestiona por separado, permitiendo que cada componente evolucione independientemente. Ofrece escalabilidad, ya que al separar las operaciones de gestión de las de tiempo real, podemos escalar cada servicio según sus necesidades específicas. Mejora la testabilidad, permitiendo probar la API REST de forma independiente al juego, y la lógica del juego puede probarse sin necesidad de conexión a red. Finalmente, proporciona flexibilidad, ya que la misma API REST puede servir a múltiples clientes: el juego web, una aplicación móvil, o herramientas de administración.</p>
 
 
 </section>
@@ -892,8 +892,8 @@ Content-Length: 156
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../../ch/part_servercoms/rest/rest_client.html" class="pagination-link" aria-label="Cliente API REST con Javascript">
-        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Cliente API REST con Javascript</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../../ch/part_servercoms/rest/rest_client.html" class="pagination-link" aria-label="Cliente API REST con JavaScript">
+        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Cliente API REST con JavaScript</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
