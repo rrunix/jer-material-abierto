@@ -1042,7 +1042,7 @@
     "href": "ch/slides/slides.html",
     "title": "16  Diapositivas de la asignatura",
     "section": "",
-    "text": "16.1 Introducción a la asignatura",
+    "text": "16.1 Introducción a la asignatura\nLas diapositivas se mantienen en el repositorio jer_slides, incluido aquí como submódulo en slides/jer_slides. Las imágenes de esta página se generan a partir de los PDFs de ese repositorio con slides/convert_pdfs_to_images.sh.",
     "crumbs": [
       "<span class='chapter-number'>16</span>  <span class='chapter-title'>Diapositivas de la asignatura</span>"
     ]
