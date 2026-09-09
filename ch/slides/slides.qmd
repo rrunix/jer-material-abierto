@@ -10,7 +10,7 @@ PDFs de ese repositorio con `slides/convert_pdfs_to_images.sh`.
 import glob
 
 def include_slides(deck):
-    images = sorted(glob.glob(f"../../slides/png/{deck}/slide-*.png"))
+    images = sorted(glob.glob(f"../../slides/img/{deck}/slide-*.webp"))
     if not images:
         print(
             f"::: {{.callout-warning}}\n"

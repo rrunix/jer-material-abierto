@@ -15,3 +15,6 @@ TODO.md
 /.luarc.json
 *.png
 ch/part_networks/transport_layer/resources/tcp_congestion_window.png
+
+# Imágenes de diapositivas generadas por slides/convert_pdfs_to_images.sh
+slides/img/

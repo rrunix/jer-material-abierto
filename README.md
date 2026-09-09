@@ -92,7 +92,12 @@ Antes de compilar el libro, asegúrate de tener instalado lo siguiente:
 
 ### Paso 1: Preparar las Diapositivas
 
-Es necesario tener instalado `pdftoppm` (incluido en `poppler`).
+Es necesario tener instalado `pdftoppm` (incluido en `poppler`) y `cwebp`
+(incluido en `webp`):
+
+```bash
+brew install poppler webp
+```
 
 Las diapositivas viven en su propio repositorio,
 [jer_slides](https://github.com/rrunix/jer_slides), incluido aquí como submódulo
@@ -107,12 +112,21 @@ Después genera las imágenes que el libro incrusta, a partir de los PDFs del
 submódulo (`slides/jer_slides/PDF/`):
 
 ```bash
-cd slides && ./convert_pdfs_to_images.sh
+cd slides && ./convert_pdfs_to_images.sh      # -f para rehacer todos los decks
 ```
 
-El script escribe las imágenes en `slides/png/<deck>/slide-N.png` (fuera del
+El script escribe las imágenes en `slides/img/<deck>/slide-N.webp` (fuera del
 submódulo, y sin seguimiento de git) y solo regenera los decks cuyo PDF haya
-cambiado. Un deck por tema:
+cambiado.
+
+Los decks se rasterizan a 96 DPI, que es el tamaño nativo con el que están
+diseñados (1280x720), y se guardan en WebP sin pérdida: los mismos píxeles que
+en PNG ocupando un 60% menos. No uses WebP con pérdida: en imágenes de colores
+planos y texto nítido como éstas resulta *más* grande, y además hincha el PDF
+del libro, porque WeasyPrint recomprime cada imagen y los artefactos empeoran
+esa recompresión.
+
+Un deck por tema:
 
 | PDF en `jer_slides/PDF/` | Tema |
 | --- | --- |
