@@ -1,0 +1,3 @@
+[submodule "slides/jer_slides"]
+	path = slides/jer_slides
+	url = https://github.com/rrunix/jer_slides

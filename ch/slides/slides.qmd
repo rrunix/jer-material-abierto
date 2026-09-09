@@ -1,12 +1,23 @@
 # Diapositivas de la asignatura {#sec-slides}
 
+Las diapositivas se mantienen en el repositorio
+[jer_slides](https://github.com/rrunix/jer_slides), incluido aquí como submódulo
+en `slides/jer_slides`. Las imágenes de esta página se generan a partir de los
+PDFs de ese repositorio con `slides/convert_pdfs_to_images.sh`.
 
 ```{python}
 #| echo: false
 import glob
 
-def include_slides(path):
-    images = sorted(glob.glob(path))
+def include_slides(deck):
+    images = sorted(glob.glob(f"../../slides/png/{deck}/slide-*.png"))
+    if not images:
+        print(
+            f"::: {{.callout-warning}}\n"
+            f"No hay imágenes para `{deck}`. Ejecuta "
+            f"`slides/convert_pdfs_to_images.sh`.\n:::\n\n"
+        )
+        return
     for img in images:
         print(f"![]({img})\n\n")
 ```
@@ -16,7 +27,7 @@ def include_slides(path):
 ```{python}
 #| echo: false
 #| output: asis
-include_slides("../../slides/intro/slide-*.png")
+include_slides("sub_introduction")
 ```
 
 ## Introducción a las Redes de Ordenadores {#sec-slides-network-intro}
@@ -24,7 +35,7 @@ include_slides("../../slides/intro/slide-*.png")
 ```{python}
 #| echo: false
 #| output: asis
-include_slides("../../slides/intro_cn/slide-*.png")
+include_slides("ch1_p1_net_introduction")
 ```
 
 ## Capa de Acceso {#sec-slides-access-layer}
@@ -32,7 +43,7 @@ include_slides("../../slides/intro_cn/slide-*.png")
 ```{python}
 #| echo: false
 #| output: asis
-include_slides("../../slides/net_access_layer/slide-*.png")
+include_slides("ch1_p2_access_layer")
 ```
 
 ## Capa de Red {#sec-slides-network-layer}
@@ -40,7 +51,7 @@ include_slides("../../slides/net_access_layer/slide-*.png")
 ```{python}
 #| echo: false
 #| output: asis
-include_slides("../../slides/net_layer/slide-*.png")
+include_slides("ch1_p3_network")
 ```
 
 ## Capa de Transporte {#sec-slides-transport-layer}
@@ -48,7 +59,7 @@ include_slides("../../slides/net_layer/slide-*.png")
 ```{python}
 #| echo: false
 #| output: asis
-include_slides("../../slides/transport_layer/slide-*.png")
+include_slides("ch1_p4_transport")
 ```
 
 ## Capa de Aplicación {#sec-slides-application-layer}
@@ -56,7 +67,7 @@ include_slides("../../slides/transport_layer/slide-*.png")
 ```{python}
 #| echo: false
 #| output: asis
-include_slides("../../slides/app_layer/slide-*.png")
+include_slides("ch1_p5_application")
 ```
 
 ## JavaScript {#sec-slides-javascript}
@@ -64,7 +75,7 @@ include_slides("../../slides/app_layer/slide-*.png")
 ```{python}
 #| echo: false
 #| output: asis
-include_slides("../../slides/desarrollo_cliente/slide-*.png")
+include_slides("ch2_p1_js")
 ```
 
 ## JavaScript OOP {#sec-slides-javascript-oop}
@@ -72,7 +83,7 @@ include_slides("../../slides/desarrollo_cliente/slide-*.png")
 ```{python}
 #| echo: false
 #| output: asis
-include_slides("../../slides/desarrollo_cliente_oop/slide-*.png")
+include_slides("ch2_p2_js_classes")
 ```
 
 ## Phaser {#sec-slides-phaser}
@@ -80,7 +91,7 @@ include_slides("../../slides/desarrollo_cliente_oop/slide-*.png")
 ```{python}
 #| echo: false
 #| output: asis
-include_slides("../../slides/phaser_intro/slide-*.png")
+include_slides("ch3_p1_phaser")
 ```
 
 ## APIs REST {#sec-slides-rest}
@@ -88,7 +99,7 @@ include_slides("../../slides/phaser_intro/slide-*.png")
 ```{python}
 #| echo: false
 #| output: asis
-include_slides("../../slides/rest_api/slide-*.png")
+include_slides("ch4_rest")
 ```
 
 ## WebSockets {#sec-slides-websockets}
@@ -96,5 +107,5 @@ include_slides("../../slides/rest_api/slide-*.png")
 ```{python}
 #| echo: false
 #| output: asis
-include_slides("../../slides/websockets/slide-*.png")
+include_slides("ch5_websockets")
 ```

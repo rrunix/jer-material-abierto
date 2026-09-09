@@ -1,24 +1,56 @@
 #!/bin/bash
 
-# Script to convert PDF slides to images
+# Convierte los PDFs de las diapositivas (submódulo jer_slides) a imágenes PNG.
+#
+# Las imágenes se escriben en png/<deck>/slide-N.png, FUERA del submódulo, para
+# no dejar ficheros sin seguimiento dentro de jer_slides. El capítulo
+# ch/slides/slides.qmd las incrusta desde ahí.
+#
+# Uso: ./convert_pdfs_to_images.sh
 
-for pdf in *.pdf; do
-    # Skip if no PDF files found
-    [ -e "$pdf" ] || continue
+set -euo pipefail
 
-    # Get the PDF name without extension
-    basename="${pdf%.pdf}"
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PDF_DIR="$ROOT/jer_slides/PDF"
+OUT_ROOT="$ROOT/png"
 
-    echo "Processing $pdf..."
+command -v pdftoppm >/dev/null 2>&1 || {
+    echo "Falta 'pdftoppm' en el PATH (instálalo con: brew install poppler)." >&2
+    exit 1
+}
 
-    # Create directory if it doesn't exist
-    mkdir -p "$basename"
+[ -d "$PDF_DIR" ] || {
+    echo "No existe $PDF_DIR. ¿Falta inicializar el submódulo?" >&2
+    echo "  git submodule update --init slides/jer_slides" >&2
+    exit 1
+}
 
-    # Convert PDF to PNG images with 150 DPI
-    # pdftoppm outputs files with format: prefix-pagenum.png
-    pdftoppm -png -r 150 "$pdf" "$basename/slide"
+shopt -s nullglob
+pdfs=("$PDF_DIR"/*.pdf)
+shopt -u nullglob
 
-    echo " Created images in $basename/"
+[ ${#pdfs[@]} -gt 0 ] || {
+    echo "No hay PDFs en $PDF_DIR. Genéralos con: (cd slides/jer_slides && ./render-pdf.sh)" >&2
+    exit 1
+}
+
+for pdf in "${pdfs[@]}"; do
+    name="$(basename "$pdf" .pdf)"
+    out="$OUT_ROOT/$name"
+
+    printf '==> %-32s ' "$name"
+
+    # Regenera solo si el PDF es más reciente que la primera imagen ya generada.
+    if [ -d "$out" ] && [ -n "$(find "$out" -name 'slide-*.png' -newer "$pdf" -print -quit)" ]; then
+        echo "al día ($(ls "$out"/slide-*.png | wc -l | tr -d ' ') diapositivas)"
+        continue
+    fi
+
+    rm -rf "$out"
+    mkdir -p "$out"
+    pdftoppm -png -r 150 "$pdf" "$out/slide"
+    echo "$(ls "$out"/slide-*.png | wc -l | tr -d ' ') diapositivas"
 done
 
-echo "Done! All PDFs converted."
+echo
+echo "PNGs en $OUT_ROOT"

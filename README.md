@@ -92,25 +92,46 @@ Antes de compilar el libro, asegúrate de tener instalado lo siguiente:
 
 ### Paso 1: Preparar las Diapositivas
 
-Es necesario tener instalado `pdftoppm`.
+Es necesario tener instalado `pdftoppm` (incluido en `poppler`).
 
-Para incluir las diapositivas de presentación en el libro, coloca los archivos PDF en las carpetas correspondientes dentro del directorio `slides/`. Luego ejecuta el script de conversión:
+Las diapositivas viven en su propio repositorio,
+[jer_slides](https://github.com/rrunix/jer_slides), incluido aquí como submódulo
+en `slides/jer_slides`. Si has clonado este repositorio sin `--recurse-submodules`,
+inicialízalo:
 
 ```bash
-./convert_pdfs_to_images.sh
+git submodule update --init slides/jer_slides
 ```
 
-Este script procesará automáticamente todos los PDFs en el directorio `slides/` y generará las imágenes necesarias para incluirlas en el libro. Las diapositivas están organizadas por tema en las siguientes carpetas:
-- `intro_cn/` - Introducción a redes de ordenadores
-- `net_access_layer/` - Capa de acceso a la red
-- `net_layer/` - Capa de red
-- `transport_layer/` - Capa de transporte
-- `app_layer/` - Capa de aplicación
-- `desarrollo_cliente/` - Desarrollo en el cliente
-- `desarrollo_cliente_oop/` - Programación orientada a objetos
-- `phaser_intro/` - Introducción a Phaser
-- `rest_api/` - APIs REST
-- `websockets/` - WebSockets
+Después genera las imágenes que el libro incrusta, a partir de los PDFs del
+submódulo (`slides/jer_slides/PDF/`):
+
+```bash
+cd slides && ./convert_pdfs_to_images.sh
+```
+
+El script escribe las imágenes en `slides/png/<deck>/slide-N.png` (fuera del
+submódulo, y sin seguimiento de git) y solo regenera los decks cuyo PDF haya
+cambiado. Un deck por tema:
+
+| PDF en `jer_slides/PDF/` | Tema |
+| --- | --- |
+| `sub_introduction.pdf` | Introducción a la asignatura |
+| `ch1_p1_net_introduction.pdf` | Introducción a las redes de ordenadores |
+| `ch1_p2_access_layer.pdf` | Capa de acceso a la red |
+| `ch1_p3_network.pdf` | Capa de red |
+| `ch1_p4_transport.pdf` | Capa de transporte |
+| `ch1_p5_application.pdf` | Capa de aplicación |
+| `ch2_p1_js.pdf` | JavaScript |
+| `ch2_p2_js_classes.pdf` | Programación orientada a objetos en JS |
+| `ch3_p1_phaser.pdf` | Introducción a Phaser |
+| `ch4_rest.pdf` | APIs REST |
+| `ch5_websockets.pdf` | WebSockets |
+
+Si editas las diapositivas, regenera los PDFs dentro del submódulo con
+`(cd slides/jer_slides && ./render-pdf.sh)`, y recuerda que hacen falta dos
+commits: uno en `jer_slides` con el cambio y otro aquí para actualizar el
+puntero del submódulo.
 
 ### Paso 2: Pre-renderizar los Diagramas
 
